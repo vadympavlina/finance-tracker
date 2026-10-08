@@ -12,9 +12,9 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-ink text-on-ink hover:bg-ink-2',
-  accent: 'bg-primary text-on-primary shadow-primary hover:bg-primary-strong',
-  secondary: 'bg-surface text-text border border-border-strong hover:bg-surface-2',
+  primary: 'glass-tinted text-white hover:brightness-105',
+  accent: 'glass-tinted text-white hover:brightness-105',
+  secondary: 'glass text-text hover:brightness-[0.98]',
   ghost: 'text-muted hover:text-text hover:bg-surface-2',
   danger: 'bg-expense text-white hover:brightness-95',
   'danger-soft': 'bg-expense-soft text-expense hover:brightness-[0.97]',
@@ -69,10 +69,9 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(functio
       className={cn(
         'press inline-flex shrink-0 items-center justify-center rounded-full',
         size === 'md' ? 'size-11' : 'size-9',
-        variant === 'surface' && 'border border-border-strong bg-surface text-text hover:bg-surface-2',
-        variant === 'ghost' && 'text-muted hover:bg-surface-2 hover:text-text',
-        variant === 'primary' && 'bg-ink text-on-ink hover:bg-ink-2',
-        variant === 'accent' && 'bg-primary text-on-primary shadow-primary hover:bg-primary-strong',
+        variant === 'surface' && 'glass text-text',
+        variant === 'ghost' && 'text-text hover:bg-black/5 dark:hover:bg-white/10',
+        (variant === 'primary' || variant === 'accent') && 'glass-tinted text-white',
         className,
       )}
       {...props}

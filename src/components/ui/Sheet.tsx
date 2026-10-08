@@ -81,8 +81,8 @@ export function Sheet({ open, onClose, title, description, children, footer, ale
   if (!open) return null
 
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-end justify-center md:items-center md:p-6">
-      <div className="animate-fade-in absolute inset-0 bg-[#0b0f0d]/50 backdrop-blur-[2px]" onClick={onClose} aria-hidden />
+    <div className="fixed inset-0 z-50 flex items-end justify-center px-2 pb-[max(8px,env(safe-area-inset-bottom))] md:items-center md:p-6">
+      <div className="animate-fade-in absolute inset-0 bg-[#050706]/35" onClick={onClose} aria-hidden />
       <div
         ref={panelRef}
         role={alert ? 'alertdialog' : 'dialog'}
@@ -91,17 +91,17 @@ export function Sheet({ open, onClose, title, description, children, footer, ale
         aria-describedby={description ? descId : undefined}
         tabIndex={-1}
         className={cn(
-          'relative flex max-h-[92dvh] w-full flex-col bg-surface shadow-float outline-none',
-          'animate-slide-up rounded-t-[32px] md:animate-pop md:rounded-[32px]',
+          'glass-strong relative flex max-h-[90dvh] w-full flex-col outline-none',
+          'animate-slide-up rounded-[38px] md:animate-pop md:rounded-[34px]',
           size === 'sm' && 'md:max-w-sm',
           size === 'md' && 'md:max-w-lg',
           size === 'lg' && 'md:max-w-2xl',
         )}
       >
-        <div className="mx-auto mt-3 h-1 w-12 shrink-0 rounded-full bg-border-strong md:hidden" aria-hidden />
+        <div className="mx-auto mt-2.5 h-[5px] w-10 shrink-0 rounded-full bg-black/15 md:hidden dark:bg-white/25" aria-hidden />
         <div className={cn('flex shrink-0 items-start gap-3 px-5 pt-3 pb-2 md:px-6 md:pt-5', hideTitle && 'sr-only')}>
           <div className="min-w-0 flex-1 pt-1.5">
-            <h2 id={titleId} className="text-lg font-semibold tracking-tight">
+            <h2 id={titleId} className="text-[19px] font-bold tracking-tight">
               {title}
             </h2>
             {description && (
@@ -115,14 +115,14 @@ export function Sheet({ open, onClose, title, description, children, footer, ale
               type="button"
               onClick={onClose}
               aria-label="Закрити"
-              className="press -mr-1.5 grid size-11 shrink-0 place-items-center rounded-full text-muted hover:bg-surface-2 hover:text-text"
+              className="press glass -mr-1 grid size-11 shrink-0 place-items-center rounded-full text-text"
             >
               <X className="size-5" aria-hidden />
             </button>
           )}
         </div>
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pb-5 md:px-6">{children}</div>
-        {footer && <div className="shrink-0 border-t border-border px-5 pt-3 pb-[max(12px,env(safe-area-inset-bottom))] md:px-6 md:pb-5">{footer}</div>}
+        {footer && <div className="shrink-0 px-5 pt-2 pb-5 md:px-6">{footer}</div>}
       </div>
     </div>,
     document.body,

@@ -20,7 +20,7 @@ const DOT = { income: 'bg-income', expense: 'bg-expense', debt: 'bg-warning' }
 /** One card, three columns: Доходи · Витрати · Борги for the current month. */
 export function StatStrip({ items, caption }: { items: MonthStat[]; caption: string }) {
   return (
-    <section aria-label={caption} className="rounded-3xl border border-border bg-surface">
+    <section aria-label={caption} className="rounded-[26px] bg-surface shadow-card">
       <div className="grid grid-cols-3 divide-x divide-border">
         {items.map((s) => (
           <Link key={s.label} to={s.to} className="press min-w-0 px-3 py-3.5 first:rounded-l-3xl last:rounded-r-3xl hover:bg-surface-2 sm:px-4">

@@ -208,7 +208,7 @@ function TransactionForm({ existing, initialType }: { existing?: Transaction; in
             type="button"
             onClick={() => setShowDetails(true)}
             aria-expanded={false}
-            className="press flex w-full flex-wrap items-center gap-2 rounded-2xl border border-border bg-surface p-3 text-left text-sm shadow-card hover:bg-surface-2"
+            className="press flex w-full flex-wrap items-center gap-2 rounded-[22px] bg-surface p-3 text-left text-sm shadow-card hover:bg-surface-2"
           >
             <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-2 px-3 py-1.5 font-medium">
               <CalendarDays className="size-4 text-muted" aria-hidden /> {formatRelativeDay(date)}

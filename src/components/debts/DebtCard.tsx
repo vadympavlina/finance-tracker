@@ -31,7 +31,7 @@ export function DebtCard({ debt, onClick }: { debt: Debt; onClick: () => void })
     <button
       type="button"
       onClick={onClick}
-      className="press w-full rounded-3xl border border-border bg-surface p-4 text-left shadow-card hover:border-border-strong"
+      className="press w-full rounded-[26px] bg-surface shadow-card p-4 text-left shadow-card hover:border-border-strong"
     >
       <div className="flex items-start gap-3">
         <span

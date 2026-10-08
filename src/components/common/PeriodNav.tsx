@@ -11,8 +11,8 @@ interface PeriodNavProps {
 
 export function PeriodNav({ label, onPrev, onNext, canNext, className }: PeriodNavProps) {
   return (
-    <div className={cn('flex items-center justify-between gap-2 rounded-2xl border border-border bg-surface p-1 shadow-card', className)}>
-      <button type="button" onClick={onPrev} aria-label="Попередній період" className="press grid size-10 place-items-center rounded-xl text-muted hover:bg-surface-2 hover:text-text">
+    <div className={cn('glass flex items-center justify-between gap-2 rounded-full p-1', className)}>
+      <button type="button" onClick={onPrev} aria-label="Попередній період" className="press grid size-10 place-items-center rounded-full text-text hover:bg-black/5 dark:hover:bg-white/10">
         <ChevronLeft className="size-5" aria-hidden />
       </button>
       <span className="text-sm font-semibold" aria-live="polite">
@@ -23,7 +23,7 @@ export function PeriodNav({ label, onPrev, onNext, canNext, className }: PeriodN
         onClick={onNext}
         disabled={!canNext}
         aria-label="Наступний період"
-        className="press grid size-10 place-items-center rounded-xl text-muted hover:bg-surface-2 hover:text-text disabled:opacity-30"
+        className="press grid size-10 place-items-center rounded-full text-text hover:bg-black/5 disabled:opacity-25 dark:hover:bg-white/10"
       >
         <ChevronRight className="size-5" aria-hidden />
       </button>

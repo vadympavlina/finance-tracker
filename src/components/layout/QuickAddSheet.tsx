@@ -30,7 +30,7 @@ export function QuickAddSheet({ open, onClose }: { open: boolean; onClose: () =>
                 onClose()
                 navigate(to)
               }}
-              className="press flex w-full items-center gap-3.5 rounded-2xl border border-border bg-surface p-3 text-left hover:border-border-strong hover:bg-surface-2"
+              className="press flex w-full items-center gap-3.5 rounded-[22px] bg-surface shadow-card p-3 text-left hover:border-border-strong hover:bg-surface-2"
             >
               <span className={`grid size-12 shrink-0 place-items-center rounded-2xl ${className}`}>
                 <Icon className="size-[22px]" aria-hidden />

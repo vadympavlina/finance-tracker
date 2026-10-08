@@ -1,35 +1,89 @@
+import { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import { Plus } from 'lucide-react'
 import { MOBILE_NAV } from '../../layouts/navigation'
 import { cn } from '../../utils/cn'
 
-/** Solid bottom bar; the active tab expands into an ink pill with its label. */
-export function BottomNavigation() {
+/** Collapses the tab bar while the user scrolls down, like iOS 26. */
+function useScrollCollapsed() {
+  const [collapsed, setCollapsed] = useState(false)
+  useEffect(() => {
+    let last = window.scrollY
+    let raf = 0
+    const onScroll = () => {
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => {
+        const y = window.scrollY
+        const atBottom = window.innerHeight + y >= document.documentElement.scrollHeight - 4
+        if (y < 40 || atBottom) setCollapsed(false)
+        else if (y > last + 6) setCollapsed(true)
+        else if (y < last - 6) setCollapsed(false)
+        last = y
+      })
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      cancelAnimationFrame(raf)
+      window.removeEventListener('scroll', onScroll)
+    }
+  }, [])
+  return collapsed
+}
+
+/**
+ * Floating Liquid Glass tab bar with a separate glass "+" button beside it
+ * (the place iOS 26 gives to the primary action).
+ */
+export function BottomNavigation({ onQuickAdd, showAdd }: { onQuickAdd: () => void; showAdd: boolean }) {
+  const collapsed = useScrollCollapsed()
   return (
-    <nav aria-label="Основна навігація" className="pb-safe fixed inset-x-0 bottom-0 z-30 border-t border-border bg-surface lg:hidden">
-      <ul className="mx-auto flex max-w-xl items-center justify-between gap-1 px-3 py-2">
-        {MOBILE_NAV.map(({ to, label, icon: Icon }) => (
-          <li key={to} className="flex min-w-0 justify-center">
-            <NavLink
-              to={to}
-              end={to === '/'}
-              aria-label={label}
-              className={({ isActive }) =>
-                cn(
-                  'press flex h-12 min-w-12 items-center justify-center gap-2 rounded-full text-sm font-semibold transition-[background-color,padding,color] duration-300',
-                  isActive ? 'bg-ink px-4 text-on-ink' : 'px-3 text-subtle hover:text-text',
-                )
-              }
-            >
-              {({ isActive }) => (
-                <>
-                  <Icon className="size-[22px] shrink-0" strokeWidth={isActive ? 2.2 : 1.9} aria-hidden />
-                  {isActive && <span className="truncate">{label}</span>}
-                </>
-              )}
-            </NavLink>
-          </li>
-        ))}
-      </ul>
-    </nav>
+    <div className="pointer-events-none fixed inset-x-0 bottom-[max(10px,env(safe-area-inset-bottom))] z-30 flex items-end justify-center gap-2.5 px-3 lg:hidden">
+      <nav aria-label="Основна навігація" className="glass pointer-events-auto min-w-0 flex-1 rounded-full p-1 sm:max-w-md">
+        <ul className="flex items-stretch">
+          {MOBILE_NAV.map(({ to, label, icon: Icon }) => (
+            <li key={to} className="min-w-0 flex-1">
+              <NavLink
+                to={to}
+                end={to === '/'}
+                className={({ isActive }) =>
+                  cn(
+                    'press flex flex-col items-center justify-center rounded-full font-semibold transition-all duration-300',
+                    collapsed ? 'h-11 gap-0' : 'h-[54px] gap-0.5',
+                    isActive ? 'bg-black/[0.06] text-primary dark:bg-white/[0.12]' : 'text-text',
+                  )
+                }
+              >
+                {({ isActive }) => (
+                  <>
+                    <Icon className="size-[22px] shrink-0" strokeWidth={isActive ? 2.3 : 1.9} aria-hidden />
+                    <span
+                      className={cn(
+                        'max-w-full truncate px-0.5 text-[10.5px] leading-tight transition-all duration-300',
+                        collapsed ? 'h-0 opacity-0' : 'h-3.5 opacity-100',
+                      )}
+                    >
+                      {label}
+                    </span>
+                  </>
+                )}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      {showAdd && (
+        <button
+          type="button"
+          onClick={onQuickAdd}
+          aria-label="Додати операцію"
+          className={cn(
+            'press glass-tinted pointer-events-auto grid shrink-0 place-items-center rounded-full text-white transition-all duration-300',
+            collapsed ? 'size-[52px]' : 'size-[62px]',
+          )}
+        >
+          <Plus className="size-7" strokeWidth={2.4} aria-hidden />
+        </button>
+      )}
+    </div>
   )
 }

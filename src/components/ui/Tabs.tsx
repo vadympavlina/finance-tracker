@@ -1,4 +1,4 @@
-import { useId, useRef, type KeyboardEvent } from 'react'
+import { useId, useRef, type CSSProperties, type KeyboardEvent } from 'react'
 import { cn } from '../../utils/cn'
 
 export interface TabOption<T extends string> {
@@ -16,10 +16,14 @@ interface SegmentedProps<T extends string> {
   size?: 'sm' | 'md'
 }
 
-/** Pill tabs with roving keyboard focus (←/→). */
+/**
+ * iOS 26 segmented control: a glass capsule with a sliding thumb.
+ * Roving keyboard focus with ←/→.
+ */
 export function Segmented<T extends string>({ options, value, onChange, label, className, size = 'md' }: SegmentedProps<T>) {
   const id = useId()
   const refs = useRef<Array<HTMLButtonElement | null>>([])
+  const index = Math.max(0, options.findIndex((o) => o.value === value))
   const onKeyDown = (e: KeyboardEvent, idx: number) => {
     if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return
     e.preventDefault()
@@ -27,8 +31,14 @@ export function Segmented<T extends string>({ options, value, onChange, label, c
     onChange(options[next].value)
     refs.current[next]?.focus()
   }
+  const style = { '--count': options.length, '--index': index } as CSSProperties
   return (
-    <div role="tablist" aria-label={label} className={cn('no-scrollbar flex gap-1.5 overflow-x-auto', className)}>
+    <div role="tablist" aria-label={label} style={style} className={cn('glass relative grid auto-cols-fr grid-flow-col rounded-full p-1', className)}>
+      <span
+        aria-hidden
+        className="absolute top-1 bottom-1 left-1 rounded-full bg-surface shadow-[0_1px_2px_rgba(0,0,0,0.08),0_4px_14px_-4px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.9)] transition-transform duration-500 ease-[cubic-bezier(0.32,1.3,0.5,1)] dark:bg-white/[0.18] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]"
+        style={{ width: 'calc((100% - 0.5rem) / var(--count))', transform: 'translateX(calc(100% * var(--index)))' }}
+      />
       {options.map((o, idx) => {
         const active = o.value === value
         return (
@@ -45,17 +55,13 @@ export function Segmented<T extends string>({ options, value, onChange, label, c
             onKeyDown={(e) => onKeyDown(e, idx)}
             onClick={() => onChange(o.value)}
             className={cn(
-              'press flex flex-1 items-center justify-center gap-1.5 rounded-full border font-semibold whitespace-nowrap',
-              size === 'md' ? 'min-h-11 px-3 text-sm' : 'min-h-9 px-2.5 text-[13px]',
-              active ? 'border-ink bg-ink text-on-ink' : 'border-border-strong bg-transparent text-muted hover:text-text',
+              'relative z-10 flex min-w-0 items-center justify-center gap-1.5 rounded-full font-semibold whitespace-nowrap transition-colors',
+              size === 'md' ? 'min-h-10 px-2 text-[14.5px]' : 'min-h-9 px-2 text-[13px]',
+              active ? 'text-text' : 'text-muted hover:text-text',
             )}
           >
-            {o.label}
-            {o.count !== undefined && (
-              <span className={cn('rounded-full px-1.5 text-[11px] tabular', active ? 'bg-on-ink/15 text-on-ink' : 'bg-surface-3 text-muted')}>
-                {o.count}
-              </span>
-            )}
+            <span className="truncate">{o.label}</span>
+            {o.count !== undefined && <span className="tabular text-[11px] text-subtle">{o.count}</span>}
           </button>
         )
       })}

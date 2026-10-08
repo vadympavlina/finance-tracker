@@ -4,7 +4,7 @@ import { ChevronRight } from 'lucide-react'
 import { cn } from '../../utils/cn'
 
 export function Card({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn('rounded-3xl border border-border bg-surface', className)} {...props} />
+  return <div className={cn('rounded-[26px] bg-surface shadow-card', className)} {...props} />
 }
 
 interface SectionProps {

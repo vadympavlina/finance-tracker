@@ -104,7 +104,7 @@ export function Reminders() {
   }
 
   return (
-    <ul className="divide-y divide-border overflow-hidden rounded-3xl border border-border bg-surface" aria-label="Нагадування">
+    <ul className="divide-y divide-border overflow-hidden rounded-[26px] bg-surface shadow-card" aria-label="Нагадування">
       {visible.map((r) => (
         <li key={r.id} className="flex items-center gap-3 py-2.5 pr-2 pl-3">
           <span className={cn('grid size-10 shrink-0 place-items-center rounded-2xl', tones[r.tone])}>

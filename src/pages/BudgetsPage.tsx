@@ -79,7 +79,7 @@ export default function BudgetsPage() {
             <button
               type="button"
               onClick={() => open(total.budget)}
-              className="press w-full rounded-[24px] border border-border bg-surface p-5 text-left shadow-card hover:border-border-strong"
+              className="press w-full rounded-[26px] bg-surface p-5 text-left shadow-card hover:border-border-strong"
             >
               <div className="flex items-start justify-between gap-3">
                 <div>

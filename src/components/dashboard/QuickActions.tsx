@@ -22,8 +22,8 @@ export function QuickActions() {
         >
           <span
             className={cn(
-              'grid size-14 place-items-center rounded-[20px] transition-colors',
-              primary ? 'bg-primary text-on-primary shadow-primary group-hover:bg-primary-strong' : 'border border-border bg-surface text-text group-hover:border-border-strong',
+              'grid size-14 place-items-center rounded-full transition-transform group-active:scale-95',
+              primary ? 'glass-tinted text-white' : 'glass text-text',
             )}
           >
             <Icon className="size-[22px]" strokeWidth={2.1} aria-hidden />

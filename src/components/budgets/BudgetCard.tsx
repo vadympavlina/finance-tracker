@@ -21,7 +21,7 @@ export function BudgetCard({ progress, category, onClick }: Props) {
     <button
       type="button"
       onClick={onClick}
-      className="press w-full rounded-3xl border border-border bg-surface p-4 text-left shadow-card hover:border-border-strong"
+      className="press w-full rounded-[26px] bg-surface shadow-card p-4 text-left shadow-card hover:border-border-strong"
       aria-label={`${name}: витрачено ${formatMoney(spent)} з ${formatMoney(budget.amount)}, ${formatPercent(percent)}`}
     >
       <div className="flex items-center gap-3">

@@ -50,7 +50,7 @@ export function TransactionList({ transactions, grouped }: TransactionListProps)
                   <h3 className="text-sm font-semibold text-muted">{formatRelativeDay(day)}</h3>
                   <span className="tabular text-xs font-medium text-subtle">{net !== 0 ? formatSignedMoney(net) : ''}</span>
                 </div>
-                <ul className="rounded-3xl border border-border bg-surface p-1.5 shadow-card">{list.map((t) => renderItem(t, 'time'))}</ul>
+                <ul className="rounded-[26px] bg-surface shadow-card p-1.5 shadow-card">{list.map((t) => renderItem(t, 'time'))}</ul>
               </section>
             )
           })}

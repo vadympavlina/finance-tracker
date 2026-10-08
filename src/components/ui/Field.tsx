@@ -2,7 +2,7 @@ import { forwardRef, useId, type InputHTMLAttributes, type ReactNode, type Selec
 import { cn } from '../../utils/cn'
 
 const control =
-  'w-full rounded-2xl border border-border bg-surface-2 px-4 text-[16px] text-text placeholder:text-subtle transition-colors outline-none focus:border-primary focus:bg-surface focus:ring-4 focus:ring-primary/10 aria-[invalid=true]:border-expense'
+  'w-full rounded-[14px] border border-transparent bg-surface-2 px-4 text-[16px] text-text placeholder:text-subtle transition-colors outline-none focus:border-primary focus:bg-surface focus:ring-4 focus:ring-primary/10 aria-[invalid=true]:border-expense'
 
 interface FieldWrapperProps {
   label: string
@@ -118,14 +118,14 @@ export function Switch({ checked, onChange, label, description, disabled }: Swit
         disabled={disabled}
         onClick={() => onChange(!checked)}
         className={cn(
-          'relative h-8 w-[52px] shrink-0 rounded-full transition-colors duration-200 disabled:opacity-50',
-          checked ? 'bg-primary' : 'bg-surface-3',
+          'relative h-[30px] w-[62px] shrink-0 rounded-full transition-colors duration-300 disabled:opacity-50',
+          checked ? 'bg-primary' : 'bg-black/10 dark:bg-white/20',
         )}
       >
         <span
           className={cn(
-            'absolute top-1 left-1 size-6 rounded-full bg-white shadow-sm transition-transform duration-200',
-            checked && 'translate-x-5',
+            'absolute top-[2px] left-[2px] h-[26px] w-[38px] rounded-full bg-white shadow-[0_2px_6px_rgba(0,0,0,0.18),0_0_0_0.5px_rgba(0,0,0,0.04)] transition-transform duration-300 ease-[cubic-bezier(0.32,1.3,0.5,1)]',
+            checked && 'translate-x-[20px]',
           )}
         />
       </button>

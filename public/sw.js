@@ -2,8 +2,8 @@
  * Navigation: network-first (fresh deploys), falls back to the cached shell.
  * Static assets (hashed by Vite): cache-first.
  */
-const CACHE = 'finance-tracker-v1'
-const SHELL = ['./', './index.html', './manifest.webmanifest', './favicon.svg', './icons/icon-192.png']
+const CACHE = 'finance-tracker-v2'
+const SHELL = ['./', './index.html', './manifest.webmanifest', './favicon.svg', './favicon.ico', './icons/icon-192.png', './icons/apple-touch-icon.png']
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()))

@@ -18,7 +18,7 @@ export function Sidebar({ onQuickAdd }: { onQuickAdd: () => void }) {
     <aside className="sticky top-0 hidden h-dvh w-[288px] shrink-0 p-3 lg:block">
       <div className="glass flex h-full flex-col rounded-[30px] px-3 py-5">
         <div className="mb-6 flex items-center gap-3 px-2">
-          <img src="./favicon.svg" alt="" width={40} height={40} className="size-10 rounded-[12px] shadow-card" />
+          <img src="./icons/icon-192.png" alt="" width={40} height={40} className="size-10 rounded-[12px] shadow-card" />
           <div>
             <p className="text-[15px] leading-tight font-bold">Finance Tracker</p>
             <p className="text-xs text-muted">Особисті фінанси</p>

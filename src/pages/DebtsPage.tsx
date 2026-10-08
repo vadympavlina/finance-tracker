@@ -66,19 +66,20 @@ export default function DebtsPage() {
           ]}
         />
 
-        <section aria-label="Підсумок боргів" className="rounded-[24px] bg-[linear-gradient(135deg,#6c5ce7,#8b6cf0)] p-5 text-white shadow-primary">
-          <p className="text-sm text-white/80">
+        <section aria-label="Підсумок боргів" className="relative isolate overflow-hidden rounded-[32px] bg-[#121a17] p-5 text-[#f3f2ed]">
+          <div className="pointer-events-none absolute -top-24 -right-20 -z-10 size-64 rounded-full bg-[radial-gradient(circle,rgba(242,181,74,0.4),rgba(242,181,74,0)_65%)]" aria-hidden />
+          <p className="text-sm text-white/70">
             {tab === 'all' ? 'Загальна сума боргів' : tab === 'i_owe' ? 'Я винен' : 'Мені винні'}
           </p>
           <p className="tabular mt-1 text-[34px] leading-tight font-bold tracking-tight">{formatMoney(headline)}</p>
           <div className="mt-4 grid grid-cols-2 gap-3">
-            <div className="rounded-2xl bg-white/12 p-3">
+            <div className="rounded-2xl bg-white/[0.07] p-3">
               <p className="flex items-center gap-1 text-xs text-white/75">
                 <ArrowUpRight className="size-3.5" aria-hidden /> Я винен
               </p>
               <p className="tabular text-[17px] font-bold">{formatMoney(balance.iOwe)}</p>
             </div>
-            <div className="rounded-2xl bg-white/12 p-3">
+            <div className="rounded-2xl bg-white/[0.07] p-3">
               <p className="flex items-center gap-1 text-xs text-white/75">
                 <ArrowDownLeft className="size-3.5" aria-hidden /> Мені винні
               </p>

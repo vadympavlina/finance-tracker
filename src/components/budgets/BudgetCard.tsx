@@ -21,11 +21,11 @@ export function BudgetCard({ progress, category, onClick }: Props) {
     <button
       type="button"
       onClick={onClick}
-      className="press w-full rounded-[20px] border border-border bg-surface p-4 text-left shadow-card hover:border-border-strong"
+      className="press w-full rounded-3xl border border-border bg-surface p-4 text-left shadow-card hover:border-border-strong"
       aria-label={`${name}: витрачено ${formatMoney(spent)} з ${formatMoney(budget.amount)}, ${formatPercent(percent)}`}
     >
       <div className="flex items-center gap-3">
-        <CategoryIcon icon={category?.icon ?? 'wallet'} color={category?.color ?? '#7C5CFC'} size="sm" muted={category?.isArchived} />
+        <CategoryIcon icon={category?.icon ?? 'wallet'} color={category?.color ?? '#0E8F62'} size="sm" muted={category?.isArchived} />
         <div className="min-w-0 flex-1">
           <p className="truncate text-[15px] font-semibold">{name}</p>
           <p className="tabular text-sm text-muted">

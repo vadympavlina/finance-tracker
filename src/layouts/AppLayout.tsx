@@ -34,7 +34,7 @@ export function AppLayout() {
           id="main"
           className={cn(
             'pt-safe min-w-0 flex-1 px-4 sm:px-6 lg:px-10 lg:pt-8 lg:pb-12',
-            formRoute ? 'pb-6' : 'pb-[calc(96px+env(safe-area-inset-bottom))]',
+            formRoute ? 'pb-6' : 'pb-[calc(100px+env(safe-area-inset-bottom))]',
           )}
         >
           <div key={pathname} className="animate-page mx-auto w-full max-w-[1320px]">
@@ -50,7 +50,7 @@ export function AppLayout() {
           type="button"
           onClick={open}
           aria-label="Додати операцію"
-          className="press fixed right-4 bottom-[calc(76px+env(safe-area-inset-bottom))] z-30 grid size-14 place-items-center rounded-full bg-primary text-on-primary shadow-primary hover:bg-primary-strong lg:hidden"
+          className="press fixed right-4 bottom-[calc(80px+env(safe-area-inset-bottom))] z-30 grid size-14 place-items-center rounded-2xl bg-primary text-on-primary shadow-primary hover:bg-primary-strong lg:hidden"
         >
           <Plus className="size-6" strokeWidth={2.5} aria-hidden />
         </button>
@@ -64,8 +64,8 @@ function PageSkeleton() {
   return (
     <div className="space-y-4 pt-4" aria-busy="true" aria-label="Завантаження">
       <div className="h-8 w-40 animate-pulse rounded-xl bg-surface-3" />
-      <div className="h-40 animate-pulse rounded-[20px] bg-surface-3" />
-      <div className="h-24 animate-pulse rounded-[20px] bg-surface-3" />
+      <div className="h-40 animate-pulse rounded-3xl bg-surface-3" />
+      <div className="h-24 animate-pulse rounded-3xl bg-surface-3" />
     </div>
   )
 }

@@ -4,7 +4,7 @@ import { ChevronRight } from 'lucide-react'
 import { cn } from '../../utils/cn'
 
 export function Card({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn('rounded-[20px] border border-border bg-surface shadow-card', className)} {...props} />
+  return <div className={cn('rounded-3xl border border-border bg-surface', className)} {...props} />
 }
 
 interface SectionProps {
@@ -21,7 +21,7 @@ export function Section({ title, action, children, className, id }: SectionProps
   return (
     <section className={cn('space-y-3', className)} aria-labelledby={headingId}>
       <div className="flex min-h-8 items-center justify-between gap-3">
-        <h2 id={headingId} className="text-[17px] font-semibold tracking-tight">
+        <h2 id={headingId} className="text-lg font-bold tracking-tight">
           {title}
         </h2>
         {action &&

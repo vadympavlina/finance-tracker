@@ -36,7 +36,7 @@ export function StatCard({ label, value, icon: Icon, tone, change, inverse, to, 
       {hint && <p className="mt-0.5 truncate text-xs text-subtle">{hint}</p>}
     </>
   )
-  const className = 'block min-w-0 rounded-[20px] border border-border bg-surface p-3.5 shadow-card sm:p-4'
+  const className = 'block min-w-0 rounded-3xl border border-border bg-surface p-3.5 shadow-card sm:p-4'
   return to ? (
     <Link to={to} className={cn(className, 'press hover:border-border-strong hover:shadow-float')}>
       {content}

@@ -71,7 +71,7 @@ export const ACCOUNT_TYPE_ICONS: Record<Account['type'], string> = {
 }
 
 export const ACCOUNT_TYPE_COLORS: Record<Account['type'], string> = {
-  card: '#7C5CFC',
+  card: '#0E8F62',
   cash: '#22C55E',
   savings: '#0EA5E9',
   other: '#64748B',

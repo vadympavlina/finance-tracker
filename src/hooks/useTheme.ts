@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import type { ThemeMode } from '../types'
 
-const THEME_COLORS = { light: '#f6f7fb', dark: '#0d0e13' }
+const THEME_COLORS = { light: '#f3f2ed', dark: '#0b0f0d' }
 
 /** Applies the theme to <html> and keeps the browser UI color in sync. */
 export function useTheme(mode: ThemeMode) {

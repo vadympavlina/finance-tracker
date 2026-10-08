@@ -16,7 +16,7 @@ interface SegmentedProps<T extends string> {
   size?: 'sm' | 'md'
 }
 
-/** iOS-like segmented control with roving keyboard focus (←/→). */
+/** Pill tabs with roving keyboard focus (←/→). */
 export function Segmented<T extends string>({ options, value, onChange, label, className, size = 'md' }: SegmentedProps<T>) {
   const id = useId()
   const refs = useRef<Array<HTMLButtonElement | null>>([])
@@ -28,7 +28,7 @@ export function Segmented<T extends string>({ options, value, onChange, label, c
     refs.current[next]?.focus()
   }
   return (
-    <div role="tablist" aria-label={label} className={cn('flex rounded-2xl bg-surface-3/70 p-1', className)}>
+    <div role="tablist" aria-label={label} className={cn('no-scrollbar flex gap-1.5 overflow-x-auto', className)}>
       {options.map((o, idx) => {
         const active = o.value === value
         return (
@@ -45,14 +45,14 @@ export function Segmented<T extends string>({ options, value, onChange, label, c
             onKeyDown={(e) => onKeyDown(e, idx)}
             onClick={() => onChange(o.value)}
             className={cn(
-              'press flex flex-1 items-center justify-center gap-1.5 rounded-xl font-medium whitespace-nowrap',
-              size === 'md' ? 'min-h-10 px-3 text-sm' : 'min-h-8 px-2.5 text-[13px]',
-              active ? 'bg-surface text-text shadow-card' : 'text-muted hover:text-text',
+              'press flex flex-1 items-center justify-center gap-1.5 rounded-full border font-semibold whitespace-nowrap',
+              size === 'md' ? 'min-h-11 px-4 text-sm' : 'min-h-9 px-3 text-[13px]',
+              active ? 'border-ink bg-ink text-on-ink' : 'border-border-strong bg-transparent text-muted hover:text-text',
             )}
           >
             {o.label}
             {o.count !== undefined && (
-              <span className={cn('rounded-full px-1.5 text-[11px] tabular', active ? 'bg-primary-soft text-primary' : 'bg-surface-3 text-muted')}>
+              <span className={cn('rounded-full px-1.5 text-[11px] tabular', active ? 'bg-on-ink/15 text-on-ink' : 'bg-surface-3 text-muted')}>
                 {o.count}
               </span>
             )}

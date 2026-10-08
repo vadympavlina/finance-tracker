@@ -158,7 +158,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Sticky primary action (mobile) */}
-      <div className="sticky bottom-[calc(72px+env(safe-area-inset-bottom))] z-20 -mx-4 flex gap-2.5 bg-gradient-to-t from-bg via-bg/95 to-bg/0 px-4 pt-6 pb-2 sm:-mx-6 sm:px-6 lg:hidden">
+      <div className="sticky bottom-[calc(64px+env(safe-area-inset-bottom))] z-20 -mx-4 flex gap-2.5 bg-gradient-to-t from-bg via-bg/95 to-bg/0 px-4 pt-6 pb-2 sm:-mx-6 sm:px-6 lg:hidden">
         <Button size="lg" className="min-w-0 flex-1" icon={<Plus className="size-5" strokeWidth={2.5} aria-hidden />} onClick={() => navigate('/add/expense')}>
           Додати витрату
         </Button>

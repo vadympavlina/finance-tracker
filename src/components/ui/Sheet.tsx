@@ -82,7 +82,7 @@ export function Sheet({ open, onClose, title, description, children, footer, ale
 
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-end justify-center md:items-center md:p-6">
-      <div className="animate-fade-in absolute inset-0 bg-[#0b0c12]/45 backdrop-blur-[2px]" onClick={onClose} aria-hidden />
+      <div className="animate-fade-in absolute inset-0 bg-[#0b0f0d]/50 backdrop-blur-[2px]" onClick={onClose} aria-hidden />
       <div
         ref={panelRef}
         role={alert ? 'alertdialog' : 'dialog'}
@@ -92,13 +92,13 @@ export function Sheet({ open, onClose, title, description, children, footer, ale
         tabIndex={-1}
         className={cn(
           'relative flex max-h-[92dvh] w-full flex-col bg-surface shadow-float outline-none',
-          'animate-slide-up rounded-t-[28px] md:animate-pop md:rounded-[28px]',
+          'animate-slide-up rounded-t-[32px] md:animate-pop md:rounded-[32px]',
           size === 'sm' && 'md:max-w-sm',
           size === 'md' && 'md:max-w-lg',
           size === 'lg' && 'md:max-w-2xl',
         )}
       >
-        <div className="mx-auto mt-2.5 h-1.5 w-10 shrink-0 rounded-full bg-surface-3 md:hidden" aria-hidden />
+        <div className="mx-auto mt-3 h-1 w-12 shrink-0 rounded-full bg-border-strong md:hidden" aria-hidden />
         <div className={cn('flex shrink-0 items-start gap-3 px-5 pt-3 pb-2 md:px-6 md:pt-5', hideTitle && 'sr-only')}>
           <div className="min-w-0 flex-1 pt-1.5">
             <h2 id={titleId} className="text-lg font-semibold tracking-tight">

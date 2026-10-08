@@ -191,7 +191,7 @@ export function validateImport(json: unknown): ValidationResult {
           deadline: isStr(g.deadline) ? (g.deadline as string) : null,
           comment: (g.comment as string) || undefined,
           icon: isStr(g.icon) ? (g.icon as string) : 'target',
-          color: isStr(g.color) ? (g.color as string) : '#7C5CFC',
+          color: isStr(g.color) ? (g.color as string) : '#0E8F62',
           contributions: list,
           createdAt: isStr(g.createdAt) ? (g.createdAt as string) : new Date().toISOString(),
         }

@@ -20,7 +20,7 @@ export function ToastViewport({ toasts, onDismiss }: { toasts: ToastItem[]; onDi
           key={t.id}
           type="button"
           onClick={() => onDismiss(t.id)}
-          className="animate-pop pointer-events-auto flex max-w-sm items-center gap-2.5 rounded-2xl bg-[#17181f] py-3 pr-4 pl-3 text-left text-sm font-medium text-white shadow-float dark:bg-surface-3"
+          className="animate-pop pointer-events-auto flex max-w-sm items-center gap-2.5 rounded-2xl bg-[#121a17] py-3 pr-4 pl-3 text-left text-sm font-medium text-white shadow-float dark:bg-surface-3"
         >
           <span
             className={cn(

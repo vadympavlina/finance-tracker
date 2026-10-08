@@ -48,7 +48,7 @@ export default function ProfilePage() {
       <PageHeader title="Профіль" />
       <div className="space-y-5">
         <Card className="flex items-center gap-4 p-5">
-          <span className="grid size-16 shrink-0 place-items-center rounded-full bg-[linear-gradient(135deg,#6c5ce7,#5b8def)] text-xl font-bold text-white">
+          <span className="grid size-16 shrink-0 place-items-center rounded-full bg-ink text-xl font-bold text-on-ink">
             {initials(data.settings.fullName || data.settings.userName)}
           </span>
           <div className="min-w-0 flex-1">

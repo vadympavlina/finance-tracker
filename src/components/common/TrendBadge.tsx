@@ -21,7 +21,7 @@ export function TrendBadge({ value, inverse, className, onDark }: TrendBadgeProp
       className={cn(
         'tabular inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 text-xs font-semibold',
         onDark
-          ? 'bg-white/15 text-white'
+          ? 'bg-[#34c88d]/20 text-[#7ee2b8]'
           : good === null
             ? 'bg-surface-2 text-muted'
             : good

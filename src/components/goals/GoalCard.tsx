@@ -17,7 +17,7 @@ export function GoalCard({ progress, onClick, compact }: Props) {
     <button
       type="button"
       onClick={onClick}
-      className="press w-full rounded-[20px] border border-border bg-surface p-4 text-left shadow-card hover:border-border-strong"
+      className="press w-full rounded-3xl border border-border bg-surface p-4 text-left shadow-card hover:border-border-strong"
       aria-label={`${goal.name}: ${formatMoney(current)} з ${formatMoney(goal.targetAmount)}, ${formatPercent(percent)}`}
     >
       <div className="flex items-center gap-3">

@@ -39,7 +39,7 @@ export function describeTransaction(
       title: incoming ? 'Повернення боргу' : 'Погашення боргу',
       subtitle: tx.debtPerson ?? 'Борг',
       icon: incoming ? 'hand-coins' : 'undo',
-      color: incoming ? '#10B981' : '#7C5CFC',
+      color: incoming ? '#0E8F62' : '#D98E04',
       signed: getSignedAmount(tx),
       tone: incoming ? 'income' : 'expense',
       categoryName: incoming ? 'Мені повернули борг' : 'Я повернув борг',

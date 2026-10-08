@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { Plus, Settings, Wallet } from 'lucide-react'
+import { Plus, Settings } from 'lucide-react'
 import { DESKTOP_NAV } from '../../layouts/navigation'
 import { cn } from '../../utils/cn'
 import { Button } from '../ui/Button'
@@ -10,21 +10,19 @@ export function Sidebar({ onQuickAdd }: { onQuickAdd: () => void }) {
   const { data } = useFinance()
   const link = ({ isActive }: { isActive: boolean }) =>
     cn(
-      'press flex h-11 items-center gap-3 rounded-2xl px-3.5 text-[15px] font-medium',
-      isActive ? 'bg-primary-soft text-primary' : 'text-muted hover:bg-surface-2 hover:text-text',
+      'press flex h-11 items-center gap-3 rounded-full px-4 text-[15px] font-medium',
+      isActive ? 'bg-[#34c88d]/15 text-[#7ee2b8]' : 'text-white/60 hover:bg-white/[0.06] hover:text-white',
     )
   return (
-    <aside className="sticky top-0 hidden h-dvh w-[264px] shrink-0 flex-col border-r border-border bg-surface px-4 py-6 lg:flex">
+    <aside className="sticky top-0 hidden h-dvh w-[264px] shrink-0 flex-col bg-[#121a17] px-4 py-6 text-[#f3f2ed] lg:flex">
       <div className="mb-8 flex items-center gap-2.5 px-2">
-        <span className="grid size-10 place-items-center rounded-2xl bg-primary text-on-primary shadow-primary">
-          <Wallet className="size-5" aria-hidden />
-        </span>
+        <img src="./favicon.svg" alt="" width={40} height={40} className="size-10 rounded-xl ring-1 ring-white/10" />
         <div>
           <p className="text-[15px] leading-tight font-bold">Finance Tracker</p>
-          <p className="text-xs text-muted">Особисті фінанси</p>
+          <p className="text-xs text-white/50">Особисті фінанси</p>
         </div>
       </div>
-      <Button icon={<Plus className="size-5" aria-hidden />} onClick={onQuickAdd} block className="mb-6">
+      <Button variant="accent" icon={<Plus className="size-5" aria-hidden />} onClick={onQuickAdd} block className="mb-6">
         Додати операцію
       </Button>
       <nav aria-label="Основна навігація" className="flex-1 overflow-y-auto">
@@ -39,16 +37,16 @@ export function Sidebar({ onQuickAdd }: { onQuickAdd: () => void }) {
           ))}
         </ul>
       </nav>
-      <div className="mt-4 space-y-1 border-t border-border pt-4">
+      <div className="mt-4 space-y-1 border-t border-white/10 pt-4">
         <NavLink to="/settings" className={link}>
           <Settings className="size-5" aria-hidden />
           Налаштування
         </NavLink>
-        <NavLink to="/profile" className="press flex items-center gap-3 rounded-2xl p-2 hover:bg-surface-2">
-          <span className="grid size-9 place-items-center rounded-full bg-primary-soft text-sm font-bold text-primary">{initials(data.settings.fullName || data.settings.userName)}</span>
+        <NavLink to="/profile" className="press flex items-center gap-3 rounded-full p-2 hover:bg-white/[0.06]">
+          <span className="grid size-9 place-items-center rounded-full bg-[#34c88d] text-sm font-bold text-[#06120d]">{initials(data.settings.fullName || data.settings.userName)}</span>
           <span className="min-w-0">
             <span className="block truncate text-sm font-semibold">{data.settings.fullName || data.settings.userName}</span>
-            <span className="block text-xs text-muted">Фінансовий контроль</span>
+            <span className="block text-xs text-white/50">Фінансовий контроль</span>
           </span>
         </NavLink>
       </div>

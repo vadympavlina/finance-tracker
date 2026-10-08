@@ -72,7 +72,7 @@ export default function AnalyticsPage() {
               { value: 'month', label: 'Місяць' },
               { value: 'year', label: 'Рік' },
             ]}
-            className="h-12 items-stretch"
+            className=""
           />
           <PeriodNav label={formatPeriodLabel(period, range)} onPrev={() => setOffset((o) => o - 1)} onNext={() => setOffset((o) => Math.min(0, o + 1))} canNext={offset < 0} />
         </div>

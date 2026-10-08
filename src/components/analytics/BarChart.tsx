@@ -97,7 +97,7 @@ export function BarChart({ data, color, height = 220, label }: BarChartProps) {
       )}
       {width > 0 && point && (
         <div
-          className="pointer-events-none absolute top-0 -translate-x-1/2 rounded-xl bg-[#17181f] px-2.5 py-1 text-center text-white shadow-float dark:bg-surface-3"
+          className="pointer-events-none absolute top-0 -translate-x-1/2 rounded-xl bg-[#121a17] px-2.5 py-1 text-center text-white shadow-float dark:bg-surface-3"
           style={{ left: Math.min(Math.max(tooltipX, 56), width - 56) }}
           aria-hidden
         >

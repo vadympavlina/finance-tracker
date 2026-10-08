@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import type { ThemeMode } from '../types'
+import type { TextSize, ThemeMode } from '../types'
 
 const THEME_COLORS = { light: '#f3f2ed', dark: '#0b0f0d' }
 
@@ -22,4 +22,19 @@ export function useTheme(mode: ThemeMode) {
     media.addEventListener('change', apply)
     return () => media.removeEventListener('change', apply)
   }, [mode])
+}
+
+export const TEXT_SCALE: Record<TextSize, string> = { sm: '93.75%', md: '100%', lg: '112.5%', xl: '125%' }
+
+/** Scales the whole interface (all sizes are rem-based) for small / large text preferences. */
+export function useTextSize(size: TextSize | undefined) {
+  useEffect(() => {
+    const value = TEXT_SCALE[size ?? 'md'] ?? '100%'
+    document.documentElement.style.fontSize = value
+    try {
+      localStorage.setItem('ft-text-size', value)
+    } catch {
+      /* ignore */
+    }
+  }, [size])
 }

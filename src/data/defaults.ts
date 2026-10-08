@@ -49,6 +49,7 @@ export function createDefaultSettings(): Settings {
     fullName: 'Vadym Pavlina',
     currency: 'UAH',
     theme: 'light',
+    textSize: 'md',
     hideBalance: false,
     defaultAccountId: 'acc_card',
     reminders: { daily: true, dailyTime: '20:00', debts: true, budgets: true },

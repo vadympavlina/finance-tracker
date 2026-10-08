@@ -1,4 +1,5 @@
-import type { Category, CategoryType, Transaction } from '../../types'
+import type { Account, Category, CategoryType, Transaction } from '../../types'
+import { calculateBalance } from './balance'
 import { monthRange, addMonths, type DateRange } from '../../utils/date'
 import { roundMoney } from '../../utils/format'
 import { filterByRange, isInflow, isOutflow, sumAmounts } from './transactions'
@@ -113,5 +114,52 @@ export function calculateMonthlyStats(transactions: Transaction[], ref = new Dat
     incomeChange: percentChange(income, previousIncome),
     expensesChange: percentChange(expenses, previousExpenses),
     netFlowChange: percentChange(netFlow, previousNetFlow),
+  }
+}
+
+export interface MonthSummary {
+  range: DateRange
+  /** Total balance right before the month started. */
+  opening: number
+  income: number
+  adjustmentsIn: number
+  adjustmentsOut: number
+  /** income + adjustments in − adjustments out: "скільки отримала". */
+  received: number
+  expenses: number
+  debtsIn: number
+  debtsOut: number
+  /** Balance at the end of the month (or now for the current month). */
+  closing: number
+  /** Share of received money already spent, null when nothing was received. */
+  spentShare: number | null
+}
+
+/** Monthly money flow: how much there was, how much came in, how much was spent, what is left. */
+export function calculateMonthSummary(transactions: Transaction[], accounts: Account[], ref = new Date(), now = new Date()): MonthSummary {
+  const range = monthRange(ref)
+  const inMonth = filterByRange(transactions, range)
+  const sumOf = (pred: (t: Transaction) => boolean) => roundMoney(inMonth.filter(pred).reduce((s, t) => s + t.amount, 0))
+  const income = sumOf((t) => t.type === 'income')
+  const adjustmentsIn = sumOf((t) => t.type === 'adjustment' && t.adjustmentDirection !== 'out')
+  const adjustmentsOut = sumOf((t) => t.type === 'adjustment' && t.adjustmentDirection === 'out')
+  const expenses = sumOf((t) => t.type === 'expense')
+  const debtsIn = sumOf((t) => t.type === 'debt_repayment' && t.debtDirection === 'they_owe_me')
+  const debtsOut = sumOf((t) => t.type === 'debt_repayment' && t.debtDirection === 'i_owe')
+  const received = roundMoney(income + adjustmentsIn - adjustmentsOut)
+  const opening = calculateBalance(accounts, transactions, new Date(range.start.getTime() - 1))
+  const closing = calculateBalance(accounts, transactions, range.end.getTime() > now.getTime() ? now : range.end)
+  return {
+    range,
+    opening,
+    income,
+    adjustmentsIn,
+    adjustmentsOut,
+    received,
+    expenses,
+    debtsIn,
+    debtsOut,
+    closing,
+    spentShare: received > 0 ? (expenses / received) * 100 : null,
   }
 }

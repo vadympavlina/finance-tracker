@@ -61,7 +61,7 @@ export function Segmented<T extends string>({ options, value, onChange, label, c
             )}
           >
             <span>{o.label}</span>
-            {o.count !== undefined && <span className="tabular text-[11px] text-subtle">{o.count}</span>}
+            {o.count !== undefined && <span className="tabular text-[0.6875rem] text-subtle">{o.count}</span>}
           </button>
         )
       })}

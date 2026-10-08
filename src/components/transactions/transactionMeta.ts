@@ -33,6 +33,19 @@ export function describeTransaction(
       isArchivedCategory: false,
     }
   }
+  if (tx.type === 'adjustment') {
+    const added = tx.adjustmentDirection !== 'out'
+    return {
+      title: added ? 'Додано до місяця' : 'Віднято з місяця',
+      subtitle: tx.comment || account?.name || '',
+      icon: added ? 'plus-circle' : 'minus-circle',
+      color: added ? '#0E8F62' : '#B06700',
+      signed: getSignedAmount(tx),
+      tone: added ? 'income' : 'expense',
+      categoryName: added ? 'Коригування: додано' : 'Коригування: віднято',
+      isArchivedCategory: false,
+    }
+  }
   if (tx.type === 'debt_repayment') {
     const incoming = tx.debtDirection === 'they_owe_me'
     return {
@@ -65,4 +78,5 @@ export const TRANSACTION_TYPE_LABELS: Record<Transaction['type'], string> = {
   expense: 'Витрата',
   transfer: 'Переказ',
   debt_repayment: 'Повернення боргу',
+  adjustment: 'Коригування суми',
 }

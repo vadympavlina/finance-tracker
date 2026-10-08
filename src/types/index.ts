@@ -9,7 +9,12 @@
 
 export type ID = string
 
-export type TransactionType = 'income' | 'expense' | 'transfer' | 'debt_repayment'
+/**
+ * adjustment — a manual correction of the month's received money ("додати / відняти"):
+ * changes the balance but is neither income nor expense in statistics.
+ */
+export type TransactionType = 'income' | 'expense' | 'transfer' | 'debt_repayment' | 'adjustment'
+export type AdjustmentDirection = 'in' | 'out'
 
 export interface Transaction {
   id: ID
@@ -36,6 +41,8 @@ export interface Transaction {
   debtDirection?: DebtDirection | null
   /** Snapshot of the person name for debt repayments. */
   debtPerson?: string | null
+  /** Only for adjustment: in = додати, out = відняти. */
+  adjustmentDirection?: AdjustmentDirection | null
   createdAt: string
   updatedAt: string
 }
@@ -129,12 +136,15 @@ export interface Account {
 
 export type CurrencyCode = 'UAH' | 'USD' | 'EUR' | 'PLN'
 export type ThemeMode = 'light' | 'dark' | 'system'
+export type TextSize = 'sm' | 'md' | 'lg' | 'xl'
 
 export interface Settings {
   userName: string
   fullName: string
   currency: CurrencyCode
   theme: ThemeMode
+  /** Interface text size; everything is sized in rem and scales with it. */
+  textSize: TextSize
   hideBalance: boolean
   defaultAccountId: ID | null
   reminders: {
@@ -150,8 +160,20 @@ export interface Settings {
   onboarded: boolean
 }
 
+/** A timestamped comment inside a category (no money involved). */
+export interface CategoryNote {
+  id: ID
+  categoryId: ID
+  text: string
+  /** Local ISO date-time the note refers to (defaults to "now"). */
+  date: string
+  createdAt: string
+  updatedAt: string
+}
+
 export interface FinanceData {
   transactions: Transaction[]
+  notes: CategoryNote[]
   categories: Category[]
   budgets: Budget[]
   debts: Debt[]

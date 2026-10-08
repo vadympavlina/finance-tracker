@@ -14,7 +14,7 @@ import {
   Wallet,
   type LucideIcon,
 } from 'lucide-react'
-import type { CurrencyCode, FinanceData, ThemeMode } from '../types'
+import type { CurrencyCode, FinanceData, TextSize, ThemeMode } from '../types'
 import { PageHeader } from '../components/common/PageHeader'
 import { Card } from '../components/ui/Card'
 import { Segmented } from '../components/ui/Tabs'
@@ -167,6 +167,23 @@ export default function SettingsPage() {
                 ]}
               />
             </div>
+            <div>
+              <p className="mb-2 text-sm font-medium text-muted">Розмір тексту</p>
+              <Segmented<TextSize>
+                label="Розмір тексту"
+                value={settings.textSize ?? 'md'}
+                onChange={(textSize) => updateSettings({ textSize })}
+                options={[
+                  { value: 'sm', label: 'Аа−' },
+                  { value: 'md', label: 'Аа' },
+                  { value: 'lg', label: 'Аа+' },
+                  { value: 'xl', label: 'Аа++' },
+                ]}
+              />
+              <p className="mt-2 text-[0.8125rem] text-muted" aria-live="polite">
+                {{ sm: 'Малий', md: 'Звичайний', lg: 'Великий', xl: 'Дуже великий' }[settings.textSize ?? 'md']} — так виглядатиме текст у всьому застосунку.
+              </p>
+            </div>
             <SelectField
               label="Валюта"
               value={settings.currency}
@@ -266,7 +283,7 @@ function LinkRow({ to, icon: Icon, label, hint }: { to: string; icon: LucideIcon
     <Link to={to} className="press flex min-h-14 items-center gap-3 px-4 py-3 hover:bg-surface-2">
       <Icon className="size-5 text-muted" aria-hidden />
       <span className="min-w-0 flex-1">
-        <span className="block text-[15px] font-medium">{label}</span>
+        <span className="block text-[0.9375rem] font-medium">{label}</span>
         {hint && <span className="block text-sm text-muted">{hint}</span>}
       </span>
       <ChevronRight className="size-5 text-subtle" aria-hidden />
@@ -279,7 +296,7 @@ function ActionRow({ icon: Icon, label, hint, onClick, danger }: { icon: LucideI
     <button type="button" onClick={onClick} className={cn('press flex min-h-14 w-full items-center gap-3 px-4 py-3 text-left hover:bg-surface-2', danger && 'text-expense')}>
       <Icon className={cn('size-5', danger ? 'text-expense' : 'text-muted')} aria-hidden />
       <span className="min-w-0 flex-1">
-        <span className="block text-[15px] font-medium">{label}</span>
+        <span className="block text-[0.9375rem] font-medium">{label}</span>
         {hint && <span className={cn('block text-sm', danger ? 'text-expense/80' : 'text-muted')}>{hint}</span>}
       </span>
       <ChevronRight className="size-5 text-subtle" aria-hidden />

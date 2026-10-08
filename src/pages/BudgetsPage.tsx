@@ -83,21 +83,21 @@ export default function BudgetsPage() {
               className="press w-full rounded-[26px] bg-surface p-5 text-left shadow-card hover:border-border-strong"
             >
               <div className="flex items-start justify-between gap-3">
-                <div>
+                <div className="min-w-0 flex-1">
                   <p className="text-sm text-muted">Місячний бюджет</p>
-                  <FitText as="p" className="tabular mt-1 text-[30px] leading-tight font-bold tracking-tight">{formatMoney(total.budget.amount)}</FitText>
+                  <FitText as="p" className="tabular mt-1 text-[1.875rem] leading-tight font-bold tracking-tight">{formatMoney(total.budget.amount)}</FitText>
                 </div>
-                <span className={cn('tabular rounded-full bg-surface-2 px-3 py-1 text-lg font-bold', statusColor(total.status))}>{formatPercent(total.percent)}</span>
+                <span className={cn('tabular shrink-0 rounded-full bg-surface-2 px-3 py-1 text-lg font-bold', statusColor(total.status))}>{formatPercent(total.percent)}</span>
               </div>
               <ProgressBar value={total.percent} status={total.status} size="lg" className="mt-4" label={`Місячний бюджет: ${formatPercent(total.percent)}`} />
               <div className="mt-4 grid grid-cols-2 gap-3">
                 <div className="rounded-2xl bg-surface-2 p-3">
                   <p className="text-xs text-muted">Витрачено</p>
-                  <FitText as="p" className="tabular text-[17px] font-bold">{formatMoney(total.spent)}</FitText>
+                  <FitText as="p" className="tabular text-[1.0625rem] font-bold">{formatMoney(total.spent)}</FitText>
                 </div>
                 <div className={cn('rounded-2xl p-3', total.status === 'exceeded' ? 'bg-expense-soft' : 'bg-surface-2')}>
                   <p className="text-xs text-muted">{total.status === 'exceeded' ? 'Перевищено на' : 'Залишилось'}</p>
-                  <FitText as="p" className={cn('tabular text-[17px] font-bold', total.status === 'exceeded' ? 'text-expense' : 'text-income')}>
+                  <FitText as="p" className={cn('tabular text-[1.0625rem] font-bold', total.status === 'exceeded' ? 'text-expense' : 'text-income')}>
                     {formatMoney(Math.abs(total.remaining))}
                   </FitText>
                 </div>

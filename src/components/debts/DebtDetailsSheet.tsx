@@ -80,7 +80,7 @@ export function DebtDetailsSheet({ debt, onClose }: { debt: Debt | null; onClose
               <p className="text-sm text-muted">{status === 'paid' ? 'Борг закрито' : 'Залишилось'}</p>
               <DebtStatusBadge status={status} />
             </div>
-            <FitText as="p" className={cn('tabular mt-1 text-[32px] leading-tight font-bold tracking-tight', theyOwe ? 'text-income' : 'text-expense', status === 'paid' && 'text-income')}>
+            <FitText as="p" className={cn('tabular mt-1 text-[2rem] leading-tight font-bold tracking-tight', theyOwe ? 'text-income' : 'text-expense', status === 'paid' && 'text-income')}>
               {formatMoney(status === 'paid' ? debt.amount : remaining)}
             </FitText>
             <ProgressBar value={calculateDebtProgress(debt)} color={theyOwe ? 'var(--income)' : 'var(--primary)'} className="mt-3" label="Прогрес повернення" />
@@ -112,7 +112,7 @@ export function DebtDetailsSheet({ debt, onClose }: { debt: Debt | null; onClose
                 {repayments.map((t) => (
                   <li key={t.id} className="flex items-center gap-3 px-4 py-2.5">
                     <div className="min-w-0 flex-1">
-                      <p className={cn('tabular text-[15px] font-semibold', theyOwe ? 'text-income' : 'text-text')}>{formatSignedMoney(theyOwe ? t.amount : -t.amount)}</p>
+                      <p className={cn('tabular text-[0.9375rem] font-semibold', theyOwe ? 'text-income' : 'text-text')}>{formatSignedMoney(theyOwe ? t.amount : -t.amount)}</p>
                       <p className="min-w-0 break-words text-xs text-muted">
                         {formatFullDate(t.date)}
                         {t.comment ? ` · ${t.comment}` : ''}

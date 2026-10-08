@@ -32,10 +32,10 @@ export function TransactionItem({ tx, view, onClick, meta = 'date' }: Transactio
       <CategoryIcon icon={view.icon} color={view.color} muted={view.isArchivedCategory} />
       <span className="min-w-0 flex-1 pt-0.5">
         <span className="flex items-start justify-between gap-x-3">
-          <span className="min-w-0 text-[15px] leading-snug font-semibold break-words">{view.title}</span>
+          <span className="min-w-0 text-[0.9375rem] leading-snug font-semibold break-words">{view.title}</span>
           <span
             className={cn(
-              'tabular shrink-0 text-[15px] leading-snug font-semibold whitespace-nowrap',
+              'tabular shrink-0 text-[0.9375rem] leading-snug font-semibold whitespace-nowrap',
               view.tone === 'income' && 'text-income',
               view.tone === 'expense' && 'text-text',
               view.tone === 'neutral' && 'text-info',
@@ -45,7 +45,7 @@ export function TransactionItem({ tx, view, onClick, meta = 'date' }: Transactio
           </span>
         </span>
         <span className="mt-0.5 flex items-start justify-between gap-x-3">
-          <span className="min-w-0 text-[13.5px] leading-snug text-muted break-words">{view.subtitle}</span>
+          <span className="min-w-0 text-[0.8438rem] leading-snug text-muted break-words">{view.subtitle}</span>
           <span className="shrink-0 text-xs leading-snug whitespace-nowrap text-subtle">{when}</span>
         </span>
       </span>

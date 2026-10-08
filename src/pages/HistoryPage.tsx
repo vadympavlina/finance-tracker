@@ -160,11 +160,11 @@ export default function HistoryPage() {
           <Card className="grid grid-cols-2 divide-x divide-border">
             <div className="px-4 py-3">
               <p className="text-xs text-muted">Доходи{hasAnyFilter ? ' · за фільтром' : ' · за весь час'}</p>
-              <FitText as="p" className="tabular text-[17px] font-semibold text-income">{formatMoney(totals.income)}</FitText>
+              <FitText as="p" className="tabular text-[1.0625rem] font-semibold text-income">{formatMoney(totals.income)}</FitText>
             </div>
             <div className="px-4 py-3">
               <p className="text-xs text-muted">Витрати{hasAnyFilter ? ' · за фільтром' : ' · за весь час'}</p>
-              <FitText as="p" className="tabular text-[17px] font-semibold">{formatMoney(totals.expenses)}</FitText>
+              <FitText as="p" className="tabular text-[1.0625rem] font-semibold">{formatMoney(totals.expenses)}</FitText>
             </div>
           </Card>
         )}
@@ -225,6 +225,7 @@ const TYPE_OPTIONS: Array<{ value: Filters['type']; label: string }> = [
   { value: 'income', label: 'Доходи' },
   { value: 'transfer', label: 'Перекази' },
   { value: 'debt_repayment', label: 'Повернення боргів' },
+  { value: 'adjustment', label: 'Коригування' },
 ]
 
 function FiltersSheet({ open, onClose, value, onApply }: { open: boolean; onClose: () => void; value: Filters; onApply: (f: Filters) => void }) {

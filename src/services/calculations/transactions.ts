@@ -5,6 +5,7 @@ import { isInRange, parseDate, type DateRange } from '../../utils/date'
 export function isInflow(tx: Transaction): boolean {
   if (tx.type === 'income') return true
   if (tx.type === 'debt_repayment') return tx.debtDirection === 'they_owe_me'
+  if (tx.type === 'adjustment') return tx.adjustmentDirection !== 'out'
   return false
 }
 
@@ -12,6 +13,7 @@ export function isInflow(tx: Transaction): boolean {
 export function isOutflow(tx: Transaction): boolean {
   if (tx.type === 'expense') return true
   if (tx.type === 'debt_repayment') return tx.debtDirection === 'i_owe'
+  if (tx.type === 'adjustment') return tx.adjustmentDirection === 'out'
   return false
 }
 

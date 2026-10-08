@@ -1,5 +1,7 @@
 import {
   ArrowLeftRight,
+  CircleMinus,
+  CirclePlus,
   Baby,
   Banknote,
   Bike,
@@ -123,9 +125,11 @@ export const ICONS: Record<string, LucideIcon> = {
   building: Building2,
   'more-horizontal': Ellipsis,
   transfer: ArrowLeftRight,
+  'plus-circle': CirclePlus,
+  'minus-circle': CircleMinus,
 }
 
-export const CATEGORY_ICON_KEYS = Object.keys(ICONS).filter((k) => k !== 'more-horizontal' && k !== 'transfer')
+export const CATEGORY_ICON_KEYS = Object.keys(ICONS).filter((k) => !['more-horizontal', 'transfer', 'plus-circle', 'minus-circle'].includes(k))
 
 export function getIcon(key: string | undefined): LucideIcon {
   return (key && ICONS[key]) || Package

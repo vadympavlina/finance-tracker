@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Archive, ArchiveRestore, Eye, EyeOff, LayoutGrid, List, Pencil, Plus, Trash2 } from 'lucide-react'
+import { Archive, ArchiveRestore, EyeOff, LayoutGrid, Plus } from 'lucide-react'
 import type { Category, CategoryType } from '../types'
 import { PageHeader } from '../components/common/PageHeader'
 import { PeriodNav } from '../components/common/PeriodNav'
@@ -10,15 +10,13 @@ import { Segmented } from '../components/ui/Tabs'
 import { Button, IconButton } from '../components/ui/Button'
 import { Card } from '../components/ui/Card'
 import { ProgressBar } from '../components/ui/ProgressBar'
-import { Sheet } from '../components/ui/Sheet'
 import { EmptyState } from '../components/ui/EmptyState'
 import { useFinance } from '../hooks/useFinance'
-import { useConfirm, useToast } from '../hooks/useUI'
+import { useToast } from '../hooks/useUI'
 import { calculateCategoryTotals, type CategoryStat } from '../services/calculations'
 import { addMonths, formatMonthYear, isSameMonth, monthRange } from '../utils/date'
 import { formatMoney, formatPercent } from '../utils/format'
 import { cn } from '../utils/cn'
-import { FitText } from '../components/ui/FitText'
 
 type Tab = 'all' | CategoryType
 
@@ -28,15 +26,13 @@ interface Row {
 }
 
 export default function CategoriesPage() {
-  const { data, updateCategory, deleteCategory } = useFinance()
-  const confirm = useConfirm()
+  const { data, updateCategory } = useFinance()
   const toast = useToast()
   const navigate = useNavigate()
   const [tab, setTab] = useState<Tab>('expense')
   const [month, setMonth] = useState(() => new Date())
   const [formOpen, setFormOpen] = useState(false)
   const [editing, setEditing] = useState<Category | null>(null)
-  const [selected, setSelected] = useState<Category | null>(null)
   const [showArchived, setShowArchived] = useState(false)
 
   const range = useMemo(() => monthRange(month), [month])
@@ -65,22 +61,6 @@ export default function CategoriesPage() {
     setFormOpen(true)
   }
 
-  const onDelete = async (c: Category) => {
-    const used = data.transactions.some((t) => t.categoryId === c.id)
-    const ok = await confirm({
-      title: `Видалити «${c.name}»?`,
-      message: used
-        ? 'Категорія має операції, тому вона стане архівованою: історія збережеться, але обрати її для нових операцій буде неможливо. Бюджет категорії буде видалено.'
-        : 'Категорію буде видалено назавжди.',
-      confirmLabel: 'Видалити',
-      danger: true,
-    })
-    if (!ok) return
-    const result = deleteCategory(c.id)
-    setSelected(null)
-    toast(result === 'archived' ? 'Категорію архівовано' : 'Категорію видалено')
-  }
-
   const renderList = (type: CategoryType, withTitle: boolean) => {
     const list = rows(type)
     const total = type === 'expense' ? stats.totalExpense : stats.totalIncome
@@ -88,7 +68,7 @@ export default function CategoriesPage() {
       <section key={type} aria-label={type === 'expense' ? 'Витрати' : 'Доходи'} className="space-y-2">
         {withTitle && (
           <div className="flex items-baseline justify-between px-1 pt-2">
-            <h2 className="text-[17px] font-semibold">{type === 'expense' ? 'Витрати' : 'Доходи'}</h2>
+            <h2 className="text-[1.0625rem] font-semibold">{type === 'expense' ? 'Витрати' : 'Доходи'}</h2>
             <span className={cn('tabular text-sm font-semibold', type === 'income' ? 'text-income' : 'text-muted')}>{formatMoney(total)}</span>
           </div>
         )}
@@ -98,17 +78,17 @@ export default function CategoriesPage() {
               <button
                 key={c.id}
                 type="button"
-                onClick={() => setSelected(c)}
+                onClick={() => navigate(`/categories/${c.id}${isSameMonth(month, new Date()) ? '' : `?m=${month.getFullYear()}-${String(month.getMonth() + 1).padStart(2, '0')}`}`)}
                 className="press flex w-full items-start gap-3 px-4 py-3 text-left hover:bg-surface-2"
               >
                 <CategoryIcon icon={c.icon} color={c.color} muted={c.isHidden} />
                 <span className="min-w-0 flex-1 pt-0.5">
                   <span className="flex items-start justify-between gap-3">
                     <span className="flex min-w-0 items-center gap-1.5">
-                      <span className="min-w-0 text-[15px] leading-snug font-semibold break-words">{c.name}</span>
+                      <span className="min-w-0 text-[0.9375rem] leading-snug font-semibold break-words">{c.name}</span>
                       {c.isHidden && <EyeOff className="size-3.5 shrink-0 text-subtle" aria-label="Прихована" />}
                     </span>
-                    <span className="tabular shrink-0 text-[15px] leading-snug font-semibold whitespace-nowrap">{formatMoney(stat?.amount ?? 0)}</span>
+                    <span className="tabular shrink-0 text-[0.9375rem] leading-snug font-semibold whitespace-nowrap">{formatMoney(stat?.amount ?? 0)}</span>
                   </span>
                   <span className="mt-2 flex items-center gap-3">
                     <ProgressBar value={stat?.share ?? 0} color={c.color} size="sm" label={`${c.name}: ${formatPercent(stat?.share ?? 0)}`} />
@@ -181,7 +161,7 @@ export default function CategoriesPage() {
                   <div key={c.id} className="flex items-center gap-3 px-4 py-3">
                     <CategoryIcon icon={c.icon} color={c.color} size="sm" muted />
                     <span className="min-w-0 flex-1">
-                      <span className="block min-w-0 break-words text-[15px] font-medium">{c.name}</span>
+                      <span className="block min-w-0 break-words text-[0.9375rem] font-medium">{c.name}</span>
                       <span className="block text-xs text-subtle">Архівована категорія</span>
                     </span>
                     <Button
@@ -203,59 +183,7 @@ export default function CategoriesPage() {
         )}
       </div>
 
-      {/* Category actions */}
-      <Sheet open={!!selected} onClose={() => setSelected(null)} title={selected?.name ?? ''} size="sm">
-        {selected && (
-          <div className="space-y-4">
-            <div className="flex items-center gap-3 rounded-2xl bg-surface-2 p-3">
-              <CategoryIcon icon={selected.icon} color={selected.color} size="lg" />
-              <div>
-                <FitText as="p" className="tabular text-xl font-bold">{formatMoney(stats.byId.get(selected.id)?.amount ?? 0)}</FitText>
-                <p className="text-sm text-muted">
-                  {formatMonthYear(month)} · {stats.byId.get(selected.id)?.count ?? 0} операцій
-                </p>
-              </div>
-            </div>
-            <div className="grid gap-2">
-              <ActionRow icon={List} label="Переглянути операції" onClick={() => navigate(`/history?category=${selected.id}`)} />
-              <ActionRow
-                icon={Pencil}
-                label="Редагувати"
-                onClick={() => {
-                  setEditing(selected)
-                  setSelected(null)
-                  setFormOpen(true)
-                }}
-              />
-              <ActionRow
-                icon={selected.isHidden ? Eye : EyeOff}
-                label={selected.isHidden ? 'Показувати при виборі' : 'Приховати з вибору'}
-                onClick={() => {
-                  updateCategory(selected.id, { isHidden: !selected.isHidden })
-                  toast(selected.isHidden ? 'Категорію показано' : 'Категорію приховано')
-                  setSelected(null)
-                }}
-              />
-              <ActionRow icon={Trash2} label="Видалити" danger onClick={() => onDelete(selected)} />
-            </div>
-          </div>
-        )}
-      </Sheet>
-
       <CategoryFormSheet open={formOpen} onClose={() => setFormOpen(false)} category={editing} defaultType={tab === 'income' ? 'income' : 'expense'} />
     </div>
-  )
-}
-
-function ActionRow({ icon: Icon, label, onClick, danger }: { icon: typeof List; label: string; onClick: () => void; danger?: boolean }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={cn('press flex min-h-12 w-full items-center gap-3 rounded-2xl px-3 text-left text-[15px] font-medium hover:bg-surface-2', danger && 'text-expense')}
-    >
-      <Icon className="size-5" aria-hidden />
-      {label}
-    </button>
   )
 }

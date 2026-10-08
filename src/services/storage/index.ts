@@ -9,9 +9,10 @@ import { debtStorage } from './debtStorage'
 import { goalStorage } from './goalStorage'
 import { settingsStorage } from './settingsStorage'
 import { transactionStorage } from './transactionStorage'
+import { noteStorage } from './noteStorage'
 import { validateImport } from './validation'
 
-export { accountStorage, budgetStorage, categoryStorage, debtStorage, goalStorage, settingsStorage, transactionStorage }
+export { accountStorage, budgetStorage, categoryStorage, debtStorage, goalStorage, noteStorage, settingsStorage, transactionStorage }
 export { validateImport } from './validation'
 export type { ImportSummary, ValidationResult } from './validation'
 export { setAdapter, getAdapter, createMemoryAdapter, localStorageAdapter, StorageError } from './adapter'
@@ -29,6 +30,7 @@ export type CollectionKey = Exclude<keyof FinanceData, 'settings'>
 
 const collections = {
   transactions: transactionStorage,
+  notes: noteStorage,
   categories: categoryStorage,
   budgets: budgetStorage,
   debts: debtStorage,
@@ -47,8 +49,9 @@ export async function loadAllData(): Promise<FinanceData> {
     await saveAllData(demo)
     return demo
   }
-  const [transactions, categories, budgets, debts, goals, accounts, settings] = await Promise.all([
+  const [transactions, notes, categories, budgets, debts, goals, accounts, settings] = await Promise.all([
     transactionStorage.getAll(),
+    noteStorage.getAll(),
     categoryStorage.getAll(),
     budgetStorage.getAll(),
     debtStorage.getAll(),
@@ -59,6 +62,7 @@ export async function loadAllData(): Promise<FinanceData> {
   const defaults = createDefaultSettings()
   return {
     transactions,
+    notes,
     categories: categories.length ? categories : createDefaultCategories(),
     budgets,
     debts,
@@ -104,6 +108,7 @@ export function parseImportFile(text: string) {
 export function createEmptyData(keepSettings?: FinanceData['settings']): FinanceData {
   return {
     transactions: [],
+    notes: [],
     categories: createDefaultCategories(),
     budgets: [],
     debts: [],

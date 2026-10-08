@@ -1,4 +1,4 @@
-import type { Budget, Debt, FinanceData, Goal, Transaction } from '../types'
+import type { Budget, CategoryNote, Debt, FinanceData, Goal, Transaction } from '../types'
 import { addMonths, endOfMonth, toLocalISO } from '../utils/date'
 import { createDefaultAccounts, createDefaultCategories, createDefaultSettings } from './defaults'
 
@@ -240,8 +240,14 @@ export function createDemoData(now = new Date()): FinanceData {
   accounts[1].balance = 1500
   accounts[2].balance = 6000
 
+  const notes: CategoryNote[] = [
+    { id: 'note_demo_1', categoryId: 'cat_food', text: 'Наступного разу брати список — забула молоко 🙃', date: at(0, recent(0), '14:40'), createdAt: at(0, recent(0), '14:40'), updatedAt: at(0, recent(0), '14:40') },
+    { id: 'note_demo_2', categoryId: 'cat_coffee', text: 'Ліміт на каву 600 ₴ — цього місяця вже перевищено, тиждень без кав’ярень', date: at(0, recent(1), '09:00'), createdAt: at(0, recent(1), '09:00'), updatedAt: at(0, recent(1), '09:00') },
+  ]
+
   return {
     transactions,
+    notes,
     categories: createDefaultCategories(),
     budgets,
     debts,

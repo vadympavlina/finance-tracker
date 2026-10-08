@@ -111,10 +111,10 @@ function FlowView({ type, period, offset }: { type: 'expense' | 'income'; period
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
         <Card className="col-span-2 p-4 lg:col-span-1">
           <p className="text-sm text-muted">{isExpense ? 'Загальні витрати' : 'Загальні доходи'}</p>
-          <FitText as="p" className={cn('tabular mt-1 text-[28px] leading-tight font-bold tracking-tight', !isExpense && 'text-income')}>{formatMoney(summary.total)}</FitText>
-          <div className="mt-2 flex items-center gap-2 text-xs text-muted">
+          <FitText as="p" className={cn('tabular mt-1 text-[1.75rem] leading-tight font-bold tracking-tight', !isExpense && 'text-income')}>{formatMoney(summary.total)}</FitText>
+          <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-muted">
             <TrendBadge value={summary.change} inverse={isExpense} />
-            {summary.change !== null && <span>порівняно з тим самим часом минулого періоду</span>}
+            {summary.change !== null && <span className="min-w-0 break-words">порівняно з тим самим часом минулого періоду</span>}
           </div>
         </Card>
         <Card className="p-4">
@@ -144,9 +144,9 @@ function FlowView({ type, period, offset }: { type: 'expense' | 'income'; period
         </Section>
 
         <Section title={isExpense ? 'Структура витрат' : 'Джерела доходів'}>
-          <Card className="p-4">
+          <Card className="@container p-4">
             {structure.slices.length ? (
-              <div className="flex flex-col items-center gap-5 sm:flex-row sm:items-center">
+              <div className="flex flex-col items-center gap-5 @[460px]:flex-row @[460px]:items-center">
                 <DonutChart
                   slices={structure.slices}
                   total={summary.total}
@@ -187,8 +187,8 @@ function FlowView({ type, period, offset }: { type: 'expense' | 'income'; period
                 <CategoryIcon icon={s.category?.icon ?? 'package'} color={s.category?.color ?? '#94A3B8'} size="sm" muted={s.category?.isArchived} />
                 <span className="min-w-0 flex-1">
                   <span className="flex items-center justify-between gap-2">
-                    <span className="min-w-0 break-words text-[15px] font-medium">{s.category?.name ?? 'Без категорії'}</span>
-                    <span className="tabular text-[15px] font-semibold">{formatMoney(s.amount)}</span>
+                    <span className="min-w-0 break-words text-[0.9375rem] font-medium">{s.category?.name ?? 'Без категорії'}</span>
+                    <span className="tabular text-[0.9375rem] font-semibold">{formatMoney(s.amount)}</span>
                   </span>
                   <span className="mt-1.5 flex items-center gap-2">
                     <ProgressBar value={s.share} color={s.category?.color} size="sm" label={`${s.category?.name}: ${formatPercent(s.share)}`} />
@@ -246,7 +246,7 @@ function BalanceView({ period, offset }: { period: AnalyticsPeriod; offset: numb
             <span className={cn('grid size-9 place-items-center rounded-full', t.tone)}>
               <t.icon className="size-[18px]" aria-hidden />
             </span>
-            <p className="mt-3 text-[13px] text-muted">{t.label}</p>
+            <p className="mt-3 text-[0.8125rem] text-muted">{t.label}</p>
             <FitText as="p" className="tabular mt-0.5 text-lg font-bold">{t.value}</FitText>
           </Card>
         ))}

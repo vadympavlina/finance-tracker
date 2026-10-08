@@ -168,3 +168,35 @@ describe('formatting', () => {
     expect(formatFullDate('2026-10-01T14:32:00')).toBe('1 жовтня 2026')
   })
 })
+
+describe('month summary', () => {
+  it('було + отримано − витрачено = залишилось; відняти зменшує отримане, але не є витратою', async () => {
+    const { calculateMonthSummary } = await import('..')
+    const accounts = [account('card', 1000)]
+    const list = [
+      tx({ type: 'income', amount: 20000, categoryId: 'salary', date: '2026-10-02T10:00:00' }),
+      tx({ type: 'adjustment', amount: 1500, categoryId: null, adjustmentDirection: 'out', date: '2026-10-03T10:00:00' }),
+      tx({ type: 'adjustment', amount: 500, categoryId: null, adjustmentDirection: 'in', date: '2026-10-03T11:00:00' }),
+      tx({ amount: 4000, date: '2026-10-04T10:00:00' }),
+      tx({ amount: 999, date: '2026-09-20T10:00:00' }),
+    ]
+    const s = calculateMonthSummary(list, accounts, NOW, NOW)
+    expect(s.opening).toBe(1000 - 999)
+    expect(s.received).toBe(20000 - 1500 + 500)
+    expect(s.expenses).toBe(4000)
+    expect(s.closing).toBe(s.opening + s.received - s.expenses)
+    expect(calculateExpenses(list, monthRange(NOW))).toBe(4000)
+    expect(calculateIncome(list, monthRange(NOW))).toBe(20000)
+  })
+
+  it('imports notes and adjustments', () => {
+    const demo = createDemoData(NOW)
+    demo.transactions.push(tx({ id: 'adj', type: 'adjustment', amount: 10, categoryId: null, accountId: 'acc_card', adjustmentDirection: 'out' }))
+    const res = validateImport(JSON.parse(JSON.stringify(buildExport(demo))))
+    expect(res.ok).toBe(true)
+    if (res.ok) {
+      expect(res.data.notes.length).toBe(demo.notes.length)
+      expect(res.data.transactions.find((t) => t.id === 'adj')?.adjustmentDirection).toBe('out')
+    }
+  })
+})

@@ -36,7 +36,7 @@ export function QuickAddSheet({ open, onClose }: { open: boolean; onClose: () =>
                 <Icon className="size-[22px]" aria-hidden />
               </span>
               <span className="min-w-0 flex-1">
-                <span className="block text-[15px] font-semibold">{label}</span>
+                <span className="block text-[0.9375rem] font-semibold">{label}</span>
                 <span className="block min-w-0 break-words text-sm text-muted">{hint}</span>
               </span>
               <ChevronRight className="size-5 text-subtle" aria-hidden />

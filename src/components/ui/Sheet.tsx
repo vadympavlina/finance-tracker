@@ -101,7 +101,7 @@ export function Sheet({ open, onClose, title, description, children, footer, ale
         <div className="mx-auto mt-2.5 h-[5px] w-10 shrink-0 rounded-full bg-black/15 md:hidden dark:bg-white/25" aria-hidden />
         <div className={cn('flex shrink-0 items-start gap-3 px-5 pt-3 pb-2 md:px-6 md:pt-5', hideTitle && 'sr-only')}>
           <div className="min-w-0 flex-1 pt-1.5">
-            <h2 id={titleId} className="text-[19px] font-bold tracking-tight">
+            <h2 id={titleId} className="text-[1.1875rem] font-bold tracking-tight">
               {title}
             </h2>
             {description && (

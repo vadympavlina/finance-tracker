@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { LayoutGrid, ChevronRight, CreditCard, Flag, History, Pencil, Settings, Wallet, type LucideIcon } from 'lucide-react'
+import { ChevronRight, CreditCard, Flag, HandCoins, History, LayoutGrid, Pencil, Settings, Wallet, type LucideIcon } from 'lucide-react'
 import { PageHeader } from '../components/common/PageHeader'
 import { Card } from '../components/ui/Card'
 import { IconButton, Button } from '../components/ui/Button'
@@ -9,7 +9,7 @@ import { TextField } from '../components/ui/Field'
 import { useFinance } from '../hooks/useFinance'
 import { useFinanceStats } from '../hooks/useFinanceStats'
 import { useToast } from '../hooks/useUI'
-import { initials, pluralUk } from '../utils/format'
+import { formatMoney, initials, pluralUk } from '../utils/format'
 import { formatMonthYear } from '../utils/date'
 import { StatStrip } from '../components/dashboard/StatStrip'
 
@@ -23,6 +23,7 @@ export default function ProfilePage() {
   const [error, setError] = useState<string | null>(null)
 
   const menu: Array<{ to: string; label: string; hint: string; icon: LucideIcon; tone: string }> = [
+    { to: '/debts', label: 'Борги', hint: stats.debt.total ? `Відкрито на ${formatMoney(stats.debt.total)}${stats.debt.overdueCount ? ` · ${stats.debt.overdueCount} прострочено` : ''}` : 'Боргів немає', icon: HandCoins, tone: 'bg-expense-soft text-expense' },
     { to: '/categories', label: 'Категорії', hint: `${data.categories.filter((c) => !c.isArchived).length} активних`, icon: LayoutGrid, tone: 'bg-info-soft text-info' },
     { to: '/budgets', label: 'Бюджет', hint: stats.budgetProgress ? `Використано ${Math.round(stats.budgetProgress.percent)}%` : 'Не встановлено', icon: Wallet, tone: 'bg-warning-soft text-warning' },
     { to: '/goals', label: 'Цілі', hint: `${data.goals.length} ${pluralUk(data.goals.length, ['ціль', 'цілі', 'цілей'])}`, icon: Flag, tone: 'bg-mint-soft text-mint' },
@@ -84,7 +85,7 @@ export default function ProfilePage() {
                 <m.icon className="size-5" aria-hidden />
               </span>
               <span className="min-w-0 flex-1">
-                <span className="block text-[15px] font-semibold">{m.label}</span>
+                <span className="block text-[0.9375rem] font-semibold">{m.label}</span>
                 <span className="block min-w-0 break-words text-sm text-muted">{m.hint}</span>
               </span>
               <ChevronRight className="size-5 text-subtle" aria-hidden />

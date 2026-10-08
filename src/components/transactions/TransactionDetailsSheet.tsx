@@ -84,7 +84,7 @@ export function TransactionDetailsSheet({ tx, onClose }: Props) {
         <FitText
           as="p"
           className={cn(
-            'tabular mt-1 w-full text-center text-[34px] leading-tight font-bold tracking-tight',
+            'tabular mt-1 w-full text-center text-[2.125rem] leading-tight font-bold tracking-tight',
             view.tone === 'income' && 'text-income',
             view.tone === 'neutral' && 'text-info',
           )}
@@ -101,7 +101,7 @@ export function TransactionDetailsSheet({ tx, onClose }: Props) {
           .map(([label, value]) => (
             <div key={label} className="flex items-start justify-between gap-4 px-4 py-3">
               <dt className="text-sm text-muted">{label}</dt>
-              <dd className="text-right text-[15px] font-medium break-words">{value}</dd>
+              <dd className="text-right text-[0.9375rem] font-medium break-words">{value}</dd>
             </div>
           ))}
       </dl>

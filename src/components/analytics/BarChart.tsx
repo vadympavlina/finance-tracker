@@ -109,11 +109,12 @@ export function BarChart({ data, color, height = 220, label }: BarChartProps) {
           style={{ left: Math.min(Math.max(tooltipX, 56), width - 56) }}
           aria-hidden
         >
-          <span className="tabular block text-[13px] leading-tight font-semibold whitespace-nowrap">{formatMoney(point.value)}</span>
-          <span className="block text-[10px] leading-tight whitespace-nowrap text-white/70">{point.fullLabel}</span>
+          <span className="tabular block text-[0.8125rem] leading-tight font-semibold whitespace-nowrap">{formatMoney(point.value)}</span>
+          <span className="block text-[0.625rem] leading-tight whitespace-nowrap text-white/70">{point.fullLabel}</span>
         </div>
       )}
-      <table className="sr-only">
+      <div className="sr-only">
+      <table>
         <caption>{label}</caption>
         <tbody>
           {data.map((d) => (
@@ -124,6 +125,7 @@ export function BarChart({ data, color, height = 220, label }: BarChartProps) {
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   )
 }

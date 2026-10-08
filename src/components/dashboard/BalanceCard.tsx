@@ -31,7 +31,7 @@ export function BalanceCard({ balance, change, delta, hidden, onToggleHidden }: 
         aria-hidden
       />
       <div className="flex items-center justify-between gap-4">
-        <p className="inline-flex items-center gap-2 text-[13px] font-medium tracking-wide text-white/65">
+        <p className="inline-flex items-center gap-2 text-[0.8125rem] font-medium tracking-wide text-white/65">
           <span className="relative flex size-2" aria-hidden>
             <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#34c88d] opacity-50 [animation-duration:2.4s]" />
             <span className="relative inline-flex size-2 rounded-full bg-[#34c88d]" />
@@ -50,11 +50,11 @@ export function BalanceCard({ balance, change, delta, hidden, onToggleHidden }: 
       </div>
       <p className="mt-2" aria-live="polite">
         <span className="sr-only">{hidden ? 'Баланс приховано' : formatMoney(balance)}</span>
-        <FitText className="tabular text-[44px] leading-none font-semibold tracking-[-0.035em] sm:text-[52px]" min={0.45}>
+        <FitText className="tabular text-[2.75rem] leading-none font-semibold tracking-[-0.035em] sm:text-[3.25rem]" min={0.45}>
           <span aria-hidden>{hidden ? MASK : formatMoney(Math.round(balance) === balance ? animated : balance)}</span>
         </FitText>
       </p>
-      <div className="mt-5 flex flex-wrap items-center gap-x-2.5 gap-y-1.5 text-[13.5px]">
+      <div className="mt-5 flex flex-wrap items-center gap-x-2.5 gap-y-1.5 text-[0.8438rem]">
         {!hidden && <TrendBadge value={change} onDark />}
         <span className="text-white/60">
           {hidden || delta === 0 ? 'Цього місяця' : `${formatSignedMoney(delta)} цього місяця`}

@@ -28,7 +28,7 @@ export function QuickActions() {
           >
             <Icon className="size-[22px]" strokeWidth={2.1} aria-hidden />
           </span>
-          <span className="text-[13px] font-medium">{label}</span>
+          <span className="max-w-full text-center text-[min(0.8125rem,3.4vw)] leading-tight font-medium">{label}</span>
         </Link>
       ))}
     </nav>

@@ -19,13 +19,14 @@ import { formatRelativeDay, fromDateTimeInputs, parseDate, toDateInput, toTimeIn
 import { calculateBudgetProgress } from '../services/calculations'
 import { cn } from '../utils/cn'
 
-type FormType = Exclude<TransactionType, 'debt_repayment'>
+type FormType = Exclude<TransactionType, 'debt_repayment' | 'adjustment'>
 
 const TITLES: Record<TransactionType, { add: string; edit: string; saved: string; updated: string }> = {
   expense: { add: 'Додати витрату', edit: 'Редагувати витрату', saved: 'Витрату додано', updated: 'Витрату оновлено' },
   income: { add: 'Додати дохід', edit: 'Редагувати дохід', saved: 'Дохід додано', updated: 'Дохід оновлено' },
   transfer: { add: 'Переказ', edit: 'Редагувати переказ', saved: 'Переказ збережено', updated: 'Переказ оновлено' },
   debt_repayment: { add: 'Повернення боргу', edit: 'Редагувати повернення', saved: 'Борг оновлено', updated: 'Борг оновлено' },
+  adjustment: { add: 'Коригування', edit: 'Редагувати коригування', saved: 'Суму оновлено', updated: 'Суму оновлено' },
 }
 
 export default function TransactionFormPage() {
@@ -78,7 +79,8 @@ function TransactionForm({ existing, initialType }: { existing?: Transaction; in
   }, [accounts, data.accounts, accountId, toAccountId])
 
   const titles = TITLES[type]
-  const isDebt = type === 'debt_repayment'
+  // Debt repayments and month adjustments keep their type when edited (no type switcher).
+  const isDebt = type === 'debt_repayment' || type === 'adjustment'
 
   const changeType = (next: FormType) => {
     setType(next)
@@ -113,6 +115,7 @@ function TransactionForm({ existing, initialType }: { existing?: Transaction; in
       debtId: existing?.debtId ?? null,
       debtDirection: existing?.debtDirection ?? null,
       debtPerson: existing?.debtPerson ?? null,
+      adjustmentDirection: existing?.adjustmentDirection ?? null,
     }
 
     let saved: Transaction

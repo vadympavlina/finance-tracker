@@ -51,10 +51,10 @@ export function PageHeader({ title, subtitle, back, actions, navPage }: PageHead
             <div className="flex items-center gap-2">{actions}</div>
           </div>
         )}
-        <h1 ref={sentinel} className="text-[34px] leading-[1.1] font-bold tracking-[-0.03em]">
+        <h1 ref={sentinel} className="text-[clamp(1.5rem,9vw,2.125rem)] leading-[1.1] font-bold tracking-[-0.03em] break-words">
           {title}
         </h1>
-        {subtitle && <p className="mt-1 text-[15px] text-muted">{subtitle}</p>}
+        {subtitle && <p className="mt-1 text-[0.9375rem] text-muted">{subtitle}</p>}
       </header>
       {/* Compact bar (appears on scroll) */}
       <div
@@ -65,10 +65,11 @@ export function PageHeader({ title, subtitle, back, actions, navPage }: PageHead
         )}
       >
         <div className="absolute inset-0 bg-gradient-to-b from-bg via-bg/85 to-bg/0 [mask-image:linear-gradient(black_60%,transparent)]" />
-        <div className="relative flex h-14 items-center gap-2 px-4">
-          <div className={cn('flex w-24 items-center', compact && 'pointer-events-auto')}>{backButton}</div>
-          <p className="min-w-0 flex-1 truncate text-center text-[17px] font-semibold">{title}</p>
-          <div className={cn('flex w-24 justify-end gap-2', compact && 'pointer-events-auto')}>{actions}</div>
+        {/* Side columns are equal so the title stays centred; the title wraps instead of being cut. */}
+        <div className="relative grid min-h-14 grid-cols-[minmax(2.75rem,1fr)_minmax(0,auto)_minmax(2.75rem,1fr)] items-center gap-2 px-4 py-1">
+          <div className={cn('flex items-center', compact && 'pointer-events-auto')}>{backButton}</div>
+          <p className="line-clamp-2 text-center text-[1rem] leading-tight font-semibold break-words">{title}</p>
+          <div className={cn('flex justify-end gap-2', compact && 'pointer-events-auto')}>{actions}</div>
         </div>
       </div>
 

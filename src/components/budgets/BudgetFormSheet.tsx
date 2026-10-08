@@ -96,7 +96,7 @@ export function BudgetFormSheet({ open, onClose, budget }: Props) {
       onClose={onClose}
       title={budget ? 'Редагувати бюджет' : 'Новий бюджет'}
       footer={
-        <div className="flex gap-3">
+        <div className="flex flex-col-reverse gap-2.5 min-[400px]:flex-row min-[400px]:gap-3">
           {budget && (
             <Button variant="danger-soft"  onClick={remove}>
               Видалити

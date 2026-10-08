@@ -4,7 +4,7 @@ import { Plus, ReceiptText, Settings } from 'lucide-react'
 import { useFinance } from '../hooks/useFinance'
 import { useFinanceStats } from '../hooks/useFinanceStats'
 import { BalanceCard } from '../components/dashboard/BalanceCard'
-import { StatStrip } from '../components/dashboard/StatStrip'
+import { MonthCard } from '../components/dashboard/MonthCard'
 import { QuickActions } from '../components/dashboard/QuickActions'
 import { AccountsStrip } from '../components/dashboard/AccountsStrip'
 import { Reminders } from '../components/dashboard/Reminders'
@@ -15,9 +15,8 @@ import { BarChart } from '../components/analytics/BarChart'
 import { Card, Section } from '../components/ui/Card'
 import { Button, IconButton } from '../components/ui/Button'
 import { EmptyState } from '../components/ui/EmptyState'
-import { buildSeries, calculateGoalProgress, getPeriodRange } from '../services/calculations'
+import { buildSeries, calculateGoalProgress, calculateMonthSummary, getPeriodRange } from '../services/calculations'
 import { formatMoney, initials } from '../utils/format'
-import { formatMonthName } from '../utils/date'
 import { FitText } from '../components/ui/FitText'
 
 const todayLabel = () =>
@@ -33,6 +32,7 @@ export default function DashboardPage() {
     () => buildSeries(data.transactions, data.accounts, 'expense', 'month', getPeriodRange('month')),
     [data.transactions, data.accounts],
   )
+  const monthSummary = useMemo(() => calculateMonthSummary(data.transactions, data.accounts), [data.transactions, data.accounts])
   const topGoals = useMemo(
     () =>
       data.goals
@@ -47,8 +47,8 @@ export default function DashboardPage() {
       {/* Greeting */}
       <header className="flex items-center justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-[13px] font-medium text-muted first-letter:uppercase">{todayLabel()}</p>
-          <h1 className="mt-0.5 min-w-0 break-words text-[26px] leading-tight font-bold tracking-[-0.02em] lg:text-3xl">Привіт, {data.settings.userName} 👋</h1>
+          <p className="text-[0.8125rem] font-medium text-muted first-letter:uppercase">{todayLabel()}</p>
+          <h1 className="mt-0.5 min-w-0 break-words text-[clamp(1.375rem,7.5vw,1.625rem)] leading-tight font-bold tracking-[-0.02em] lg:text-3xl">Привіт, {data.settings.userName} 👋</h1>
         </div>
         <div className="flex shrink-0 items-center gap-2">
           <IconButton label="Налаштування" onClick={() => navigate('/settings')}>
@@ -57,7 +57,7 @@ export default function DashboardPage() {
           <Link
             to="/profile"
             aria-label="Профіль"
-            className="press grid size-11 place-items-center rounded-full bg-ink text-[13px] font-bold text-on-ink lg:hidden"
+            className="press grid size-11 place-items-center rounded-full bg-ink text-[0.8125rem] font-bold text-on-ink lg:hidden"
           >
             {initials(data.settings.fullName || data.settings.userName)}
           </Link>
@@ -78,21 +78,7 @@ export default function DashboardPage() {
             <QuickActions />
           </div>
 
-          <StatStrip
-            caption={`Підсумки: ${formatMonthName(new Date())}`}
-            items={[
-              { label: 'Доходи', value: stats.monthly.income, tone: 'income', change: stats.monthly.incomeChange, to: '/analytics?tab=income' },
-              { label: 'Витрати', value: stats.monthly.expenses, tone: 'expense', change: stats.monthly.expensesChange, inverse: true, to: '/analytics' },
-              {
-                label: 'Борги',
-                value: stats.debt.total,
-                tone: 'debt',
-                to: '/debts',
-                hint: stats.debt.overdueCount ? `${stats.debt.overdueCount} прострочено` : undefined,
-                change: null,
-              },
-            ]}
-          />
+          <MonthCard summary={monthSummary} debtTotal={stats.debt.total} overdueCount={stats.debt.overdueCount} />
 
           <Reminders />
 

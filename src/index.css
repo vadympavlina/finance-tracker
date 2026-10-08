@@ -209,6 +209,12 @@ body::before {
     radial-gradient(40vmax 30vmax at 50% 105%, rgba(242, 181, 74, 0.06), transparent 70%);
 }
 
+/* Long words (names, merchants) must never widen a card: break them as a last resort,
+   and let them shrink in flex/grid min-content sizing. Unlayered so it beats the utility. */
+.break-words {
+  overflow-wrap: anywhere;
+}
+
 @layer utilities {
   /* Liquid Glass material: blur + saturation, specular top edge, soft inner shade, hairline rim. */
   .glass {

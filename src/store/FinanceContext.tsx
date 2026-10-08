@@ -3,6 +3,7 @@ import type {
   Account,
   Budget,
   Category,
+  CategoryNote,
   Debt,
   FinanceData,
   Goal,
@@ -36,6 +37,10 @@ export interface FinanceActions {
   addTransaction(input: TransactionInput): Transaction
   updateTransaction(id: string, patch: Partial<TransactionInput>): void
   deleteTransaction(id: string): void
+
+  addNote(input: { categoryId: string; text: string; date: string }): CategoryNote
+  updateNote(id: string, patch: Partial<Pick<CategoryNote, 'text' | 'date'>>): void
+  deleteNote(id: string): void
 
   addCategory(input: CategoryInput): Category
   updateCategory(id: string, patch: Partial<Category>): void
@@ -172,6 +177,19 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
         commit({ transactions: get().transactions.filter((t) => t.id !== id) })
       },
 
+      /* ---------- Category notes ---------- */
+      addNote(input) {
+        const note: CategoryNote = { ...input, text: input.text.trim(), id: createId('note'), createdAt: stamp(), updatedAt: stamp() }
+        commit({ notes: [...get().notes, note] })
+        return note
+      },
+      updateNote(id, patch) {
+        commit({ notes: get().notes.map((n) => (n.id === id ? { ...n, ...patch, updatedAt: stamp() } : n)) })
+      },
+      deleteNote(id) {
+        commit({ notes: get().notes.filter((n) => n.id !== id) })
+      },
+
       /* ---------- Categories ---------- */
       addCategory(input) {
         const category: Category = { ...input, id: createId('cat'), isArchived: false, isHidden: false, createdAt: stamp() }
@@ -183,7 +201,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
       },
       deleteCategory(id) {
         const { categories, transactions, budgets } = get()
-        const used = transactions.some((t) => t.categoryId === id)
+        const used = transactions.some((t) => t.categoryId === id) || get().notes.some((n) => n.categoryId === id)
         const nextBudgets = budgets.filter((b) => b.categoryId !== id)
         if (used) {
           commit({

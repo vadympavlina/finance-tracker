@@ -75,7 +75,7 @@ export default function GoalsPage() {
             <div className="flex items-end justify-between gap-3">
               <div>
                 <p className="text-sm text-muted">Накопичено на цілі</p>
-                <FitText as="p" className="tabular mt-1 text-[28px] leading-tight font-bold tracking-tight">{formatMoney(summary.saved)}</FitText>
+                <FitText as="p" className="tabular mt-1 text-[1.75rem] leading-tight font-bold tracking-tight">{formatMoney(summary.saved)}</FitText>
                 <p className="tabular text-sm text-muted">з {formatMoney(summary.target)}</p>
               </div>
               <span className="tabular rounded-full bg-primary-soft px-3 py-1 text-lg font-bold text-primary">{formatPercent(summary.percent)}</span>

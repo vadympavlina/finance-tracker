@@ -50,13 +50,13 @@ export const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(functi
           onChange={(e) => onChange(sanitizeAmountInput(e.target.value))}
           className={cn(
             'tabular min-w-0 bg-transparent text-right font-bold tracking-tight outline-none placeholder:text-subtle',
-            size === 'lg' ? 'text-[44px] leading-tight' : 'text-[32px] leading-tight',
+            size === 'lg' ? 'text-[2.75rem] leading-tight' : 'text-[2rem] leading-tight',
             tone === 'expense' && 'text-text',
             tone === 'income' && 'text-income',
           )}
           style={{ width: `${Math.max(1, display.length) + 0.6}ch` }}
         />
-        <span className={cn('font-semibold text-subtle', size === 'lg' ? 'text-[32px]' : 'text-2xl')} aria-hidden>
+        <span className={cn('font-semibold text-subtle', size === 'lg' ? 'text-[2rem]' : 'text-2xl')} aria-hidden>
           {currencySymbol()}
         </span>
       </div>

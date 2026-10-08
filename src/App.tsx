@@ -4,13 +4,15 @@ import { UIProvider } from './store/UIContext'
 import { FinanceProvider } from './store/FinanceContext'
 import { AppLayout } from './layouts/AppLayout'
 import { useFinance } from './hooks/useFinance'
-import { useTheme } from './hooks/useTheme'
+import { useTextSize, useTheme } from './hooks/useTheme'
 import DashboardPage from './pages/DashboardPage'
 
 // Secondary screens are code-split to keep the first load small.
 const TransactionFormPage = lazy(() => import('./pages/TransactionFormPage'))
 const HistoryPage = lazy(() => import('./pages/HistoryPage'))
 const CategoriesPage = lazy(() => import('./pages/CategoriesPage'))
+const CategoryDetailPage = lazy(() => import('./pages/CategoryDetailPage'))
+const MonthPage = lazy(() => import('./pages/MonthPage'))
 const AnalyticsPage = lazy(() => import('./pages/AnalyticsPage'))
 const BudgetsPage = lazy(() => import('./pages/BudgetsPage'))
 const DebtsPage = lazy(() => import('./pages/DebtsPage'))
@@ -23,6 +25,7 @@ const AccountsPage = lazy(() => import('./pages/AccountsPage'))
 function ThemedRoutes() {
   const { data } = useFinance()
   useTheme(data.settings.theme)
+  useTextSize(data.settings.textSize)
   return (
     <Routes>
       <Route element={<AppLayout />}>
@@ -31,6 +34,8 @@ function ThemedRoutes() {
         <Route path="transactions/:id/edit" element={<TransactionFormPage />} />
         <Route path="history" element={<HistoryPage />} />
         <Route path="categories" element={<CategoriesPage />} />
+        <Route path="categories/:id" element={<CategoryDetailPage />} />
+        <Route path="month" element={<MonthPage />} />
         <Route path="analytics" element={<AnalyticsPage />} />
         <Route path="budgets" element={<BudgetsPage />} />
         <Route path="debts" element={<DebtsPage />} />

@@ -30,12 +30,12 @@ export function StatStrip({ items, caption }: { items: MonthStat[]; caption: str
             to={s.to}
             className="press flex min-w-0 items-center justify-between gap-3 px-4 py-3 first:rounded-t-[26px] last:rounded-b-[26px] hover:bg-surface-2 @[340px]:block @[340px]:px-3 @[340px]:py-3.5 @[340px]:first:rounded-l-[26px] @[340px]:first:rounded-tr-none @[340px]:last:rounded-r-[26px] @[340px]:last:rounded-bl-none sm:@[340px]:px-4"
           >
-            <span className="flex shrink-0 items-center gap-1.5 text-[12.5px] font-medium text-muted">
+            <span className="flex shrink-0 items-center gap-1.5 text-[0.7812rem] font-medium text-muted">
               <span className={cn('size-1.5 shrink-0 rounded-full', DOT[s.tone])} aria-hidden />
               {s.label}
             </span>
             <span className="min-w-0 text-right @[340px]:text-left">
-              <FitText as="span" className="tabular mt-0 text-[16px] font-semibold tracking-tight @[340px]:mt-1 sm:text-lg">{formatMoney(s.value)}</FitText>
+              <FitText as="span" className="tabular mt-0 text-[1rem] font-semibold tracking-tight @[340px]:mt-1 sm:text-lg">{formatMoney(s.value)}</FitText>
               <Trend change={s.change} inverse={s.inverse} hint={s.hint} />
             </span>
           </Link>
@@ -46,9 +46,9 @@ export function StatStrip({ items, caption }: { items: MonthStat[]; caption: str
 }
 
 function Trend({ change, inverse, hint }: { change?: number | null; inverse?: boolean; hint?: string }) {
-  if (hint) return <span className="mt-0.5 block text-[11.5px] leading-tight font-medium text-warning">{hint}</span>
+  if (hint) return <span className="mt-0.5 block text-[0.7188rem] leading-tight font-medium text-warning">{hint}</span>
   if (change === undefined || change === null || !Number.isFinite(change)) {
-    return <span className="mt-0.5 block text-[11.5px] text-subtle" aria-hidden>—</span>
+    return <span className="mt-0.5 block text-[0.7188rem] text-subtle" aria-hidden>—</span>
   }
   const rounded = Math.round(change)
   const up = rounded > 0
@@ -56,7 +56,7 @@ function Trend({ change, inverse, hint }: { change?: number | null; inverse?: bo
   const Icon = up ? ArrowUpRight : ArrowDownRight
   return (
     <span
-      className={cn('tabular mt-0.5 inline-flex items-center gap-0.5 text-[11.5px] font-semibold', good === null ? 'text-subtle' : good ? 'text-income' : 'text-expense')}
+      className={cn('tabular mt-0.5 inline-flex items-center gap-0.5 text-[0.7188rem] font-semibold', good === null ? 'text-subtle' : good ? 'text-income' : 'text-expense')}
       aria-label={`${up ? 'більше' : 'менше'} на ${formatPercent(Math.abs(rounded))}, ніж минулого місяця`}
     >
       {rounded !== 0 && <Icon className="size-3" strokeWidth={2.6} aria-hidden />}

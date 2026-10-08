@@ -23,7 +23,7 @@ const variants: Record<Variant, string> = {
 
 const sizes: Record<Size, string> = {
   sm: 'h-9 px-4 text-sm rounded-full gap-1.5',
-  md: 'h-11 px-5 text-[15px] rounded-full gap-2',
+  md: 'h-11 px-5 text-[0.9375rem] rounded-full gap-2',
   lg: 'h-14 px-6 text-base rounded-full gap-2',
 }
 
@@ -36,7 +36,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       ref={ref}
       type={type}
       className={cn(
-        'press inline-flex items-center justify-center text-center leading-tight font-semibold select-none disabled:cursor-not-allowed disabled:opacity-50',
+        'press inline-flex items-center justify-center text-center leading-tight font-semibold select-none disabled:cursor-not-allowed disabled:opacity-50 [&>svg]:shrink-0',
         variants[variant],
         sizes[size],
         block && 'w-full',

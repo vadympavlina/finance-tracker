@@ -2,6 +2,7 @@ import type {
   Account,
   Budget,
   Category,
+  CategoryNote,
   Debt,
   ExportFile,
   FinanceData,
@@ -16,6 +17,7 @@ export type ValidationResult = { ok: true; data: FinanceData; summary: ImportSum
 
 export interface ImportSummary {
   transactions: number
+  notes: number
   categories: number
   budgets: number
   debts: number
@@ -48,7 +50,7 @@ function checkList<T>(
   })
 }
 
-const TX_TYPES = ['income', 'expense', 'transfer', 'debt_repayment']
+const TX_TYPES = ['income', 'expense', 'transfer', 'debt_repayment', 'adjustment']
 
 /**
  * Validates an import file structure BEFORE anything is written to storage.
@@ -122,8 +124,23 @@ export function validateImport(json: unknown): ValidationResult {
         debtId: isStr(t.debtId) ? (t.debtId as string) : null,
         debtDirection: t.debtDirection === 'i_owe' || t.debtDirection === 'they_owe_me' ? t.debtDirection : null,
         debtPerson: isStr(t.debtPerson) ? (t.debtPerson as string) : null,
+        adjustmentDirection: t.adjustmentDirection === 'out' ? 'out' : t.type === 'adjustment' ? 'in' : null,
         createdAt: isStr(t.createdAt) ? (t.createdAt as string) : (t.date as string),
         updatedAt: isStr(t.updatedAt) ? (t.updatedAt as string) : (t.date as string),
+      }),
+    )
+
+    const notes = checkList<CategoryNote>(
+      json.notes,
+      'Нотатки',
+      (n) => isStr(n.categoryId) && typeof n.text === 'string' && isValidDateString(n.date),
+      (n) => ({
+        id: n.id as string,
+        categoryId: n.categoryId as string,
+        text: n.text as string,
+        date: n.date as string,
+        createdAt: isStr(n.createdAt) ? (n.createdAt as string) : (n.date as string),
+        updatedAt: isStr(n.updatedAt) ? (n.updatedAt as string) : (n.date as string),
       }),
     )
 
@@ -209,9 +226,10 @@ export function validateImport(json: unknown): ValidationResult {
 
     return {
       ok: true,
-      data: { transactions, categories, budgets, debts, goals, accounts, settings },
+      data: { transactions, notes, categories, budgets, debts, goals, accounts, settings },
       summary: {
         transactions: transactions.length,
+        notes: notes.length,
         categories: categories.length,
         budgets: budgets.length,
         debts: debts.length,

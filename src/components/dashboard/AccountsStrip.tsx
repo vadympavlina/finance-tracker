@@ -19,8 +19,8 @@ export function AccountsStrip({ items, hidden }: Props) {
           <Link to="/accounts" className="press flex items-center gap-3 rounded-[26px] bg-surface shadow-card p-3.5 shadow-card hover:border-border-strong">
             <CategoryIcon icon={ACCOUNT_TYPE_ICONS[account.type]} color={ACCOUNT_TYPE_COLORS[account.type]} size="sm" />
             <span className="min-w-0 flex-1">
-              <span className="block min-w-0 break-words text-[13px] text-muted">{account.name}</span>
-              <FitText className={`tabular text-[15px] font-semibold ${balance < 0 ? 'text-expense' : ''}`}>{hidden ? '•••• ₴' : formatMoney(balance)}</FitText>
+              <span className="block min-w-0 break-words text-[0.8125rem] text-muted">{account.name}</span>
+              <FitText className={`tabular text-[0.9375rem] font-semibold ${balance < 0 ? 'text-expense' : ''}`}>{hidden ? '•••• ₴' : formatMoney(balance)}</FitText>
             </span>
           </Link>
         </li>

@@ -2,7 +2,7 @@ import { forwardRef, useId, type InputHTMLAttributes, type ReactNode, type Selec
 import { cn } from '../../utils/cn'
 
 const control =
-  'w-full min-w-0 rounded-[14px] border border-transparent bg-surface-2 px-4 text-[16px] text-text placeholder:text-subtle transition-colors outline-none focus:border-primary focus:bg-surface focus:ring-4 focus:ring-primary/10 aria-[invalid=true]:border-expense'
+  'w-full min-w-0 rounded-[14px] border border-transparent bg-surface-2 px-4 text-[1rem] text-text placeholder:text-subtle transition-colors outline-none focus:border-primary focus:bg-surface focus:ring-4 focus:ring-primary/10 aria-[invalid=true]:border-expense'
 
 interface FieldWrapperProps {
   label: string
@@ -105,7 +105,7 @@ export function Switch({ checked, onChange, label, description, disabled }: Swit
   return (
     <div className="flex min-h-12 items-center justify-between gap-4">
       <div className="min-w-0">
-        <label htmlFor={id} className="block text-[15px] font-medium">
+        <label htmlFor={id} className="block text-[0.9375rem] font-medium">
           {label}
         </label>
         {description && <p className="text-sm text-muted">{description}</p>}

@@ -48,7 +48,7 @@ export default function DashboardPage() {
       <header className="flex items-center justify-between gap-3">
         <div className="min-w-0">
           <p className="text-[0.8125rem] font-medium text-muted first-letter:uppercase">{todayLabel()}</p>
-          <h1 className="mt-0.5 min-w-0 break-words text-[clamp(1.375rem,7.5vw,1.625rem)] leading-tight font-bold tracking-[-0.02em] lg:text-3xl">Привіт, {data.settings.userName} 👋</h1>
+          <h1 className="mt-0.5 min-w-0 break-words text-[clamp(1.375rem,7.5vw,1.625rem)] leading-tight font-bold tracking-[-0.02em] lg:text-3xl">{data.settings.userName.trim() || 'Мої фінанси'}</h1>
         </div>
         <div className="flex shrink-0 items-center gap-2">
           <IconButton label="Налаштування" onClick={() => navigate('/settings')}>

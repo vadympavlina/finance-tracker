@@ -203,9 +203,11 @@ export class CloudSync {
 
   private freshData(local: FinanceData): FinanceData {
     const s = local.settings
-    const name = this.state.user?.displayName || this.pendingName
+    // A new account never inherits someone else's name: use the sign-up name or the email's first part.
+    const fromEmail = this.state.user?.email?.split('@')[0] ?? ''
+    const name = (this.state.user?.displayName || this.pendingName || fromEmail).trim()
     const settings = { ...s, hideBalance: false, defaultAccountId: 'acc_card', onboarded: true }
-    if (name) Object.assign(settings, { userName: name.split(' ')[0], fullName: name })
+    Object.assign(settings, { userName: name.split(' ')[0], fullName: name })
     return createEmptyData(settings)
   }
 

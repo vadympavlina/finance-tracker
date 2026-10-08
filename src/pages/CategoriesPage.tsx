@@ -133,7 +133,7 @@ export default function CategoriesPage() {
     <div className="mx-auto max-w-3xl">
       <PageHeader
         title="Категорії"
-        back
+        back navPage
         actions={
           <IconButton label="Створити категорію" variant="primary" onClick={openCreate}>
             <Plus className="size-5" aria-hidden />

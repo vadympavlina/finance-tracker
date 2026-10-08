@@ -53,7 +53,7 @@ export default function BudgetsPage() {
       <PageHeader
         title="Бюджет"
         subtitle={formatMonthYear(new Date())}
-        back
+        back navPage
         actions={
           <IconButton label="Створити бюджет" variant="primary" onClick={() => open(null)}>
             <Plus className="size-5" aria-hidden />

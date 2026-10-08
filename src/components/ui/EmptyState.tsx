@@ -18,7 +18,7 @@ export function EmptyState({ icon: Icon, title, description, action, className, 
         <Icon className="size-7" aria-hidden strokeWidth={1.8} />
       </div>
       <p className="text-base font-semibold">{title}</p>
-      {description && <p className="mt-1.5 max-w-xs text-sm leading-relaxed whitespace-pre-line text-muted">{description}</p>}
+      {description && <p className="mt-1.5 max-w-xs text-sm leading-relaxed text-balance text-muted">{description}</p>}
       {action && <div className="mt-5">{action}</div>}
     </div>
   )

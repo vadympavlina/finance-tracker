@@ -13,6 +13,7 @@ interface TrendBadgeProps {
 export function TrendBadge({ value, inverse, className, onDark }: TrendBadgeProps) {
   if (value === null || !Number.isFinite(value)) return null
   const rounded = Math.round(value)
+  if (rounded === 0) return null
   const up = rounded > 0
   const good = rounded === 0 ? null : inverse ? !up : up
   const Icon = up ? ArrowUpRight : ArrowDownRight

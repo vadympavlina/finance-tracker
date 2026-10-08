@@ -9,13 +9,15 @@ interface PageHeaderProps {
   subtitle?: string
   back?: boolean | string
   actions?: ReactNode
+  /** The page is in the desktop sidebar: hide the back button there (≥ lg). */
+  navPage?: boolean
 }
 
 /**
  * iOS large title. When it scrolls away, a compact glass bar with the
  * inline title fades in at the top (mobile), like UINavigationBar in iOS 26.
  */
-export function PageHeader({ title, subtitle, back, actions }: PageHeaderProps) {
+export function PageHeader({ title, subtitle, back, actions, navPage }: PageHeaderProps) {
   const navigate = useNavigate()
   const sentinel = useRef<HTMLHeadingElement>(null)
   const [compact, setCompact] = useState(false)
@@ -35,7 +37,7 @@ export function PageHeader({ title, subtitle, back, actions }: PageHeaderProps) 
   }
 
   const backButton = back && (
-    <IconButton label="Назад" onClick={goBack}>
+    <IconButton label="Назад" onClick={goBack} className={navPage ? 'lg:hidden' : undefined}>
       <ChevronLeft className="size-[22px]" strokeWidth={2.4} aria-hidden />
     </IconButton>
   )
@@ -44,7 +46,7 @@ export function PageHeader({ title, subtitle, back, actions }: PageHeaderProps) 
     <>
       <header className="pt-2 pb-5 lg:pt-0">
         {(back || actions) && (
-          <div className="mb-3 flex min-h-11 items-center justify-between gap-2">
+          <div className={cn('mb-3 flex min-h-11 items-center justify-between gap-2', navPage && !actions && 'lg:hidden')}>
             <div>{backButton}</div>
             <div className="flex items-center gap-2">{actions}</div>
           </div>

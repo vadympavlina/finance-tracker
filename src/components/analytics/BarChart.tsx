@@ -40,6 +40,14 @@ export function BarChart({ data, color, height = 220, label }: BarChartProps) {
   const point = data[shown]
   const tooltipX = PAD_LEFT + slot * shown + slot / 2
 
+  if (!data.some((d) => d.value > 0)) {
+    return (
+      <div className="grid w-full place-items-center rounded-2xl bg-surface-2 px-4 text-center text-sm text-muted" style={{ height }} role="img" aria-label={`${label}: немає даних`}>
+        Ще немає операцій за цей період
+      </div>
+    )
+  }
+
   return (
     <div ref={ref} className="relative w-full select-none" style={{ height }}>
       {width > 0 && (

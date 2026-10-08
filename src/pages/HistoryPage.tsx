@@ -101,7 +101,7 @@ export default function HistoryPage() {
 
   return (
     <div className="mx-auto max-w-3xl">
-      <PageHeader title="Історія" subtitle={`${filtered.length} ${pluralUk(filtered.length, ['операція', 'операції', 'операцій'])}`} back />
+      <PageHeader title="Історія" subtitle={`${filtered.length} ${pluralUk(filtered.length, ['операція', 'операції', 'операцій'])}`} back navPage />
 
       <div className="space-y-4">
         <Segmented<Tab>

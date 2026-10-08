@@ -49,7 +49,7 @@ export default function GoalsPage() {
     <div className="mx-auto max-w-3xl">
       <PageHeader
         title="Цілі"
-        back
+        back navPage
         actions={
           <IconButton label="Нова ціль" variant="primary" onClick={create}>
             <Plus className="size-5" aria-hidden />

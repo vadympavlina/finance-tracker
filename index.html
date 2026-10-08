@@ -33,6 +33,8 @@
         if (localStorage.getItem('ft-theme') === 'dark') document.documentElement.classList.add('dark')
         var ts = localStorage.getItem('ft-text-size')
         if (ts) document.documentElement.style.fontSize = ts
+        var ac = localStorage.getItem('ft-accent')
+        if (ac && ac !== 'emerald') document.documentElement.setAttribute('data-accent', ac)
       } catch (e) {}
     </script>
   </head>

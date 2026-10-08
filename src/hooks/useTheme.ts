@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import type { TextSize, ThemeMode } from '../types'
+import type { AccentColor, TextSize, ThemeMode } from '../types'
 
 const THEME_COLORS = { light: '#f3f2ed', dark: '#0b0f0d' }
 
@@ -37,4 +37,28 @@ export function useTextSize(size: TextSize | undefined) {
       /* ignore */
     }
   }, [size])
+}
+
+/** Accent palette shown in Settings; the actual colours live in index.css under [data-accent]. */
+export const ACCENT_OPTIONS: Array<{ value: AccentColor; label: string; swatch: string }> = [
+  { value: 'emerald', label: 'Смарагд', swatch: '#14a06e' },
+  { value: 'ocean', label: 'Океан', swatch: '#2f74f0' },
+  { value: 'violet', label: 'Фіалка', swatch: '#7c56ee' },
+  { value: 'rose', label: 'Троянда', swatch: '#e0457b' },
+  { value: 'amber', label: 'Бурштин', swatch: '#e07b12' },
+  { value: 'graphite', label: 'Графіт', swatch: '#3a4440' },
+]
+
+/** Sets data-accent on <html>; CSS swaps the primary tokens for both themes. */
+export function useAccent(accent: AccentColor | undefined) {
+  useEffect(() => {
+    const value = accent ?? 'emerald'
+    if (value === 'emerald') delete document.documentElement.dataset.accent
+    else document.documentElement.dataset.accent = value
+    try {
+      localStorage.setItem('ft-accent', value)
+    } catch {
+      /* ignore */
+    }
+  }, [accent])
 }

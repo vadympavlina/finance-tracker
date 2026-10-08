@@ -51,6 +51,7 @@ function checkList<T>(
 }
 
 const TX_TYPES = ['income', 'expense', 'transfer', 'debt_repayment', 'adjustment']
+const ACCENTS: unknown[] = ['emerald', 'ocean', 'violet', 'rose', 'amber', 'graphite']
 
 /**
  * Validates an import file structure BEFORE anything is written to storage.
@@ -222,6 +223,8 @@ export function validateImport(json: unknown): ValidationResult {
       ...(rawSettings as Partial<Settings>),
       reminders: { ...defaults.reminders, ...(isObj(rawSettings.reminders) ? (rawSettings.reminders as Partial<Settings['reminders']>) : {}) },
     }
+    if (!ACCENTS.includes(settings.accent)) settings.accent = defaults.accent
+    if (!['sm', 'md', 'lg', 'xl'].includes(settings.textSize)) settings.textSize = defaults.textSize
     if (!settings.defaultAccountId || !accountIds.has(settings.defaultAccountId)) settings.defaultAccountId = accounts[0].id
 
     return {

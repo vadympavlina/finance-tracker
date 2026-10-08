@@ -23,7 +23,7 @@ export function BalanceCard({ balance, change, delta, hidden, onToggleHidden }: 
       className="relative isolate overflow-hidden rounded-[32px] bg-[#121a17] px-6 pt-5 pb-6 text-[#f3f2ed] ring-1 ring-white/5"
     >
       <div
-        className="pointer-events-none absolute -right-28 -bottom-36 -z-10 size-[22rem] rounded-full bg-[radial-gradient(circle,rgba(52,200,141,0.5),rgba(52,200,141,0)_65%)]"
+        className="pointer-events-none absolute -right-28 -bottom-36 -z-10 size-[22rem] rounded-full bg-[radial-gradient(circle,rgb(var(--accent-rgb)/0.5),rgb(var(--accent-rgb)/0)_65%)]"
         aria-hidden
       />
       <div
@@ -33,8 +33,8 @@ export function BalanceCard({ balance, change, delta, hidden, onToggleHidden }: 
       <div className="flex items-center justify-between gap-4">
         <p className="inline-flex items-center gap-2 text-[0.8125rem] font-medium tracking-wide text-white/65">
           <span className="relative flex size-2" aria-hidden>
-            <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#34c88d] opacity-50 [animation-duration:2.4s]" />
-            <span className="relative inline-flex size-2 rounded-full bg-[#34c88d]" />
+            <span className="absolute inline-flex size-full animate-ping rounded-full bg-[rgb(var(--accent-rgb))] opacity-50 [animation-duration:2.4s]" />
+            <span className="relative inline-flex size-2 rounded-full bg-[rgb(var(--accent-rgb))]" />
           </span>
           Загальний баланс
         </p>

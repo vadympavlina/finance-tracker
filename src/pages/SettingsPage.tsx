@@ -14,7 +14,7 @@ import {
   Wallet,
   type LucideIcon,
 } from 'lucide-react'
-import type { CurrencyCode, FinanceData, TextSize, ThemeMode } from '../types'
+import type { AccentColor, CurrencyCode, FinanceData, TextSize, ThemeMode } from '../types'
 import { PageHeader } from '../components/common/PageHeader'
 import { Card } from '../components/ui/Card'
 import { Segmented } from '../components/ui/Tabs'
@@ -27,6 +27,7 @@ import { buildExport, parseImportFile, type ImportSummary } from '../services/st
 import { CURRENCIES } from '../utils/format'
 import { formatFullDate, toDateInput } from '../utils/date'
 import { cn } from '../utils/cn'
+import { AccentPicker } from '../components/settings/AccentPicker'
 
 const APP_VERSION = '1.0.0'
 
@@ -167,6 +168,7 @@ export default function SettingsPage() {
                 ]}
               />
             </div>
+            <AccentPicker value={settings.accent ?? 'emerald'} onChange={(accent: AccentColor) => updateSettings({ accent })} />
             <div>
               <p className="mb-2 text-sm font-medium text-muted">Розмір тексту</p>
               <Segmented<TextSize>

@@ -82,7 +82,7 @@ export function BottomNavigation({ onQuickAdd, showAdd }: { onQuickAdd: () => vo
           onClick={onQuickAdd}
           aria-label="Додати операцію"
           className={cn(
-            'press glass-tinted pointer-events-auto grid shrink-0 place-items-center rounded-full text-white transition-all duration-300',
+            'press glass-tinted pointer-events-auto grid shrink-0 place-items-center rounded-full text-on-primary transition-all duration-300',
             collapsed ? 'size-[52px]' : 'size-[62px]',
           )}
         >

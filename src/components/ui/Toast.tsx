@@ -27,7 +27,7 @@ export function ToastViewport({ toasts, onDismiss }: { toasts: ToastItem[]; onDi
               'grid size-6 shrink-0 place-items-center rounded-full',
               t.kind === 'success' && 'bg-income text-white',
               t.kind === 'error' && 'bg-expense text-white',
-              t.kind === 'info' && 'bg-primary text-white',
+              t.kind === 'info' && 'bg-primary text-on-primary',
             )}
             aria-hidden
           >

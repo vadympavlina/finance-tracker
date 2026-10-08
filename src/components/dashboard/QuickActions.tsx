@@ -23,7 +23,7 @@ export function QuickActions() {
           <span
             className={cn(
               'grid size-14 place-items-center rounded-full transition-transform group-active:scale-95',
-              primary ? 'glass-tinted text-white' : 'glass text-text',
+              primary ? 'glass-tinted text-on-primary' : 'glass text-text',
             )}
           >
             <Icon className="size-[22px]" strokeWidth={2.1} aria-hidden />

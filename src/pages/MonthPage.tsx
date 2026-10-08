@@ -66,7 +66,7 @@ export default function MonthPage() {
 
         {/* Hero */}
         <section aria-label={`Підсумок: ${monthName}`} className="@container relative isolate overflow-hidden rounded-[32px] bg-[#121a17] p-5 text-[#f3f2ed] ring-1 ring-white/5 sm:p-6">
-          <div className="pointer-events-none absolute -right-28 -bottom-36 -z-10 size-[22rem] rounded-full bg-[radial-gradient(circle,rgba(52,200,141,0.45),rgba(52,200,141,0)_65%)]" aria-hidden />
+          <div className="pointer-events-none absolute -right-28 -bottom-36 -z-10 size-[22rem] rounded-full bg-[radial-gradient(circle,rgb(var(--accent-rgb)/0.45),rgb(var(--accent-rgb)/0)_65%)]" aria-hidden />
           <p className="text-[0.8125rem] font-medium text-white/65">{isCurrent ? 'Залишилось зараз' : `Залишилось на кінець місяця`}</p>
           <FitText as="p" className="tabular mt-1 text-[2.5rem] leading-none font-semibold tracking-[-0.03em]" min={0.45}>
             {formatMoney(summary.closing)}
@@ -87,7 +87,7 @@ export default function MonthPage() {
             <div className="mt-4">
               <ProgressBar
                 value={summary.spentShare ?? 0}
-                color={overspent ? '#ff8a73' : '#34c88d'}
+                color={overspent ? '#ff8a73' : 'rgb(var(--accent-rgb))'}
                 trackClassName="bg-white/15"
                 label="Частка витраченого від отриманого"
               />

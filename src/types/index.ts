@@ -137,6 +137,7 @@ export interface Account {
 export type CurrencyCode = 'UAH' | 'USD' | 'EUR' | 'PLN'
 export type ThemeMode = 'light' | 'dark' | 'system'
 export type TextSize = 'sm' | 'md' | 'lg' | 'xl'
+export type AccentColor = 'emerald' | 'ocean' | 'violet' | 'rose' | 'amber' | 'graphite'
 
 export interface Settings {
   userName: string
@@ -145,6 +146,8 @@ export interface Settings {
   theme: ThemeMode
   /** Interface text size; everything is sized in rem and scales with it. */
   textSize: TextSize
+  /** Accent colour for buttons, links and highlights. Income/expense colours stay semantic. */
+  accent: AccentColor
   hideBalance: boolean
   defaultAccountId: ID | null
   reminders: {

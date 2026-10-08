@@ -50,6 +50,7 @@ export function createDefaultSettings(): Settings {
     currency: 'UAH',
     theme: 'light',
     textSize: 'md',
+    accent: 'emerald',
     hideBalance: false,
     defaultAccountId: 'acc_card',
     reminders: { daily: true, dailyTime: '20:00', debts: true, budgets: true },

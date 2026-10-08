@@ -199,4 +199,14 @@ describe('month summary', () => {
       expect(res.data.transactions.find((t) => t.id === 'adj')?.adjustmentDirection).toBe('out')
     }
   })
+
+  it('keeps a valid accent and falls back for unknown ones', () => {
+    const demo = createDemoData(NOW)
+    const ok = validateImport(JSON.parse(JSON.stringify(buildExport({ ...demo, settings: { ...demo.settings, accent: 'violet' } }))))
+    expect(ok.ok && ok.data.settings.accent).toBe('violet')
+    const raw = JSON.parse(JSON.stringify(buildExport(demo)))
+    raw.settings.accent = 'neon'
+    const bad = validateImport(raw)
+    expect(bad.ok && bad.data.settings.accent).toBe('emerald')
+  })
 })

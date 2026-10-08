@@ -4,7 +4,7 @@ import { UIProvider } from './store/UIContext'
 import { FinanceProvider } from './store/FinanceContext'
 import { AppLayout } from './layouts/AppLayout'
 import { useFinance } from './hooks/useFinance'
-import { useTextSize, useTheme } from './hooks/useTheme'
+import { useAccent, useTextSize, useTheme } from './hooks/useTheme'
 import DashboardPage from './pages/DashboardPage'
 
 // Secondary screens are code-split to keep the first load small.
@@ -26,6 +26,7 @@ function ThemedRoutes() {
   const { data } = useFinance()
   useTheme(data.settings.theme)
   useTextSize(data.settings.textSize)
+  useAccent(data.settings.accent)
   return (
     <Routes>
       <Route element={<AppLayout />}>

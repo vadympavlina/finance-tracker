@@ -51,8 +51,8 @@ export function appIcon({ radius = 120, scale = 1, small = false } = {}) {
 </svg>`
 }
 
-/** Browser-tab favicon (SVG): simplified mark, readable at 16 px. */
-export const faviconSvg = () => appIcon({ radius: 112, small: true })
+/** Browser-tab favicon (SVG): simplified mark, readable at 16 px. Opaque square — no transparent corners. */
+export const faviconSvg = () => appIcon({ radius: 0, small: true })
 
 /** Monochrome silhouette for Safari pinned tabs / mask-icon. */
 export function pinnedTabIcon() {

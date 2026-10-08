@@ -35,7 +35,9 @@ try {
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || undefined })
 const page = await browser.newPage()
 
-async function png(svg, size, { transparent = true } = {}) {
+// Every icon is an opaque full square (no transparent corners); systems that round icons apply their own mask.
+// Only the Android monochrome glyph stays transparent — the OS uses it as a stencil.
+async function png(svg, size, { transparent = false } = {}) {
   await page.setViewportSize({ width: size, height: size })
   await page.setContent(
     `<html><body style="margin:0;background:transparent"><div style="width:${size}px;height:${size}px">${svg}</div>
@@ -53,7 +55,7 @@ for (const s of [16, 32, 48]) fav[s] = await png(small, s)
 await save('favicon-16.png', fav[16])
 await save('favicon-32.png', fav[32])
 await save('favicon-48.png', fav[48])
-await save('favicon-96.png', await png(appIcon({ radius: 112 }), 96))
+await save('favicon-96.png', await png(appIcon({ radius: 0 }), 96))
 await writeFile(resolve(pub, 'favicon.svg'), small)
 
 // favicon.ico with PNG entries (supported everywhere since Windows Vista / all modern browsers).
@@ -90,8 +92,8 @@ const apple180 = await png(ios, 180, { transparent: false })
 await writeFile(resolve(pub, 'apple-touch-icon.png'), apple180)
 await writeFile(resolve(pub, 'apple-touch-icon-precomposed.png'), apple180)
 
-// PWA "any" icons keep their own rounded tile.
-const any = appIcon({ radius: 112 })
+// PWA "any" icons: full-bleed square too.
+const any = appIcon({ radius: 0 })
 await save('icon-192.png', await png(any, 192))
 await save('icon-512.png', await png(any, 512))
 
@@ -101,9 +103,9 @@ await save('icon-maskable-192.png', await png(maskable, 192, { transparent: fals
 await save('icon-maskable-512.png', await png(maskable, 512, { transparent: false }))
 
 // Android 13+ themed (monochrome) icon.
-await save('icon-monochrome-512.png', await png(monochromeIcon(), 512))
+await save('icon-monochrome-512.png', await png(monochromeIcon(), 512, { transparent: true }))
 
-// Windows tiles: the tile colour is the background, so render the mark on transparency.
+// Windows tiles: mark on the tile colour.
 const tile = appIcon({ radius: 0, scale: 0.62 })
 await save('mstile-150.png', await png(tile, 150, { transparent: false }))
 await save('mstile-310.png', await png(tile, 310, { transparent: false }))

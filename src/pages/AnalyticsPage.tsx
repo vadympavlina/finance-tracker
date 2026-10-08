@@ -28,6 +28,7 @@ import {
 import { formatDayMonth } from '../utils/date'
 import { formatMoney, formatPercent, formatSignedMoney } from '../utils/format'
 import { cn } from '../utils/cn'
+import { FitText } from '../components/ui/FitText'
 
 const PERIOD_WORD: Record<AnalyticsPeriod, string> = { week: 'тиждень', month: 'місяць', year: 'рік' }
 const DYNAMICS_HINT: Record<AnalyticsPeriod, string> = { week: 'по днях', month: 'останні 6 місяців', year: 'по місяцях' }
@@ -110,7 +111,7 @@ function FlowView({ type, period, offset }: { type: 'expense' | 'income'; period
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
         <Card className="col-span-2 p-4 lg:col-span-1">
           <p className="text-sm text-muted">{isExpense ? 'Загальні витрати' : 'Загальні доходи'}</p>
-          <p className={cn('tabular mt-1 text-[28px] leading-tight font-bold tracking-tight', !isExpense && 'text-income')}>{formatMoney(summary.total)}</p>
+          <FitText as="p" className={cn('tabular mt-1 text-[28px] leading-tight font-bold tracking-tight', !isExpense && 'text-income')}>{formatMoney(summary.total)}</FitText>
           <div className="mt-2 flex items-center gap-2 text-xs text-muted">
             <TrendBadge value={summary.change} inverse={isExpense} />
             {summary.change !== null && <span>порівняно з тим самим часом минулого періоду</span>}
@@ -118,15 +119,15 @@ function FlowView({ type, period, offset }: { type: 'expense' | 'income'; period
         </Card>
         <Card className="p-4">
           <p className="text-sm text-muted">{isExpense ? 'Середній чек' : 'Середній дохід'}</p>
-          <p className="tabular mt-1 text-xl font-bold">{formatMoney(Math.round(summary.average))}</p>
+          <FitText as="p" className="tabular mt-1 text-xl font-bold">{formatMoney(Math.round(summary.average))}</FitText>
           <div className="mt-2">
             <TrendBadge value={summary.averageChange} inverse={isExpense} />
           </div>
         </Card>
         <Card className="p-4">
           <p className="text-sm text-muted">{isExpense ? 'Найбільша витрата' : 'Найбільший дохід'}</p>
-          <p className="tabular mt-1 text-xl font-bold">{formatMoney(summary.largest?.amount ?? 0)}</p>
-          <p className="mt-2 truncate text-xs text-muted">
+          <FitText as="p" className="tabular mt-1 text-xl font-bold">{formatMoney(summary.largest?.amount ?? 0)}</FitText>
+          <p className="mt-2 min-w-0 break-words text-xs text-muted">
             {summary.largest
               ? `${summary.largest.merchant || largestCategory?.name || ''} · ${formatDayMonth(summary.largest.date)}`
               : `${summary.count} операцій`}
@@ -156,7 +157,7 @@ function FlowView({ type, period, offset }: { type: 'expense' | 'income'; period
                   {structure.slices.map((s) => (
                     <li key={s.id} className="flex items-center gap-2.5 text-sm">
                       <span className="size-3 shrink-0 rounded-full" style={{ backgroundColor: s.color }} aria-hidden />
-                      <span className="min-w-0 flex-1 truncate">{s.name}</span>
+                      <span className="min-w-0 flex-1 break-words">{s.name}</span>
                       <span className="tabular font-semibold">{formatPercent(s.share)}</span>
                     </li>
                   ))}
@@ -186,7 +187,7 @@ function FlowView({ type, period, offset }: { type: 'expense' | 'income'; period
                 <CategoryIcon icon={s.category?.icon ?? 'package'} color={s.category?.color ?? '#94A3B8'} size="sm" muted={s.category?.isArchived} />
                 <span className="min-w-0 flex-1">
                   <span className="flex items-center justify-between gap-2">
-                    <span className="truncate text-[15px] font-medium">{s.category?.name ?? 'Без категорії'}</span>
+                    <span className="min-w-0 break-words text-[15px] font-medium">{s.category?.name ?? 'Без категорії'}</span>
                     <span className="tabular text-[15px] font-semibold">{formatMoney(s.amount)}</span>
                   </span>
                   <span className="mt-1.5 flex items-center gap-2">
@@ -246,7 +247,7 @@ function BalanceView({ period, offset }: { period: AnalyticsPeriod; offset: numb
               <t.icon className="size-[18px]" aria-hidden />
             </span>
             <p className="mt-3 text-[13px] text-muted">{t.label}</p>
-            <p className="tabular mt-0.5 truncate text-lg font-bold">{t.value}</p>
+            <FitText as="p" className="tabular mt-0.5 text-lg font-bold">{t.value}</FitText>
           </Card>
         ))}
       </div>
@@ -287,7 +288,7 @@ function BalanceView({ period, offset }: { period: AnalyticsPeriod; offset: numb
             {goals.map((g) => (
               <div key={g.goal.id}>
                 <div className="mb-1.5 flex items-baseline justify-between gap-2 text-sm">
-                  <span className="truncate font-medium">{g.goal.name}</span>
+                  <span className="min-w-0 break-words font-medium">{g.goal.name}</span>
                   <span className="tabular shrink-0 text-muted">
                     {formatMoney(g.current)} · <span className="font-semibold text-text">{formatPercent(g.percent)}</span>
                   </span>

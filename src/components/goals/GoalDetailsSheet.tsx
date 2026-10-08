@@ -13,6 +13,7 @@ import { useConfirm, useToast } from '../../hooks/useUI'
 import { calculateGoalProgress } from '../../services/calculations'
 import { formatMoney, formatPercent, formatSignedMoney, parseAmount, pluralUk } from '../../utils/format'
 import { formatFullDate, nowISO, parseDate } from '../../utils/date'
+import { FitText } from '../ui/FitText'
 
 interface Props {
   goal: Goal | null
@@ -73,7 +74,7 @@ export function GoalDetailsSheet({ goal, onClose, onEdit }: Props) {
           <div className="flex items-center gap-3">
             <CategoryIcon icon={goal.icon} color={goal.color} size="lg" />
             <div className="min-w-0">
-              <p className="tabular text-[26px] leading-tight font-bold tracking-tight">{formatMoney(p.current)}</p>
+              <FitText as="p" className="tabular text-[26px] leading-tight font-bold tracking-tight">{formatMoney(p.current)}</FitText>
               <p className="tabular text-sm text-muted">з {formatMoney(goal.targetAmount)}</p>
             </div>
             <span className="tabular ml-auto text-xl font-bold" style={{ color: goal.color }}>
@@ -142,7 +143,7 @@ export function GoalDetailsSheet({ goal, onClose, onEdit }: Props) {
                 <li key={c.id} className="flex items-center gap-3 px-4 py-2.5">
                   <div className="min-w-0 flex-1">
                     <p className={`tabular text-[15px] font-semibold ${c.amount > 0 ? 'text-income' : 'text-expense'}`}>{formatSignedMoney(c.amount)}</p>
-                    <p className="truncate text-xs text-muted">
+                    <p className="min-w-0 break-words text-xs text-muted">
                       {formatFullDate(c.date)}
                       {c.comment ? ` · ${c.comment}` : ''}
                     </p>

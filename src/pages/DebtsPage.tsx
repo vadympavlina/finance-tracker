@@ -12,6 +12,7 @@ import { useFinance } from '../hooks/useFinance'
 import { calculateDebtBalance, calculateDebtRemaining, calculateDebtStatus } from '../services/calculations'
 import { parseDate } from '../utils/date'
 import { formatMoney } from '../utils/format'
+import { FitText } from '../components/ui/FitText'
 
 type Tab = 'all' | 'i_owe' | 'they_owe_me'
 
@@ -71,19 +72,19 @@ export default function DebtsPage() {
           <p className="text-sm text-white/70">
             {tab === 'all' ? 'Загальна сума боргів' : tab === 'i_owe' ? 'Я винен' : 'Мені винні'}
           </p>
-          <p className="tabular mt-1 text-[34px] leading-tight font-bold tracking-tight">{formatMoney(headline)}</p>
+          <FitText as="p" className="tabular mt-1 text-[34px] leading-tight font-bold tracking-tight">{formatMoney(headline)}</FitText>
           <div className="mt-4 grid grid-cols-2 gap-3">
             <div className="rounded-2xl bg-white/[0.07] p-3">
               <p className="flex items-center gap-1 text-xs text-white/75">
                 <ArrowUpRight className="size-3.5" aria-hidden /> Я винен
               </p>
-              <p className="tabular text-[17px] font-bold">{formatMoney(balance.iOwe)}</p>
+              <FitText as="p" className="tabular text-[17px] font-bold">{formatMoney(balance.iOwe)}</FitText>
             </div>
             <div className="rounded-2xl bg-white/[0.07] p-3">
               <p className="flex items-center gap-1 text-xs text-white/75">
                 <ArrowDownLeft className="size-3.5" aria-hidden /> Мені винні
               </p>
-              <p className="tabular text-[17px] font-bold">{formatMoney(balance.owedToMe)}</p>
+              <FitText as="p" className="tabular text-[17px] font-bold">{formatMoney(balance.owedToMe)}</FitText>
             </div>
           </div>
           <p className="mt-3 text-xs text-white/70">Борги не впливають на баланс, доки гроші реально не передані.</p>

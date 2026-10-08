@@ -4,6 +4,7 @@ import type { Account } from '../../types'
 import { ACCOUNT_TYPE_COLORS, ACCOUNT_TYPE_ICONS } from '../../data/defaults'
 import { CategoryIcon } from '../common/CategoryIcon'
 import { formatMoney } from '../../utils/format'
+import { FitText } from '../ui/FitText'
 
 interface Props {
   items: Array<{ account: Account; balance: number }>
@@ -17,9 +18,9 @@ export function AccountsStrip({ items, hidden }: Props) {
         <li key={account.id} className="min-w-[172px] snap-start">
           <Link to="/accounts" className="press flex items-center gap-3 rounded-[26px] bg-surface shadow-card p-3.5 shadow-card hover:border-border-strong">
             <CategoryIcon icon={ACCOUNT_TYPE_ICONS[account.type]} color={ACCOUNT_TYPE_COLORS[account.type]} size="sm" />
-            <span className="min-w-0">
-              <span className="block truncate text-[13px] text-muted">{account.name}</span>
-              <span className={`tabular block text-[15px] font-semibold ${balance < 0 ? 'text-expense' : ''}`}>{hidden ? '•••• ₴' : formatMoney(balance)}</span>
+            <span className="min-w-0 flex-1">
+              <span className="block min-w-0 break-words text-[13px] text-muted">{account.name}</span>
+              <FitText className={`tabular text-[15px] font-semibold ${balance < 0 ? 'text-expense' : ''}`}>{hidden ? '•••• ₴' : formatMoney(balance)}</FitText>
             </span>
           </Link>
         </li>

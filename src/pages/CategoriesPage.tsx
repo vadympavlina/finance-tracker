@@ -18,6 +18,7 @@ import { calculateCategoryTotals, type CategoryStat } from '../services/calculat
 import { addMonths, formatMonthYear, isSameMonth, monthRange } from '../utils/date'
 import { formatMoney, formatPercent } from '../utils/format'
 import { cn } from '../utils/cn'
+import { FitText } from '../components/ui/FitText'
 
 type Tab = 'all' | CategoryType
 
@@ -98,19 +99,21 @@ export default function CategoriesPage() {
                 key={c.id}
                 type="button"
                 onClick={() => setSelected(c)}
-                className="press flex w-full items-center gap-3 px-4 py-3 text-left hover:bg-surface-2"
+                className="press flex w-full items-start gap-3 px-4 py-3 text-left hover:bg-surface-2"
               >
                 <CategoryIcon icon={c.icon} color={c.color} muted={c.isHidden} />
-                <span className="min-w-0 flex-1">
-                  <span className="flex items-center gap-1.5">
-                    <span className="truncate text-[15px] font-semibold">{c.name}</span>
-                    {c.isHidden && <EyeOff className="size-3.5 shrink-0 text-subtle" aria-label="Прихована" />}
+                <span className="min-w-0 flex-1 pt-0.5">
+                  <span className="flex items-start justify-between gap-3">
+                    <span className="flex min-w-0 items-center gap-1.5">
+                      <span className="min-w-0 text-[15px] leading-snug font-semibold break-words">{c.name}</span>
+                      {c.isHidden && <EyeOff className="size-3.5 shrink-0 text-subtle" aria-label="Прихована" />}
+                    </span>
+                    <span className="tabular shrink-0 text-[15px] leading-snug font-semibold whitespace-nowrap">{formatMoney(stat?.amount ?? 0)}</span>
                   </span>
-                  <ProgressBar value={stat?.share ?? 0} color={c.color} size="sm" className="mt-2" label={`${c.name}: ${formatPercent(stat?.share ?? 0)}`} />
-                </span>
-                <span className="w-24 shrink-0 text-right">
-                  <span className="tabular block text-[15px] font-semibold">{formatMoney(stat?.amount ?? 0)}</span>
-                  <span className="tabular block text-xs text-muted">{formatPercent(stat?.share ?? 0)}</span>
+                  <span className="mt-2 flex items-center gap-3">
+                    <ProgressBar value={stat?.share ?? 0} color={c.color} size="sm" label={`${c.name}: ${formatPercent(stat?.share ?? 0)}`} />
+                    <span className="tabular w-9 shrink-0 text-right text-xs text-muted">{formatPercent(stat?.share ?? 0)}</span>
+                  </span>
                 </span>
               </button>
             ))}
@@ -130,6 +133,7 @@ export default function CategoriesPage() {
     <div className="mx-auto max-w-3xl">
       <PageHeader
         title="Категорії"
+        back
         actions={
           <IconButton label="Створити категорію" variant="primary" onClick={openCreate}>
             <Plus className="size-5" aria-hidden />
@@ -177,7 +181,7 @@ export default function CategoriesPage() {
                   <div key={c.id} className="flex items-center gap-3 px-4 py-3">
                     <CategoryIcon icon={c.icon} color={c.color} size="sm" muted />
                     <span className="min-w-0 flex-1">
-                      <span className="block truncate text-[15px] font-medium">{c.name}</span>
+                      <span className="block min-w-0 break-words text-[15px] font-medium">{c.name}</span>
                       <span className="block text-xs text-subtle">Архівована категорія</span>
                     </span>
                     <Button
@@ -206,7 +210,7 @@ export default function CategoriesPage() {
             <div className="flex items-center gap-3 rounded-2xl bg-surface-2 p-3">
               <CategoryIcon icon={selected.icon} color={selected.color} size="lg" />
               <div>
-                <p className="tabular text-xl font-bold">{formatMoney(stats.byId.get(selected.id)?.amount ?? 0)}</p>
+                <FitText as="p" className="tabular text-xl font-bold">{formatMoney(stats.byId.get(selected.id)?.amount ?? 0)}</FitText>
                 <p className="text-sm text-muted">
                   {formatMonthYear(month)} · {stats.byId.get(selected.id)?.count ?? 0} операцій
                 </p>

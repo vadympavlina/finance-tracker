@@ -2,6 +2,7 @@ import { Eye, EyeOff } from 'lucide-react'
 import { formatMoney, formatSignedMoney } from '../../utils/format'
 import { useCountUp } from '../../hooks/useCountUp'
 import { TrendBadge } from '../common/TrendBadge'
+import { FitText } from '../ui/FitText'
 
 interface BalanceCardProps {
   balance: number
@@ -47,9 +48,11 @@ export function BalanceCard({ balance, change, delta, hidden, onToggleHidden }: 
           {hidden ? <EyeOff className="size-[19px]" aria-hidden /> : <Eye className="size-[19px]" aria-hidden />}
         </button>
       </div>
-      <p className="tabular mt-2 text-[44px] leading-none font-semibold tracking-[-0.035em] sm:text-[52px]" aria-live="polite">
+      <p className="mt-2" aria-live="polite">
         <span className="sr-only">{hidden ? 'Баланс приховано' : formatMoney(balance)}</span>
-        <span aria-hidden>{hidden ? MASK : formatMoney(animated)}</span>
+        <FitText className="tabular text-[44px] leading-none font-semibold tracking-[-0.035em] sm:text-[52px]" min={0.45}>
+          <span aria-hidden>{hidden ? MASK : formatMoney(Math.round(balance) === balance ? animated : balance)}</span>
+        </FitText>
       </p>
       <div className="mt-5 flex flex-wrap items-center gap-x-2.5 gap-y-1.5 text-[13.5px]">
         {!hidden && <TrendBadge value={change} onDark />}

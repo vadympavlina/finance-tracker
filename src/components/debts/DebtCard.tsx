@@ -45,7 +45,7 @@ export function DebtCard({ debt, onClick }: { debt: Debt; onClick: () => void })
         </span>
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-2">
-            <p className="truncate text-[15px] font-semibold">{debt.person}</p>
+            <p className="min-w-0 break-words text-[15px] font-semibold">{debt.person}</p>
             <p className={cn('tabular shrink-0 text-[17px] font-bold', status === 'paid' ? 'text-subtle line-through decoration-1' : theyOwe ? 'text-income' : 'text-expense')}>
               {formatMoney(status === 'paid' ? debt.amount : remaining)}
             </p>

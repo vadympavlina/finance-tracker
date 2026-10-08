@@ -3,7 +3,8 @@ import type { Budget, BudgetPeriod } from '../../types'
 import { Sheet } from '../ui/Sheet'
 import { Button } from '../ui/Button'
 import { Segmented } from '../ui/Tabs'
-import { SelectField, TextField } from '../ui/Field'
+import { TextField } from '../ui/Field'
+import { CategorySelector } from '../common/CategorySelector'
 import { AmountInput } from '../common/AmountInput'
 import { useFinance } from '../../hooks/useFinance'
 import { useConfirm, useToast } from '../../hooks/useUI'
@@ -129,12 +130,14 @@ export function BudgetFormSheet({ open, onClose, budget }: Props) {
         />
         <AmountInput value={amount} onChange={setAmount} label="Ліміт" error={errors.amount} size="md" />
         {scope === 'category' ? (
-          <SelectField
-            label="Категорія"
-            value={categoryId}
+          <CategorySelector
+            categories={expenseCategories}
+            value={categoryId || null}
             error={errors.category}
-            onChange={(e) => setCategoryId(e.target.value)}
-            options={[{ value: '', label: 'Обери категорію' }, ...expenseCategories.map((c) => ({ value: c.id, label: c.name }))]}
+            onChange={(id) => {
+              setCategoryId(id)
+              setErrors((e) => ({ ...e, category: undefined }))
+            }}
           />
         ) : (
           errors.category && (
@@ -155,7 +158,7 @@ export function BudgetFormSheet({ open, onClose, budget }: Props) {
             ]}
           />
           {period === 'custom' ? (
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 gap-2 min-[400px]:grid-cols-2">
               <TextField label="Початок" type="date" value={start} onChange={(e) => setStart(e.target.value)} error={errors.range} />
               <TextField label="Кінець" type="date" value={end} min={start} onChange={(e) => setEnd(e.target.value)} />
             </div>

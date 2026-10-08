@@ -7,6 +7,7 @@ import { Button } from '../ui/Button'
 import { ProgressBar } from '../ui/ProgressBar'
 import { DebtStatusBadge } from './DebtCard'
 import { RepaymentSheet } from './RepaymentSheet'
+import { FitText } from '../ui/FitText'
 import { useFinance } from '../../hooks/useFinance'
 import { useConfirm, useToast } from '../../hooks/useUI'
 import { calculateDebtProgress, calculateDebtRemaining, calculateDebtStatus, sortByDateDesc } from '../../services/calculations'
@@ -62,7 +63,7 @@ export function DebtDetailsSheet({ debt, onClose }: { debt: Debt | null; onClose
         description={theyOwe ? 'Мені винні' : 'Я винен'}
         footer={
           status !== 'paid' ? (
-            <div className="grid grid-cols-2 gap-3">
+            <div className="flex flex-col-reverse gap-2.5 min-[480px]:grid min-[480px]:grid-cols-2 min-[480px]:gap-3">
               <Button variant="secondary" icon={<CheckCheck className="size-[18px]" aria-hidden />} onClick={() => setRepayment('full')}>
                 Погасити все
               </Button>
@@ -79,9 +80,9 @@ export function DebtDetailsSheet({ debt, onClose }: { debt: Debt | null; onClose
               <p className="text-sm text-muted">{status === 'paid' ? 'Борг закрито' : 'Залишилось'}</p>
               <DebtStatusBadge status={status} />
             </div>
-            <p className={cn('tabular mt-1 text-[32px] leading-tight font-bold tracking-tight', theyOwe ? 'text-income' : 'text-expense', status === 'paid' && 'text-income')}>
+            <FitText as="p" className={cn('tabular mt-1 text-[32px] leading-tight font-bold tracking-tight', theyOwe ? 'text-income' : 'text-expense', status === 'paid' && 'text-income')}>
               {formatMoney(status === 'paid' ? debt.amount : remaining)}
-            </p>
+            </FitText>
             <ProgressBar value={calculateDebtProgress(debt)} color={theyOwe ? 'var(--income)' : 'var(--primary)'} className="mt-3" label="Прогрес повернення" />
             <dl className="mt-3 grid grid-cols-2 gap-3 text-sm">
               <div>
@@ -112,7 +113,7 @@ export function DebtDetailsSheet({ debt, onClose }: { debt: Debt | null; onClose
                   <li key={t.id} className="flex items-center gap-3 px-4 py-2.5">
                     <div className="min-w-0 flex-1">
                       <p className={cn('tabular text-[15px] font-semibold', theyOwe ? 'text-income' : 'text-text')}>{formatSignedMoney(theyOwe ? t.amount : -t.amount)}</p>
-                      <p className="truncate text-xs text-muted">
+                      <p className="min-w-0 break-words text-xs text-muted">
                         {formatFullDate(t.date)}
                         {t.comment ? ` · ${t.comment}` : ''}
                       </p>

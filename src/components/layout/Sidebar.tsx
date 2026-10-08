@@ -47,7 +47,7 @@ export function Sidebar({ onQuickAdd }: { onQuickAdd: () => void }) {
           <NavLink to="/profile" className="press flex items-center gap-3 rounded-full p-1.5 hover:bg-black/[0.04] dark:hover:bg-white/[0.06]">
             <span className="grid size-9 place-items-center rounded-full bg-ink text-[13px] font-bold text-on-ink">{initials(data.settings.fullName || data.settings.userName)}</span>
             <span className="min-w-0">
-              <span className="block truncate text-sm font-semibold">{data.settings.fullName || data.settings.userName}</span>
+              <span className="block min-w-0 break-words text-sm font-semibold">{data.settings.fullName || data.settings.userName}</span>
               <span className="block text-xs text-muted">Фінансовий контроль</span>
             </span>
           </NavLink>

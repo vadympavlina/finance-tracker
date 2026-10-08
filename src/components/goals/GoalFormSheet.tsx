@@ -96,7 +96,7 @@ export function GoalFormSheet({ open, onClose, goal }: Props) {
       >
         <div className="flex items-center gap-3 rounded-2xl bg-surface-2 p-3">
           <CategoryIcon icon={icon} color={color} size="lg" />
-          <p className="min-w-0 truncate font-semibold">{name.trim() || 'Назва цілі'}</p>
+          <p className="min-w-0 break-words font-semibold">{name.trim() || 'Назва цілі'}</p>
         </div>
         <TextField label="Назва" value={name} maxLength={40} placeholder="Наприклад, Відпустка" error={errors.name} data-autofocus onChange={(ev) => setName(ev.target.value)} />
         <div className="grid grid-cols-2 gap-3">
@@ -119,7 +119,7 @@ export function GoalFormSheet({ open, onClose, goal }: Props) {
         </div>
         <Switch checked={hasDeadline} onChange={setHasDeadline} label="Дедлайн" description={hasDeadline ? undefined : 'Без конкретної дати'} />
         {hasDeadline && <TextField label="Досягти до" type="date" value={deadline} min={toDateInput(new Date())} onChange={(ev) => setDeadline(ev.target.value)} />}
-        <fieldset>
+        <fieldset className="min-w-0">
           <legend className="mb-2 text-sm font-medium text-muted">Іконка</legend>
           <div role="radiogroup" aria-label="Іконка" className="grid grid-cols-6 gap-2">
             {GOAL_ICONS.map((key) => {
@@ -141,7 +141,7 @@ export function GoalFormSheet({ open, onClose, goal }: Props) {
             })}
           </div>
         </fieldset>
-        <fieldset>
+        <fieldset className="min-w-0">
           <legend className="mb-2 text-sm font-medium text-muted">Колір</legend>
           <div role="radiogroup" aria-label="Колір" className="flex flex-wrap gap-2.5">
             {PALETTE.slice(0, 12).map((c) => (

@@ -13,6 +13,7 @@ import { EmptyState } from '../components/ui/EmptyState'
 import { useFinance } from '../hooks/useFinance'
 import { calculateGoalProgress, calculateGoalsSummary } from '../services/calculations'
 import { formatMoney, formatPercent } from '../utils/format'
+import { FitText } from '../components/ui/FitText'
 
 export default function GoalsPage() {
   const { data } = useFinance()
@@ -74,7 +75,7 @@ export default function GoalsPage() {
             <div className="flex items-end justify-between gap-3">
               <div>
                 <p className="text-sm text-muted">Накопичено на цілі</p>
-                <p className="tabular mt-1 text-[28px] leading-tight font-bold tracking-tight">{formatMoney(summary.saved)}</p>
+                <FitText as="p" className="tabular mt-1 text-[28px] leading-tight font-bold tracking-tight">{formatMoney(summary.saved)}</FitText>
                 <p className="tabular text-sm text-muted">з {formatMoney(summary.target)}</p>
               </div>
               <span className="tabular rounded-full bg-primary-soft px-3 py-1 text-lg font-bold text-primary">{formatPercent(summary.percent)}</span>

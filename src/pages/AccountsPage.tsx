@@ -12,6 +12,7 @@ import { useFinanceStats } from '../hooks/useFinanceStats'
 import { useConfirm, useToast } from '../hooks/useUI'
 import { ACCOUNT_TYPE_COLORS, ACCOUNT_TYPE_ICONS, ACCOUNT_TYPE_LABELS } from '../data/defaults'
 import { amountToInput, formatMoney, parseAmount } from '../utils/format'
+import { FitText } from '../components/ui/FitText'
 
 export default function AccountsPage() {
   const { data, addAccount, updateAccount, deleteAccount, updateSettings } = useFinance()
@@ -84,20 +85,22 @@ export default function AccountsPage() {
       <div className="space-y-4">
         <Card className="p-5">
           <p className="text-sm text-muted">Разом на всіх рахунках</p>
-          <p className="tabular mt-1 text-[30px] leading-tight font-bold tracking-tight">{formatMoney(stats.balance)}</p>
+          <FitText as="p" className="tabular mt-1 text-[30px] leading-tight font-bold tracking-tight">{formatMoney(stats.balance)}</FitText>
         </Card>
         <Card className="divide-y divide-border overflow-hidden">
           {stats.accountBalances.map(({ account, balance }) => (
-            <button key={account.id} type="button" onClick={() => openForm(account)} className="press flex w-full items-center gap-3 px-4 py-3.5 text-left hover:bg-surface-2">
+            <button key={account.id} type="button" onClick={() => openForm(account)} className="press flex w-full items-start gap-3 px-4 py-3.5 text-left hover:bg-surface-2">
               <CategoryIcon icon={ACCOUNT_TYPE_ICONS[account.type]} color={ACCOUNT_TYPE_COLORS[account.type]} />
-              <span className="min-w-0 flex-1">
+              <span className="min-w-0 flex-1 pt-0.5">
                 <span className="flex items-center gap-1.5">
-                  <span className="truncate text-[15px] font-semibold">{account.name}</span>
+                  <span className="min-w-0 text-[15px] leading-snug font-semibold break-words">{account.name}</span>
                   {data.settings.defaultAccountId === account.id && <Star className="size-3.5 shrink-0 fill-warning text-warning" aria-label="Основний рахунок" />}
                 </span>
-                <span className="block text-sm text-muted">{ACCOUNT_TYPE_LABELS[account.type]}</span>
+                <span className="mt-0.5 flex flex-wrap items-baseline justify-between gap-x-3">
+                  <span className="text-sm text-muted">{ACCOUNT_TYPE_LABELS[account.type]}</span>
+                  <span className={`tabular ml-auto text-[15px] font-semibold whitespace-nowrap ${balance < 0 ? 'text-expense' : ''}`}>{formatMoney(balance)}</span>
+                </span>
               </span>
-              <span className={`tabular text-[15px] font-semibold ${balance < 0 ? 'text-expense' : ''}`}>{formatMoney(balance)}</span>
             </button>
           ))}
         </Card>

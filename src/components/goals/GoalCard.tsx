@@ -23,7 +23,7 @@ export function GoalCard({ progress, onClick, compact }: Props) {
       <div className="flex items-center gap-3">
         <CategoryIcon icon={goal.icon} color={goal.color} size={compact ? 'sm' : 'md'} />
         <div className="min-w-0 flex-1">
-          <p className="truncate text-[15px] font-semibold">{goal.name}</p>
+          <p className="min-w-0 break-words text-[15px] font-semibold">{goal.name}</p>
           <p className="tabular text-sm text-muted">
             {formatNumber(current)} / {formatMoney(goal.targetAmount)}
           </p>

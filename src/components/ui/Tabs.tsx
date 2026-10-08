@@ -55,12 +55,12 @@ export function Segmented<T extends string>({ options, value, onChange, label, c
             onKeyDown={(e) => onKeyDown(e, idx)}
             onClick={() => onChange(o.value)}
             className={cn(
-              'relative z-10 flex min-w-0 items-center justify-center gap-1.5 rounded-full font-semibold whitespace-nowrap transition-colors',
-              size === 'md' ? 'min-h-10 px-2 text-[14.5px]' : 'min-h-9 px-2 text-[13px]',
+              'relative z-10 flex min-w-0 items-center justify-center gap-1 rounded-full text-center leading-tight font-semibold whitespace-nowrap transition-colors',
+              size === 'md' ? 'min-h-10 px-1 text-[clamp(12px,3.7vw,14.5px)]' : 'min-h-9 px-1 text-[clamp(11.5px,3.4vw,13px)]',
               active ? 'text-text' : 'text-muted hover:text-text',
             )}
           >
-            <span className="truncate">{o.label}</span>
+            <span>{o.label}</span>
             {o.count !== undefined && <span className="tabular text-[11px] text-subtle">{o.count}</span>}
           </button>
         )

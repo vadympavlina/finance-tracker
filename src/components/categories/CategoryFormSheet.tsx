@@ -79,7 +79,7 @@ export function CategoryFormSheet({ open, onClose, category, defaultType = 'expe
         <div className="flex items-center gap-3 rounded-2xl bg-surface-2 p-3">
           <CategoryIcon icon={icon} color={color} size="lg" />
           <div className="min-w-0">
-            <p className="truncate font-semibold">{name.trim() || 'Назва категорії'}</p>
+            <p className="min-w-0 break-words font-semibold">{name.trim() || 'Назва категорії'}</p>
             <p className="text-sm text-muted">{type === 'expense' ? 'Витрати' : 'Доходи'}</p>
           </div>
         </div>
@@ -109,7 +109,7 @@ export function CategoryFormSheet({ open, onClose, category, defaultType = 'expe
           }}
         />
 
-        <fieldset>
+        <fieldset className="min-w-0">
           <legend className="mb-2 text-sm font-medium text-muted">Колір</legend>
           <div role="radiogroup" aria-label="Колір" className="flex flex-wrap gap-2.5">
             {PALETTE.map((c) => (
@@ -129,7 +129,7 @@ export function CategoryFormSheet({ open, onClose, category, defaultType = 'expe
           </div>
         </fieldset>
 
-        <fieldset>
+        <fieldset className="min-w-0">
           <legend className="mb-2 text-sm font-medium text-muted">Іконка</legend>
           <div role="radiogroup" aria-label="Іконка" className="grid grid-cols-6 gap-2 sm:grid-cols-8">
             {CATEGORY_ICON_KEYS.map((key) => {

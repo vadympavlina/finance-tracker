@@ -4,6 +4,7 @@ import type { Transaction } from '../../types'
 import { Sheet } from '../ui/Sheet'
 import { Button } from '../ui/Button'
 import { CategoryIcon } from '../common/CategoryIcon'
+import { FitText } from '../ui/FitText'
 import { useFinance, useLookups } from '../../hooks/useFinance'
 import { useConfirm, useToast } from '../../hooks/useUI'
 import { describeTransaction, TRANSACTION_TYPE_LABELS } from './transactionMeta'
@@ -79,16 +80,17 @@ export function TransactionDetailsSheet({ tx, onClose }: Props) {
     >
       <div className="flex flex-col items-center pt-2 pb-5 text-center">
         <CategoryIcon icon={view.icon} color={view.color} size="lg" />
-        <p className="mt-3 text-base font-semibold">{view.title}</p>
-        <p
+        <p className="mt-3 max-w-full text-base font-semibold break-words">{view.title}</p>
+        <FitText
+          as="p"
           className={cn(
-            'tabular mt-1 text-[34px] leading-tight font-bold tracking-tight',
+            'tabular mt-1 w-full text-center text-[34px] leading-tight font-bold tracking-tight',
             view.tone === 'income' && 'text-income',
             view.tone === 'neutral' && 'text-info',
           )}
         >
           {view.tone === 'neutral' ? formatMoney(view.signed) : formatSignedMoney(view.signed)}
-        </p>
+        </FitText>
         <p className="mt-1.5 text-sm text-muted">
           {formatFullDate(tx.date)} · {formatTime(tx.date)}
         </p>

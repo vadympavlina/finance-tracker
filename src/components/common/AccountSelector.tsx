@@ -15,7 +15,7 @@ interface AccountSelectorProps {
 /** Horizontal chips for choosing an account. */
 export function AccountSelector({ accounts, value, onChange, label = 'Рахунок', disabledId, error }: AccountSelectorProps) {
   return (
-    <fieldset>
+    <fieldset className="min-w-0">
       <legend className="mb-2 text-sm font-medium text-muted">{label}</legend>
       <div role="radiogroup" aria-label={label} className="no-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1 py-0.5">
         {accounts.map((a) => {

@@ -14,6 +14,7 @@ import { calculateBudgetProgress } from '../services/calculations'
 import { formatMonthYear } from '../utils/date'
 import { formatMoney, formatPercent } from '../utils/format'
 import { cn } from '../utils/cn'
+import { FitText } from '../components/ui/FitText'
 
 export default function BudgetsPage() {
   const { data } = useFinance()
@@ -84,7 +85,7 @@ export default function BudgetsPage() {
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="text-sm text-muted">Місячний бюджет</p>
-                  <p className="tabular mt-1 text-[30px] leading-tight font-bold tracking-tight">{formatMoney(total.budget.amount)}</p>
+                  <FitText as="p" className="tabular mt-1 text-[30px] leading-tight font-bold tracking-tight">{formatMoney(total.budget.amount)}</FitText>
                 </div>
                 <span className={cn('tabular rounded-full bg-surface-2 px-3 py-1 text-lg font-bold', statusColor(total.status))}>{formatPercent(total.percent)}</span>
               </div>
@@ -92,13 +93,13 @@ export default function BudgetsPage() {
               <div className="mt-4 grid grid-cols-2 gap-3">
                 <div className="rounded-2xl bg-surface-2 p-3">
                   <p className="text-xs text-muted">Витрачено</p>
-                  <p className="tabular text-[17px] font-bold">{formatMoney(total.spent)}</p>
+                  <FitText as="p" className="tabular text-[17px] font-bold">{formatMoney(total.spent)}</FitText>
                 </div>
                 <div className={cn('rounded-2xl p-3', total.status === 'exceeded' ? 'bg-expense-soft' : 'bg-surface-2')}>
                   <p className="text-xs text-muted">{total.status === 'exceeded' ? 'Перевищено на' : 'Залишилось'}</p>
-                  <p className={cn('tabular text-[17px] font-bold', total.status === 'exceeded' ? 'text-expense' : 'text-income')}>
+                  <FitText as="p" className={cn('tabular text-[17px] font-bold', total.status === 'exceeded' ? 'text-expense' : 'text-income')}>
                     {formatMoney(Math.abs(total.remaining))}
-                  </p>
+                  </FitText>
                 </div>
               </div>
               {total.status === 'exceeded' && <p className="mt-3 text-sm font-semibold text-expense">Перевищено бюджет</p>}

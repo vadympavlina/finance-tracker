@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import { Plus } from 'lucide-react'
-import { MOBILE_NAV } from '../../layouts/navigation'
+import { MOBILE_NAV, isNavActive } from '../../layouts/navigation'
 import { cn } from '../../utils/cn'
 
 /** Collapses the tab bar while the user scrolls down, like iOS 26. */
@@ -36,16 +36,20 @@ function useScrollCollapsed() {
  */
 export function BottomNavigation({ onQuickAdd, showAdd }: { onQuickAdd: () => void; showAdd: boolean }) {
   const collapsed = useScrollCollapsed()
+  const { pathname } = useLocation()
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-[max(10px,env(safe-area-inset-bottom))] z-30 flex items-end justify-center gap-2.5 px-3 lg:hidden">
+    <div className="pointer-events-none fixed inset-x-0 bottom-[max(10px,env(safe-area-inset-bottom))] z-30 flex items-end justify-center gap-2 px-3 lg:hidden">
       <nav aria-label="Основна навігація" className="glass pointer-events-auto min-w-0 flex-1 rounded-full p-1 sm:max-w-md">
         <ul className="flex items-stretch">
-          {MOBILE_NAV.map(({ to, label, icon: Icon }) => (
+          {MOBILE_NAV.map((item) => {
+            const { to, label, icon: Icon } = item
+            const isActive = isNavActive(item, pathname)
+            return (
             <li key={to} className="min-w-0 flex-1">
               <NavLink
                 to={to}
-                end={to === '/'}
-                className={({ isActive }) =>
+                aria-current={isActive ? 'page' : undefined}
+                className={() =>
                   cn(
                     'press flex flex-col items-center justify-center rounded-full font-semibold transition-all duration-300',
                     collapsed ? 'h-11 gap-0' : 'h-[54px] gap-0.5',
@@ -53,12 +57,12 @@ export function BottomNavigation({ onQuickAdd, showAdd }: { onQuickAdd: () => vo
                   )
                 }
               >
-                {({ isActive }) => (
+                {() => (
                   <>
                     <Icon className="size-[22px] shrink-0" strokeWidth={isActive ? 2.3 : 1.9} aria-hidden />
                     <span
                       className={cn(
-                        'max-w-full truncate px-0.5 text-[10.5px] leading-tight transition-all duration-300',
+                        'max-w-full text-[clamp(9.5px,2.9vw,11px)] leading-tight whitespace-nowrap transition-all duration-300',
                         collapsed ? 'h-0 opacity-0' : 'h-3.5 opacity-100',
                       )}
                     >
@@ -68,7 +72,8 @@ export function BottomNavigation({ onQuickAdd, showAdd }: { onQuickAdd: () => vo
                 )}
               </NavLink>
             </li>
-          ))}
+            )
+          })}
         </ul>
       </nav>
       {showAdd && (

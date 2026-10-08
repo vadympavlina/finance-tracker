@@ -18,6 +18,7 @@ import { EmptyState } from '../components/ui/EmptyState'
 import { buildSeries, calculateGoalProgress, getPeriodRange } from '../services/calculations'
 import { formatMoney, initials } from '../utils/format'
 import { formatMonthName } from '../utils/date'
+import { FitText } from '../components/ui/FitText'
 
 const todayLabel = () =>
   new Intl.DateTimeFormat('uk-UA', { weekday: 'long', day: 'numeric', month: 'long' }).format(new Date())
@@ -47,7 +48,7 @@ export default function DashboardPage() {
       <header className="flex items-center justify-between gap-3">
         <div className="min-w-0">
           <p className="text-[13px] font-medium text-muted first-letter:uppercase">{todayLabel()}</p>
-          <h1 className="mt-0.5 truncate text-[26px] leading-tight font-bold tracking-[-0.02em] lg:text-3xl">Привіт, {data.settings.userName} 👋</h1>
+          <h1 className="mt-0.5 min-w-0 break-words text-[26px] leading-tight font-bold tracking-[-0.02em] lg:text-3xl">Привіт, {data.settings.userName} 👋</h1>
         </div>
         <div className="flex shrink-0 items-center gap-2">
           <IconButton label="Налаштування" onClick={() => navigate('/settings')}>
@@ -128,7 +129,7 @@ export default function DashboardPage() {
             <Card className="p-4">
               <div className="mb-2 flex items-baseline justify-between gap-2">
                 <p className="text-sm text-muted">Цього місяця</p>
-                <p className="tabular text-lg font-bold">{formatMoney(stats.monthly.expenses)}</p>
+                <FitText as="p" className="tabular text-lg font-bold">{formatMoney(stats.monthly.expenses)}</FitText>
               </div>
               <BarChart data={series} color="var(--primary)" height={190} label="Витрати за останні 6 місяців" />
             </Card>

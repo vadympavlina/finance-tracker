@@ -27,7 +27,7 @@ export function BudgetCard({ progress, category, onClick }: Props) {
       <div className="flex items-center gap-3">
         <CategoryIcon icon={category?.icon ?? 'wallet'} color={category?.color ?? '#0E8F62'} size="sm" muted={category?.isArchived} />
         <div className="min-w-0 flex-1">
-          <p className="truncate text-[15px] font-semibold">{name}</p>
+          <p className="min-w-0 break-words text-[15px] font-semibold">{name}</p>
           <p className="tabular text-sm text-muted">
             {formatNumber(spent)} / {formatMoney(budget.amount)}
           </p>

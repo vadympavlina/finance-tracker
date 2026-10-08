@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { StructureSlice } from '../../services/calculations'
 import { formatMoney, formatPercent } from '../../utils/format'
+import { FitText } from '../ui/FitText'
 
 interface DonutChartProps {
   slices: StructureSlice[]
@@ -52,8 +53,8 @@ export function DonutChart({ slices, total, centerLabel, size = 200, label }: Do
           })}
       </svg>
       <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-8 text-center">
-        <span className="max-w-full truncate text-xs text-muted">{focused ? focused.name : centerLabel}</span>
-        <span className="tabular text-lg leading-tight font-bold tracking-tight">{formatMoney(focused ? focused.amount : total)}</span>
+        <span className="max-w-full min-w-0 break-words text-xs text-muted">{focused ? focused.name : centerLabel}</span>
+        <FitText as="span" className="tabular w-full text-center text-lg leading-tight font-bold tracking-tight">{formatMoney(focused ? focused.amount : total)}</FitText>
         {focused && <span className="tabular text-xs font-medium text-muted">{formatPercent(focused.share)}</span>}
       </div>
     </div>

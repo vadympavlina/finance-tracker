@@ -48,7 +48,7 @@ export function DatePicker({ date, onDateChange, time, onTimeChange, label = 'Д
           </div>
         )}
       </div>
-      <div className={cn('grid gap-2', onTimeChange ? 'grid-cols-[1fr_auto]' : 'grid-cols-1')}>
+      <div className={cn('grid gap-2', onTimeChange ? 'grid-cols-[minmax(0,1fr)_auto]' : 'grid-cols-1')}>
         <input
           id={id}
           type="date"
@@ -58,7 +58,7 @@ export function DatePicker({ date, onDateChange, time, onTimeChange, label = 'Д
           required
           aria-invalid={!!error}
           onChange={(e) => e.target.value && onDateChange(e.target.value)}
-          className={cn(controlClassName, 'h-12')}
+          className={cn(controlClassName, 'h-12 min-w-0')}
         />
         {onTimeChange && (
           <input
@@ -66,7 +66,7 @@ export function DatePicker({ date, onDateChange, time, onTimeChange, label = 'Д
             aria-label="Час"
             value={time}
             onChange={(e) => e.target.value && onTimeChange(e.target.value)}
-            className={cn(controlClassName, 'h-12 w-[7.5rem]')}
+            className={cn(controlClassName, 'h-12 w-[6.75rem] min-w-0 px-3')}
           />
         )}
       </div>

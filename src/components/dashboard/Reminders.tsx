@@ -111,8 +111,8 @@ export function Reminders() {
             <r.icon className="size-[19px]" aria-hidden />
           </span>
           <Link to={r.to} className="min-w-0 flex-1 rounded-lg py-0.5">
-            <span className="block truncate text-[14.5px] font-semibold">{r.title}</span>
-            <span className="block truncate text-[13px] text-muted">{r.text}</span>
+            <span className="block min-w-0 break-words text-[14.5px] font-semibold">{r.title}</span>
+            <span className="block min-w-0 break-words text-[13px] text-muted">{r.text}</span>
           </Link>
           <button
             type="button"

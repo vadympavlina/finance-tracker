@@ -15,7 +15,7 @@ interface CategorySelectorProps {
 /** Grid of categories — radio group semantics, large touch targets. */
 export function CategorySelector({ categories, value, onChange, onCreate, error, label = 'Категорія' }: CategorySelectorProps) {
   return (
-    <fieldset>
+    <fieldset className="min-w-0">
       <legend className="mb-2.5 text-sm font-medium text-muted">{label}</legend>
       <div role="radiogroup" aria-label={label} aria-invalid={!!error} className="grid grid-cols-4 gap-2 sm:grid-cols-5">
         {categories.map((c) => {
@@ -33,7 +33,7 @@ export function CategorySelector({ categories, value, onChange, onCreate, error,
               )}
             >
               <CategoryIcon icon={c.icon} color={c.color} size="sm" />
-              <span className={cn('line-clamp-2 text-xs leading-tight font-medium', selected ? 'text-primary' : 'text-text')}>{c.name}</span>
+              <span className={cn('max-w-full text-xs leading-tight font-medium break-words hyphens-auto', selected ? 'text-primary' : 'text-text')}>{c.name}</span>
             </button>
           )
         })}

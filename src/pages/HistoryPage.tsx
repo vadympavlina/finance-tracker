@@ -9,12 +9,14 @@ import { Button, IconButton } from '../components/ui/Button'
 import { Card } from '../components/ui/Card'
 import { EmptyState } from '../components/ui/EmptyState'
 import { Sheet } from '../components/ui/Sheet'
-import { SelectField, TextField, controlClassName } from '../components/ui/Field'
+import { TextField, controlClassName } from '../components/ui/Field'
+import { ChipGroup } from '../components/ui/ChipGroup'
 import { useFinance, useLookups } from '../hooks/useFinance'
 import { calculateExpenses, calculateIncome, sortByDateDesc } from '../services/calculations'
 import { addDays, addMonths, endOfDay, endOfMonth, parseDate, startOfDay, startOfMonth, toDateInput, formatDayMonth } from '../utils/date'
-import { formatMoney, parseAmount } from '../utils/format'
+import { formatMoney, parseAmount, pluralUk } from '../utils/format'
 import { cn } from '../utils/cn'
+import { FitText } from '../components/ui/FitText'
 
 type Tab = 'all' | 'income' | 'expense' | 'debts'
 
@@ -99,7 +101,7 @@ export default function HistoryPage() {
 
   return (
     <div className="mx-auto max-w-3xl">
-      <PageHeader title="Історія" subtitle={`${filtered.length} операцій`} />
+      <PageHeader title="Історія" subtitle={`${filtered.length} ${pluralUk(filtered.length, ['операція', 'операції', 'операцій'])}`} back />
 
       <div className="space-y-4">
         <Segmented<Tab>
@@ -158,11 +160,11 @@ export default function HistoryPage() {
           <Card className="grid grid-cols-2 divide-x divide-border">
             <div className="px-4 py-3">
               <p className="text-xs text-muted">Доходи{hasAnyFilter ? ' · за фільтром' : ' · за весь час'}</p>
-              <p className="tabular text-[17px] font-semibold text-income">{formatMoney(totals.income)}</p>
+              <FitText as="p" className="tabular text-[17px] font-semibold text-income">{formatMoney(totals.income)}</FitText>
             </div>
             <div className="px-4 py-3">
               <p className="text-xs text-muted">Витрати{hasAnyFilter ? ' · за фільтром' : ' · за весь час'}</p>
-              <p className="tabular text-[17px] font-semibold">{formatMoney(totals.expenses)}</p>
+              <FitText as="p" className="tabular text-[17px] font-semibold">{formatMoney(totals.expenses)}</FitText>
             </div>
           </Card>
         )}
@@ -218,7 +220,7 @@ export default function HistoryPage() {
 }
 
 const TYPE_OPTIONS: Array<{ value: Filters['type']; label: string }> = [
-  { value: '', label: 'Усі типи' },
+  { value: '', label: 'Усі' },
   { value: 'expense', label: 'Витрати' },
   { value: 'income', label: 'Доходи' },
   { value: 'transfer', label: 'Перекази' },
@@ -264,7 +266,7 @@ function FiltersSheet({ open, onClose, value, onApply }: { open: boolean; onClos
       }
     >
       <div className="space-y-5 pt-1">
-        <fieldset className="space-y-2">
+        <fieldset className="min-w-0 space-y-2">
           <legend className="mb-2 text-sm font-medium text-muted">Дата</legend>
           <div className="flex flex-wrap gap-2">
             {presets.map((p) => (
@@ -282,31 +284,30 @@ function FiltersSheet({ open, onClose, value, onApply }: { open: boolean; onClos
               </button>
             ))}
           </div>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 gap-2 min-[400px]:grid-cols-2">
             <TextField label="Від" type="date" value={draft.from} max={draft.to || undefined} onChange={(e) => set({ from: e.target.value })} />
             <TextField label="До" type="date" value={draft.to} min={draft.from || undefined} onChange={(e) => set({ to: e.target.value })} />
           </div>
         </fieldset>
-        <SelectField label="Тип" value={draft.type} onChange={(e) => set({ type: e.target.value as Filters['type'] })} options={TYPE_OPTIONS} />
-        <SelectField
+        <ChipGroup<Filters['type']> label="Тип" value={draft.type} onChange={(type) => set({ type })} options={TYPE_OPTIONS} />
+        <ChipGroup
           label="Категорія"
           value={draft.categoryId}
-          onChange={(e) => set({ categoryId: e.target.value })}
+          onChange={(categoryId) => set({ categoryId })}
           options={[
-            { value: '', label: 'Усі категорії' },
-            ...data.categories.map((c) => ({
-              value: c.id,
-              label: `${c.name} · ${c.type === 'expense' ? 'витрата' : 'дохід'}${c.isArchived ? ' (архів)' : ''}`,
-            })),
+            { value: '', label: 'Усі' },
+            ...[...data.categories]
+              .sort((x, y) => Number(x.type === 'income') - Number(y.type === 'income') || Number(x.isArchived) - Number(y.isArchived))
+              .map((c) => ({ value: c.id, label: `${c.name}${c.isArchived ? ' (архів)' : ''}`, color: c.color })),
           ]}
         />
-        <SelectField
+        <ChipGroup
           label="Рахунок"
           value={draft.accountId}
-          onChange={(e) => set({ accountId: e.target.value })}
-          options={[{ value: '', label: 'Усі рахунки' }, ...data.accounts.map((a) => ({ value: a.id, label: a.name }))]}
+          onChange={(accountId) => set({ accountId })}
+          options={[{ value: '', label: 'Усі' }, ...data.accounts.map((a) => ({ value: a.id, label: a.name }))]}
         />
-        <fieldset>
+        <fieldset className="min-w-0">
           <legend className="mb-2 text-sm font-medium text-muted">Сума, ₴</legend>
           <div className="grid grid-cols-2 gap-2">
             <TextField label="Від" inputMode="decimal" placeholder="0" value={draft.min} onChange={(e) => set({ min: e.target.value.replace(/[^\d.,]/g, '') })} />

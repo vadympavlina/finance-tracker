@@ -155,16 +155,16 @@ export default function HistoryPage() {
         )}
 
         {filtered.length > 0 && (tab === 'all' || hasAnyFilter) && (
-          <div className="grid grid-cols-2 gap-3">
-            <Card className="p-3.5">
-              <p className="text-xs text-muted">Доходи</p>
-              <p className="tabular text-[17px] font-bold text-income">{formatMoney(totals.income)}</p>
-            </Card>
-            <Card className="p-3.5">
-              <p className="text-xs text-muted">Витрати</p>
-              <p className="tabular text-[17px] font-bold">{formatMoney(totals.expenses)}</p>
-            </Card>
-          </div>
+          <Card className="grid grid-cols-2 divide-x divide-border">
+            <div className="px-4 py-3">
+              <p className="text-xs text-muted">Доходи{hasAnyFilter ? ' · за фільтром' : ' · за весь час'}</p>
+              <p className="tabular text-[17px] font-semibold text-income">{formatMoney(totals.income)}</p>
+            </div>
+            <div className="px-4 py-3">
+              <p className="text-xs text-muted">Витрати{hasAnyFilter ? ' · за фільтром' : ' · за весь час'}</p>
+              <p className="tabular text-[17px] font-semibold">{formatMoney(totals.expenses)}</p>
+            </div>
+          </Card>
         )}
 
         {filtered.length ? (

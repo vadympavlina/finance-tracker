@@ -66,7 +66,7 @@ export default function ProfilePage() {
             {[
               { label: 'Доходи', value: stats.monthly.income, cls: 'text-income' },
               { label: 'Витрати', value: stats.monthly.expenses, cls: 'text-expense' },
-              { label: 'Борги', value: stats.debt.total, cls: 'text-primary' },
+              { label: 'Борги', value: stats.debt.total, cls: 'text-warning' },
             ].map((s) => (
               <Card key={s.label} className="p-3.5 text-center">
                 <p className={`tabular truncate text-[15px] font-bold sm:text-lg ${s.cls}`}>{formatMoney(s.value)}</p>

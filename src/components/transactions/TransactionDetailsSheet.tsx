@@ -62,7 +62,7 @@ export function TransactionDetailsSheet({ tx, onClose }: Props) {
       title="Деталі операції"
       footer={
         <div className="grid grid-cols-2 gap-3">
-          <Button variant="secondary" icon={<Trash2 className="size-[18px]" aria-hidden />} onClick={onDelete} className="text-expense">
+          <Button variant="danger-soft" icon={<Trash2 className="size-[18px]" aria-hidden />} onClick={onDelete}>
             Видалити
           </Button>
           <Button

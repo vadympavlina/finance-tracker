@@ -173,7 +173,7 @@ export function GoalDetailsSheet({ goal, onClose, onEdit }: Props) {
           <Button variant="ghost" icon={<Pencil className="size-4" aria-hidden />} onClick={() => onEdit(goal)}>
             Редагувати
           </Button>
-          <Button variant="ghost" className="text-expense hover:text-expense" icon={<Trash2 className="size-4" aria-hidden />} onClick={remove}>
+          <Button variant="danger-soft" icon={<Trash2 className="size-4" aria-hidden />} onClick={remove}>
             Видалити
           </Button>
         </div>

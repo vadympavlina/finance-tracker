@@ -112,7 +112,7 @@ export default function AccountsPage() {
         footer={
           <div className="flex gap-3">
             {editing && (
-              <Button variant="secondary" className="text-expense" icon={<Trash2 className="size-4" aria-hidden />} onClick={remove} aria-label="Видалити рахунок" />
+              <Button variant="danger-soft"  icon={<Trash2 className="size-4" aria-hidden />} onClick={remove} aria-label="Видалити рахунок" />
             )}
             <Button block size="lg" onClick={save}>
               Зберегти

@@ -146,7 +146,7 @@ export function DebtDetailsSheet({ debt, onClose }: { debt: Debt | null; onClose
             >
               Редагувати
             </Button>
-            <Button variant="ghost" className="text-expense hover:text-expense" icon={<Trash2 className="size-4" aria-hidden />} onClick={onDelete}>
+            <Button variant="danger-soft" icon={<Trash2 className="size-4" aria-hidden />} onClick={onDelete}>
               Видалити
             </Button>
           </div>

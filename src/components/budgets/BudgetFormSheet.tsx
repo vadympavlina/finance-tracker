@@ -97,7 +97,7 @@ export function BudgetFormSheet({ open, onClose, budget }: Props) {
       footer={
         <div className="flex gap-3">
           {budget && (
-            <Button variant="secondary" className="text-expense" onClick={remove}>
+            <Button variant="danger-soft"  onClick={remove}>
               Видалити
             </Button>
           )}

@@ -14,7 +14,7 @@ export function AccountsStrip({ items, hidden }: Props) {
   return (
     <ul className="no-scrollbar -mx-4 flex snap-x gap-3 overflow-x-auto px-4 pb-1 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0">
       {items.map(({ account, balance }) => (
-        <li key={account.id} className="min-w-[156px] snap-start">
+        <li key={account.id} className="min-w-[172px] snap-start">
           <Link to="/accounts" className="press flex items-center gap-3 rounded-3xl border border-border bg-surface p-3.5 shadow-card hover:border-border-strong">
             <CategoryIcon icon={ACCOUNT_TYPE_ICONS[account.type]} color={ACCOUNT_TYPE_COLORS[account.type]} size="sm" />
             <span className="min-w-0">

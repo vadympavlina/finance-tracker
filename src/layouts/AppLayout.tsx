@@ -14,7 +14,7 @@ export function AppLayout() {
   const [quickAddOpen, setQuickAddOpen] = useState(false)
   const { pathname } = useLocation()
   const formRoute = isFormRoute(pathname)
-  const showFab = !formRoute && pathname !== '/'
+  const showFab = !formRoute && !['/', '/settings', '/accounts', '/profile'].includes(pathname)
 
   useEffect(() => {
     window.scrollTo({ top: 0 })

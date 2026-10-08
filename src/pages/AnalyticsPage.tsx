@@ -25,7 +25,7 @@ import {
   type AnalyticsMetric,
   type AnalyticsPeriod,
 } from '../services/calculations'
-import { formatFullDate } from '../utils/date'
+import { formatDayMonth } from '../utils/date'
 import { formatMoney, formatPercent, formatSignedMoney } from '../utils/format'
 import { cn } from '../utils/cn'
 
@@ -118,7 +118,7 @@ function FlowView({ type, period, offset }: { type: 'expense' | 'income'; period
         </Card>
         <Card className="p-4">
           <p className="text-sm text-muted">{isExpense ? 'Середній чек' : 'Середній дохід'}</p>
-          <p className="tabular mt-1 text-xl font-bold">{formatMoney(summary.average)}</p>
+          <p className="tabular mt-1 text-xl font-bold">{formatMoney(Math.round(summary.average))}</p>
           <div className="mt-2">
             <TrendBadge value={summary.averageChange} inverse={isExpense} />
           </div>
@@ -128,7 +128,7 @@ function FlowView({ type, period, offset }: { type: 'expense' | 'income'; period
           <p className="tabular mt-1 text-xl font-bold">{formatMoney(summary.largest?.amount ?? 0)}</p>
           <p className="mt-2 truncate text-xs text-muted">
             {summary.largest
-              ? `${summary.largest.merchant || largestCategory?.name || ''} · ${formatFullDate(summary.largest.date)}`
+              ? `${summary.largest.merchant || largestCategory?.name || ''} · ${formatDayMonth(summary.largest.date)}`
               : `${summary.count} операцій`}
           </p>
         </Card>

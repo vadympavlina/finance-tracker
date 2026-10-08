@@ -97,28 +97,30 @@ export function Reminders() {
     }
   }
 
+  const tones = {
+    danger: 'bg-expense-soft text-expense',
+    warning: 'bg-warning-soft text-warning',
+    info: 'bg-primary-soft text-primary',
+  }
+
   return (
-    <ul className="space-y-2" aria-label="Нагадування">
+    <ul className="divide-y divide-border overflow-hidden rounded-3xl border border-border bg-surface" aria-label="Нагадування">
       {visible.map((r) => (
-        <li
-          key={r.id}
-          className={cn(
-            'flex items-center gap-3 rounded-[18px] border p-3 pl-3.5',
-            r.tone === 'danger' && 'border-expense/20 bg-expense-soft',
-            r.tone === 'warning' && 'border-warning/20 bg-warning-soft',
-            r.tone === 'info' && 'border-primary/15 bg-primary-soft',
-          )}
-        >
-          <r.icon
-            className={cn('size-5 shrink-0', r.tone === 'danger' ? 'text-expense' : r.tone === 'warning' ? 'text-warning' : 'text-primary')}
-            aria-hidden
-          />
-          <Link to={r.to} className="min-w-0 flex-1 rounded-lg">
-            <span className="block truncate text-sm font-semibold">{r.title}</span>
+        <li key={r.id} className="flex items-center gap-3 py-2.5 pr-2 pl-3">
+          <span className={cn('grid size-10 shrink-0 place-items-center rounded-2xl', tones[r.tone])}>
+            <r.icon className="size-[19px]" aria-hidden />
+          </span>
+          <Link to={r.to} className="min-w-0 flex-1 rounded-lg py-0.5">
+            <span className="block truncate text-[14.5px] font-semibold">{r.title}</span>
             <span className="block truncate text-[13px] text-muted">{r.text}</span>
           </Link>
-          <button type="button" onClick={() => dismiss(r.id)} aria-label="Сховати нагадування" className="press grid size-9 shrink-0 place-items-center rounded-full text-muted hover:bg-black/5">
-            <X className="size-4" aria-hidden />
+          <button
+            type="button"
+            onClick={() => dismiss(r.id)}
+            aria-label={`Сховати: ${r.title}`}
+            className="press grid size-10 shrink-0 place-items-center rounded-full text-subtle hover:bg-surface-2 hover:text-text"
+          >
+            <X className="size-[18px]" aria-hidden />
           </button>
         </li>
       ))}

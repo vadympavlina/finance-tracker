@@ -32,7 +32,7 @@ export function AppLayout() {
         <main
           id="main"
           className={cn(
-            'pt-safe min-w-0 flex-1 px-4 sm:px-6 lg:px-10 lg:pt-8 lg:pb-12',
+            'min-w-0 flex-1 px-4 pt-[env(safe-area-inset-top)] sm:px-6 lg:px-10 lg:pt-10 lg:pb-12',
             formRoute ? 'pb-6' : 'pb-[calc(112px+env(safe-area-inset-bottom))]',
           )}
         >

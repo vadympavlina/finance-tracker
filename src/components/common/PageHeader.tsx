@@ -36,6 +36,7 @@ export function PageHeader({ title, subtitle, back, actions, navPage }: PageHead
     else navigate('/')
   }
 
+  const backOnDesktop = !!back && !navPage
   const backButton = back && (
     <IconButton label="Назад" onClick={goBack} className={navPage ? 'lg:hidden' : undefined}>
       <ChevronLeft className="size-[22px]" strokeWidth={2.4} aria-hidden />
@@ -44,17 +45,23 @@ export function PageHeader({ title, subtitle, back, actions, navPage }: PageHead
 
   return (
     <>
-      <header className="pt-2 pb-5 lg:pt-0">
+      <header className="pt-2 pb-5 lg:pt-0 lg:pb-6">
         {(back || actions) && (
-          <div className={cn('mb-3 flex min-h-11 items-center justify-between gap-2', navPage && !actions && 'lg:hidden')}>
+          <div className={cn('mb-3 flex min-h-11 items-center justify-between gap-2', !backOnDesktop && 'lg:hidden')}>
             <div>{backButton}</div>
             <div className="flex items-center gap-2">{actions}</div>
           </div>
         )}
-        <h1 ref={sentinel} className="text-[clamp(1.5rem,9vw,2.125rem)] leading-[1.1] font-bold tracking-[-0.03em] break-words">
-          {title}
-        </h1>
-        {subtitle && <p className="mt-1 text-[0.9375rem] text-muted">{subtitle}</p>}
+        {/* Desktop: actions sit on the title row instead of floating above it. */}
+        <div className="flex items-center justify-between gap-4">
+          <div className="min-w-0">
+            <h1 ref={sentinel} className="text-[clamp(1.5rem,9vw,2.125rem)] leading-[1.1] font-bold tracking-[-0.03em] break-words">
+              {title}
+            </h1>
+            {subtitle && <p className="mt-1 text-[0.9375rem] text-muted">{subtitle}</p>}
+          </div>
+          {actions && !backOnDesktop && <div className="hidden shrink-0 items-center gap-2 lg:flex">{actions}</div>}
+        </div>
       </header>
       {/* Compact bar (appears on scroll) */}
       <div

@@ -8,15 +8,6 @@ import { useToast } from '../hooks/useUI'
 
 type Mode = 'signin' | 'signup'
 
-const GoogleMark = () => (
-  <svg viewBox="0 0 24 24" className="size-5" aria-hidden>
-    <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.4h6.5a5.6 5.6 0 0 1-2.4 3.6v3h3.9c2.2-2.1 3.5-5.1 3.5-8.7Z" />
-    <path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3c-1.1.7-2.5 1.2-4.1 1.2-3.1 0-5.8-2.1-6.7-5H1.3v3.1A12 12 0 0 0 12 24Z" />
-    <path fill="#FBBC05" d="M5.3 14.3a7.2 7.2 0 0 1 0-4.6V6.6h-4a12 12 0 0 0 0 10.8l4-3.1Z" />
-    <path fill="#EA4335" d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4A12 12 0 0 0 1.3 6.6l4 3.1c.9-2.9 3.6-4.9 6.7-4.9Z" />
-  </svg>
-)
-
 /** Sign in / sign up. Shown before the app when there is no session and the user hasn't chosen local mode. */
 export default function LoginPage({ onClose }: { onClose?: () => void }) {
   const toast = useToast()
@@ -25,10 +16,10 @@ export default function LoginPage({ onClose }: { onClose?: () => void }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
-  const [busy, setBusy] = useState<'email' | 'google' | 'reset' | null>(null)
+  const [busy, setBusy] = useState<'email' | 'reset' | null>(null)
   const [error, setError] = useState<{ field?: 'email' | 'password'; text: string } | null>(null)
 
-  const run = async (kind: 'email' | 'google' | 'reset', fn: () => Promise<void>) => {
+  const run = async (kind: 'email' | 'reset', fn: () => Promise<void>) => {
     setBusy(kind)
     setError(null)
     try {
@@ -146,15 +137,6 @@ export default function LoginPage({ onClose }: { onClose?: () => void }) {
               </button>
             )}
           </form>
-
-          <div className="my-5 flex items-center gap-3 text-xs text-subtle" aria-hidden>
-            <span className="h-px flex-1 bg-border" />
-            або
-            <span className="h-px flex-1 bg-border" />
-          </div>
-          <Button variant="secondary" block size="lg" icon={<GoogleMark />} disabled={!!busy} onClick={() => void run('google', () => cloudSync.signInWithGoogle())}>
-            {busy === 'google' ? 'Зачекай…' : 'Продовжити з Google'}
-          </Button>
         </div>
 
         <ul className="mt-5 space-y-3 px-1 text-[0.8125rem] leading-snug text-muted">

@@ -288,9 +288,6 @@ export class CloudSync {
     this.pendingName = name?.trim() || null
     await (await this.ready()).signUp(email, password, this.pendingName ?? undefined).catch(rethrow)
   }
-  async signInWithGoogle() {
-    await (await this.ready()).signInWithGoogle().catch(rethrow)
-  }
   async resetPassword(email: string) {
     await (await this.ready()).resetPassword(email).catch(rethrow)
   }
@@ -340,11 +337,7 @@ const MESSAGES: Record<string, string> = {
   'auth/weak-password': 'Пароль занадто простий — щонайменше 6 символів.',
   'auth/too-many-requests': 'Забагато спроб. Зачекай трохи й спробуй знову.',
   'auth/network-request-failed': 'Немає зʼєднання з інтернетом.',
-  'auth/popup-closed-by-user': 'Вікно входу закрито.',
-  'auth/cancelled-popup-request': 'Вікно входу закрито.',
-  'auth/popup-blocked': 'Браузер заблокував вікно входу. Дозволь спливні вікна.',
   'auth/operation-not-allowed': 'Цей спосіб входу не увімкнено у Firebase.',
-  'auth/unauthorized-domain': 'Цей сайт не додано до дозволених доменів у Firebase Auth.',
   'auth/user-disabled': 'Обліковий запис вимкнено.',
 }
 

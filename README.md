@@ -70,7 +70,7 @@ UI-компоненти не звертаються до `localStorage` і не 
 
 ## Хмара (Firebase)
 
-Обліковий запис необовʼязковий: на старті можна увійти (email/пароль або Google) чи «Продовжити без входу».
+Обліковий запис необовʼязковий: на старті можна увійти за email і паролем чи «Продовжити без входу».
 
 - **Дані кожного користувача окремо**: `users/{uid}/data/{колекція}/{id}` + `users/{uid}/meta`.
   Правила (`database.rules.json`) дозволяють читати й писати лише власний вузол, усе інше закрито.
@@ -86,9 +86,8 @@ UI-компоненти не звертаються до `localStorage` і не 
 
 ### Налаштування Firebase Console
 
-1. **Authentication → Sign-in method**: увімкни *Email/Password* і (за бажанням) *Google*.
-2. **Authentication → Settings → Authorized domains**: додай `vadympavlina.github.io`.
-3. **Realtime Database → Rules**: встав вміст `database.rules.json` і натисни *Publish*
+1. **Authentication → Sign-in method**: увімкни *Email/Password*.
+2. **Realtime Database → Rules**: встав вміст `database.rules.json` і натисни *Publish*
    (або `firebase deploy --only database`).
 
 Конфіг вебзастосунку лежить у `src/services/cloud/config.ts` — ці ключі публічні за задумом, захист дають правила.

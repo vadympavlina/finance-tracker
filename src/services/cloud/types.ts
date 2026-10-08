@@ -21,7 +21,6 @@ export interface CloudBackend {
   onAuth(cb: (user: CloudUser | null) => void): () => void
   signIn(email: string, password: string): Promise<void>
   signUp(email: string, password: string, name?: string): Promise<void>
-  signInWithGoogle(): Promise<void>
   resetPassword(email: string): Promise<void>
   signOut(): Promise<void>
   /** One-off read of users/{uid}/data (null when the account has no data yet). */

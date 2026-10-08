@@ -1,13 +1,10 @@
 import { initializeApp } from 'firebase/app'
 import {
-  GoogleAuthProvider,
   createUserWithEmailAndPassword,
   getAuth,
   onAuthStateChanged,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
-  signInWithPopup,
-  signInWithRedirect,
   signOut,
   updateProfile,
 } from 'firebase/auth'
@@ -31,14 +28,6 @@ export function createFirebaseBackend(): CloudBackend {
     async signUp(email, password, name) {
       const cred = await createUserWithEmailAndPassword(auth, email, password)
       if (name) await updateProfile(cred.user, { displayName: name }).catch(() => {})
-    },
-    async signInWithGoogle() {
-      const provider = new GoogleAuthProvider()
-      provider.setCustomParameters({ prompt: 'select_account' })
-      // Installed PWAs on iOS can't open popups reliably — fall back to a redirect.
-      const standalone = window.matchMedia('(display-mode: standalone)').matches
-      if (standalone) return signInWithRedirect(auth, provider)
-      await signInWithPopup(auth, provider)
     },
     async resetPassword(email) {
       await sendPasswordResetEmail(auth, email)

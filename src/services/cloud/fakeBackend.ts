@@ -88,7 +88,6 @@ export function createFakeBackend(opts: { persist?: boolean } = {}): CloudBacken
       if (opts.persist) localStorage.setItem(AUTH + '-users', JSON.stringify(users))
       setAuth(user)
     },
-    signInWithGoogle: () => fail('auth/operation-not-allowed'),
     async resetPassword(email) {
       if (!users[email.toLowerCase()]) return fail('auth/user-not-found')
     },

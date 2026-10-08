@@ -25,6 +25,7 @@ import { createId } from '../utils/id'
 import { nowISO } from '../utils/date'
 import { roundMoney, setActiveCurrency } from '../utils/format'
 import { useToast } from '../hooks/useUI'
+import { cloudSync, markDemoUntouched } from '../services/cloud'
 
 export type TransactionInput = Omit<Transaction, 'id' | 'createdAt' | 'updatedAt'>
 export type CategoryInput = Pick<Category, 'name' | 'icon' | 'color' | 'type'>
@@ -114,6 +115,22 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     void load()
   }, [load])
 
+  // Cloud sync: starts once local data is on screen; remote changes replace local data without echoing back.
+  const loaded = data !== null
+  useEffect(() => {
+    if (!loaded) return
+    cloudSync.attach({
+      getData: () => dataRef.current as FinanceData,
+      async applyRemote(remote) {
+        const reconciled = { ...remote, debts: reconcileDebts(remote.debts, remote.transactions) }
+        dataRef.current = reconciled
+        setActiveCurrency(reconciled.settings.currency)
+        setData(reconciled)
+        await saveAllData(reconciled)
+      },
+    })
+  }, [loaded])
+
   // Keep several open tabs in sync.
   useEffect(() => {
     const onStorage = (e: StorageEvent) => {
@@ -144,6 +161,8 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
         else writes.push(saveCollection(key as CollectionKey, next[key as CollectionKey]))
       }
       Promise.all(writes).catch(() => toast('Не вдалося зберегти дані. Перевір вільне місце в браузері.', 'error'))
+      markDemoUntouched(false)
+      cloudSync.push(current, next, Object.keys(patch) as Array<keyof FinanceData>)
     },
     [toast],
   )
@@ -158,6 +177,8 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
       dataRef.current = reconciled
       setActiveCurrency(reconciled.settings.currency)
       setData(reconciled)
+      markDemoUntouched(false)
+      cloudSync.pushAll(reconciled)
     }
     return {
       /* ---------- Transactions ---------- */

@@ -54,6 +54,7 @@ src/
   services/
     storage/             storage layer: async-адаптер (localStorage → легко замінити на Firebase),
                          репозиторії колекцій, валідація імпорту, експорт
+    cloud/               Firebase Auth + Realtime Database: рушій синхронізації, diff, fake-бекенд для тестів
     calculations/        усі фінансові розрахунки (баланс, доходи/витрати, бюджети, борги, цілі, аналітика)
   store/                 FinanceContext (стан + дії, синхронізація похідних полів), UIContext (toasts, confirm)
   hooks/                 useFinance, useFinanceStats, useTheme, useUI …
@@ -65,8 +66,34 @@ src/
 ```
 
 UI-компоненти не звертаються до `localStorage` і не рахують фінансові показники самі — лише через
-`services/storage` і `services/calculations`. Щоб перейти на Firebase, реалізуй `StorageAdapter`
-(`read/write/remove`) і виклич `setAdapter()` під час старту застосунку.
+`services/storage` і `services/calculations`.
+
+## Хмара (Firebase)
+
+Обліковий запис необовʼязковий: на старті можна увійти (email/пароль або Google) чи «Продовжити без входу».
+
+- **Дані кожного користувача окремо**: `users/{uid}/data/{колекція}/{id}` + `users/{uid}/meta`.
+  Правила (`database.rules.json`) дозволяють читати й писати лише власний вузол, усе інше закрито.
+- **Офлайн-перше**: інтерфейс завжди працює з локальною копією. Кожна зміна йде в хмару мінімальним
+  multi-path `update` (лише змінені записи), зміни з інших пристроїв приходять через live-listener.
+  Не підтверджені сервером зміни позначаються й досилаються при наступному запуску.
+- **Перший вхід на пристрої**: недоторкані демо-дані відкидаються; справжні локальні дані — питаємо,
+  перенести чи почати з чистого; якщо в хмарі вже є дані — питаємо, що залишити.
+  Дані іншого акаунта з цього ж пристрою ніколи не пропонуються новому користувачу.
+- **Вихід** прибирає дані з пристрою (лишаються тема, акцент, розмір тексту) — на одному пристрої можуть
+  по черзі працювати різні люди.
+- Firebase SDK вантажиться окремим чанком лише коли потрібен; у режимі без входу не завантажується зовсім.
+
+### Налаштування Firebase Console
+
+1. **Authentication → Sign-in method**: увімкни *Email/Password* і (за бажанням) *Google*.
+2. **Authentication → Settings → Authorized domains**: додай `vadympavlina.github.io`.
+3. **Realtime Database → Rules**: встав вміст `database.rules.json` і натисни *Publish*
+   (або `firebase deploy --only database`).
+
+Конфіг вебзастосунку лежить у `src/services/cloud/config.ts` — ці ключі публічні за задумом, захист дають правила.
+
+Локальна перевірка без Firebase: `VITE_FAKE_CLOUD=1 npm run dev` — in-memory «хмара» в localStorage.
 
 ## Бізнес-логіка
 

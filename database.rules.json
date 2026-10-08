@@ -1,0 +1,49 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "users": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        "meta": {
+          ".validate": "newData.hasChildren(['schema', 'updatedAt']) && newData.child('schema').isNumber() && newData.child('updatedAt').isString()"
+        },
+        "data": {
+          "settings": {
+            ".validate": "newData.hasChildren(['currency', 'theme'])"
+          },
+          "transactions": {
+            "$id": {
+              ".validate": "newData.hasChildren(['id', 'type', 'amount', 'accountId', 'date']) && newData.child('id').val() === $id && newData.child('amount').isNumber() && newData.child('amount').val() > 0 && newData.child('amount').val() < 1000000000000 && newData.child('type').val().matches(/^(income|expense|transfer|debt_repayment|adjustment)$/) && newData.child('date').isString()"
+            }
+          },
+          "notes": {
+            "$id": {
+              ".validate": "newData.hasChildren(['id', 'categoryId', 'text', 'date']) && newData.child('id').val() === $id && newData.child('text').isString() && newData.child('text').val().length <= 2000"
+            }
+          },
+          "categories": {
+            "$id": {
+              ".validate": "newData.hasChildren(['id', 'name', 'type']) && newData.child('id').val() === $id && newData.child('name').isString() && newData.child('name').val().length <= 200"
+            }
+          },
+          "budgets": {
+            "$id": { ".validate": "newData.hasChildren(['id', 'amount']) && newData.child('id').val() === $id && newData.child('amount').isNumber()" }
+          },
+          "debts": {
+            "$id": { ".validate": "newData.hasChildren(['id', 'amount']) && newData.child('id').val() === $id && newData.child('amount').isNumber()" }
+          },
+          "goals": {
+            "$id": { ".validate": "newData.hasChildren(['id', 'name', 'targetAmount']) && newData.child('id').val() === $id && newData.child('targetAmount').isNumber()" }
+          },
+          "accounts": {
+            "$id": { ".validate": "newData.hasChildren(['id', 'name', 'type']) && newData.child('id').val() === $id && newData.child('name').isString()" }
+          },
+          "$other": { ".validate": false }
+        },
+        "$other": { ".validate": false }
+      }
+    }
+  }
+}

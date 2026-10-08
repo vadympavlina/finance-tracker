@@ -6,6 +6,9 @@ import { AppLayout } from './layouts/AppLayout'
 import { useFinance } from './hooks/useFinance'
 import { useAccent, useTextSize, useTheme } from './hooks/useTheme'
 import DashboardPage from './pages/DashboardPage'
+import LoginPage from './pages/LoginPage'
+import { SyncDecisionSheet } from './components/cloud/SyncDecisionSheet'
+import { useCloud } from './hooks/useCloud'
 
 // Secondary screens are code-split to keep the first load small.
 const TransactionFormPage = lazy(() => import('./pages/TransactionFormPage'))
@@ -27,30 +30,52 @@ function ThemedRoutes() {
   useTheme(data.settings.theme)
   useTextSize(data.settings.textSize)
   useAccent(data.settings.accent)
+  const cloud = useCloud()
+  // Before the auth state is known on a first launch, don't flash the app or the login screen.
+  const knownMode = hasStoredMode()
+  if (cloud.status === 'starting' && !knownMode) return <Splash />
+  if (cloud.status === 'signed-out') return <LoginPage />
   return (
-    <Routes>
-      <Route element={<AppLayout />}>
-        <Route index element={<DashboardPage />} />
-        <Route path="add/:type" element={<TransactionFormPage />} />
-        <Route path="transactions/:id/edit" element={<TransactionFormPage />} />
-        <Route path="history" element={<HistoryPage />} />
-        <Route path="categories" element={<CategoriesPage />} />
-        <Route path="categories/:id" element={<CategoryDetailPage />} />
-        <Route path="month" element={<MonthPage />} />
-        <Route path="analytics" element={<AnalyticsPage />} />
-        <Route path="budgets" element={<BudgetsPage />} />
-        <Route path="debts" element={<DebtsPage />} />
-        <Route path="debts/new" element={<DebtFormPage />} />
-        <Route path="debts/:id/edit" element={<DebtFormPage />} />
-        <Route path="goals" element={<GoalsPage />} />
-        <Route path="profile" element={<ProfilePage />} />
-        <Route path="settings" element={<SettingsPage />} />
-        <Route path="accounts" element={<AccountsPage />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Route>
-    </Routes>
+    <>
+      <SyncDecisionSheet />
+      <Routes>
+        <Route element={<AppLayout />}>
+          <Route index element={<DashboardPage />} />
+          <Route path="add/:type" element={<TransactionFormPage />} />
+          <Route path="transactions/:id/edit" element={<TransactionFormPage />} />
+          <Route path="history" element={<HistoryPage />} />
+          <Route path="categories" element={<CategoriesPage />} />
+          <Route path="categories/:id" element={<CategoryDetailPage />} />
+          <Route path="month" element={<MonthPage />} />
+          <Route path="analytics" element={<AnalyticsPage />} />
+          <Route path="budgets" element={<BudgetsPage />} />
+          <Route path="debts" element={<DebtsPage />} />
+          <Route path="debts/new" element={<DebtFormPage />} />
+          <Route path="debts/:id/edit" element={<DebtFormPage />} />
+          <Route path="goals" element={<GoalsPage />} />
+          <Route path="profile" element={<ProfilePage />} />
+          <Route path="settings" element={<SettingsPage />} />
+          <Route path="accounts" element={<AccountsPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Route>
+      </Routes>
+    </>
   )
 }
+
+const hasStoredMode = () => {
+  try {
+    return !!(localStorage.getItem('ft-cloud-uid') || localStorage.getItem('ft-local-mode'))
+  } catch {
+    return false
+  }
+}
+
+const Splash = () => (
+  <div className="grid min-h-dvh place-items-center" role="status" aria-label="Завантаження">
+    <div className="size-10 animate-spin rounded-full border-[3px] border-primary/20 border-t-primary" />
+  </div>
+)
 
 export default function App() {
   return (

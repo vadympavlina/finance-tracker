@@ -47,6 +47,12 @@ export async function loadAllData(): Promise<FinanceData> {
   if (!meta) {
     const demo = createDemoData()
     await saveAllData(demo)
+    try {
+      // Lets the first sign-in drop untouched demo data instead of uploading it.
+      localStorage.setItem('ft-demo-untouched', '1')
+    } catch {
+      /* ignore */
+    }
     return demo
   }
   const [transactions, notes, categories, budgets, debts, goals, accounts, settings] = await Promise.all([

@@ -12,6 +12,7 @@ import { useToast } from '../hooks/useUI'
 import { formatMoney, initials, pluralUk } from '../utils/format'
 import { formatMonthYear } from '../utils/date'
 import { StatStrip } from '../components/dashboard/StatStrip'
+import { CloudCard } from '../components/cloud/CloudCard'
 
 export default function ProfilePage() {
   const { data, updateSettings } = useFinance()
@@ -65,6 +66,8 @@ export default function ProfilePage() {
             </IconButton>
           </div>
         </Card>
+
+        <CloudCard />
 
         <section aria-label={`Статистика за ${formatMonthYear(new Date())}`}>
           <p className="mb-2 px-1 text-sm text-muted">{formatMonthYear(new Date())}</p>

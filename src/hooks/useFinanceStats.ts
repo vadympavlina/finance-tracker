@@ -2,7 +2,8 @@ import { useMemo } from 'react'
 import { useFinance } from './useFinance'
 import {
   calculateAccountBalances,
-  calculateBalance,
+  calculateAvailableBalance,
+  calculateSavingsBalance,
   calculateBudgetProgress,
   calculateDebtBalance,
   calculateGoalsSummary,
@@ -19,9 +20,11 @@ export function useFinanceStats() {
 
   return useMemo(() => {
     const now = new Date()
-    const balance = calculateBalance(accounts, transactions)
+    // Main balance excludes savings accounts so it shows the money actually available.
+    const balance = calculateAvailableBalance(accounts, transactions)
+    const savings = calculateSavingsBalance(accounts, transactions)
     const lastMonthEnd = endOfMonth(addMonths(now, -1))
-    const balanceAtMonthStart = calculateBalance(accounts, transactions, lastMonthEnd)
+    const balanceAtMonthStart = calculateAvailableBalance(accounts, transactions, lastMonthEnd)
     const monthly = calculateMonthlyStats(transactions, now)
     const debt = calculateDebtBalance(debts, now)
     const accountBalances = calculateAccountBalances(
@@ -32,6 +35,8 @@ export function useFinanceStats() {
     const budgetProgress = overallBudget ? calculateBudgetProgress(overallBudget, transactions, now) : null
     return {
       balance,
+      savings,
+      hasSavingsAccount: accounts.some((a) => a.type === 'savings' && !a.isArchived),
       balanceAtMonthStart,
       balanceChange: percentChange(balance, balanceAtMonthStart),
       balanceDelta: balance - balanceAtMonthStart,

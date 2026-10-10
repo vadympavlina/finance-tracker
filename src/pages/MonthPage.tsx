@@ -57,6 +57,11 @@ export default function MonthPage() {
   ]
   const debtsNet = summary.debtsIn - summary.debtsOut
   if (debtsNet !== 0) rows.push({ label: 'Борги (повернення)', value: formatSignedMoney(debtsNet) })
+  if (summary.toSavings !== 0)
+    rows.push({
+      label: summary.toSavings > 0 ? 'Відкладено в заощадження' : 'Взято із заощаджень',
+      value: formatSignedMoney(-summary.toSavings),
+    })
 
   return (
     <div className="mx-auto max-w-3xl">
@@ -162,7 +167,7 @@ export default function MonthPage() {
         </Section>
 
         <p className="px-1 text-[0.8125rem] leading-relaxed text-muted">
-          Залишок = було на початку + отримано − витрачено ± повернення боргів. «Відняти» зменшує отриману суму, але не рахується як витрата; перекази між рахунками не враховуються.
+          Залишок = було на початку + отримано − витрачено ± повернення боргів − відкладене в заощадження. Рахунки типу «Заощадження» в балансі не враховуються — вони показані окремо. «Відняти» зменшує отриману суму, але не рахується як витрата.
         </p>
       </div>
 

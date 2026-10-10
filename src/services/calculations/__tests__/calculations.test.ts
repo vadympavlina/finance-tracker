@@ -189,6 +189,25 @@ describe('month summary', () => {
     expect(calculateIncome(list, monthRange(NOW))).toBe(20000)
   })
 
+  it('keeps savings accounts out of the main balance', async () => {
+    const { calculateAvailableBalance, calculateSavingsBalance, calculateBalance: total, calculateMonthSummary } = await import('..')
+    const accounts = [account('card', 1000), { ...account('piggy', 5000), type: 'savings' as const }]
+    const list = [
+      tx({ type: 'income', amount: 20000, categoryId: 'salary', date: '2026-10-02T10:00:00' }),
+      tx({ type: 'transfer', amount: 3000, categoryId: null, toAccountId: 'piggy', date: '2026-10-03T10:00:00' }),
+      tx({ type: 'transfer', amount: 500, categoryId: null, accountId: 'piggy', toAccountId: 'card', date: '2026-10-04T10:00:00' }),
+      tx({ amount: 4000, date: '2026-10-05T10:00:00' }),
+    ]
+    expect(total(accounts, list)).toBe(1000 + 5000 + 20000 - 4000)
+    expect(calculateSavingsBalance(accounts, list)).toBe(5000 + 3000 - 500)
+    expect(calculateAvailableBalance(accounts, list)).toBe(1000 + 20000 - 3000 + 500 - 4000)
+    const s = calculateMonthSummary(list, accounts, NOW, NOW)
+    expect(s.opening).toBe(1000)
+    expect(s.toSavings).toBe(2500)
+    // The month formula still adds up with savings kept apart.
+    expect(s.closing).toBe(s.opening + s.received - s.expenses - s.toSavings)
+  })
+
   it('imports notes and adjustments', () => {
     const demo = createDemoData(NOW)
     demo.transactions.push(tx({ id: 'adj', type: 'adjustment', amount: 10, categoryId: null, accountId: 'acc_card', adjustmentDirection: 'out' }))

@@ -255,7 +255,7 @@ function BalanceView({ period, offset }: { period: AnalyticsPeriod; offset: numb
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
         <Section title="Динаміка балансу">
           <Card className="p-4">
-            <p className="mb-2 text-xs text-muted">Баланс на кінець кожного проміжку · {DYNAMICS_HINT[period]}</p>
+            <p className="mb-2 text-xs text-muted">Баланс без заощаджень на кінець кожного проміжку · {DYNAMICS_HINT[period]}</p>
             <LineChart data={series} color="var(--primary)" label="Динаміка загального балансу" />
           </Card>
         </Section>

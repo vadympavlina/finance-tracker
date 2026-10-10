@@ -72,6 +72,8 @@ export default function DashboardPage() {
               balance={stats.balance}
               change={stats.balanceChange}
               delta={stats.balanceDelta}
+              savings={stats.savings}
+              showSavings={stats.hasSavingsAccount || stats.savings !== 0}
               hidden={hidden}
               onToggleHidden={() => updateSettings({ hideBalance: !hidden })}
             />

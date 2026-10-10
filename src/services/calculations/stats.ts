@@ -1,5 +1,5 @@
 import type { Account, Category, CategoryType, Transaction } from '../../types'
-import { calculateBalance } from './balance'
+import { calculateAvailableBalance, calculateSavingsBalance } from './balance'
 import { monthRange, addMonths, type DateRange } from '../../utils/date'
 import { roundMoney } from '../../utils/format'
 import { filterByRange, isInflow, isOutflow, sumAmounts } from './transactions'
@@ -119,7 +119,7 @@ export function calculateMonthlyStats(transactions: Transaction[], ref = new Dat
 
 export interface MonthSummary {
   range: DateRange
-  /** Total balance right before the month started. */
+  /** Balance (without savings) right before the month started. */
   opening: number
   income: number
   adjustmentsIn: number
@@ -129,8 +129,10 @@ export interface MonthSummary {
   expenses: number
   debtsIn: number
   debtsOut: number
-  /** Balance at the end of the month (or now for the current month). */
+  /** Balance at the end of the month (or now for the current month). Savings accounts are not included. */
   closing: number
+  /** How much savings accounts grew this month (negative = taken out of savings). */
+  toSavings: number
   /** Share of received money already spent, null when nothing was received. */
   spentShare: number | null
 }
@@ -147,8 +149,11 @@ export function calculateMonthSummary(transactions: Transaction[], accounts: Acc
   const debtsIn = sumOf((t) => t.type === 'debt_repayment' && t.debtDirection === 'they_owe_me')
   const debtsOut = sumOf((t) => t.type === 'debt_repayment' && t.debtDirection === 'i_owe')
   const received = roundMoney(income + adjustmentsIn - adjustmentsOut)
-  const opening = calculateBalance(accounts, transactions, new Date(range.start.getTime() - 1))
-  const closing = calculateBalance(accounts, transactions, range.end.getTime() > now.getTime() ? now : range.end)
+  const openingAt = new Date(range.start.getTime() - 1)
+  const closingAt = range.end.getTime() > now.getTime() ? now : range.end
+  const opening = calculateAvailableBalance(accounts, transactions, openingAt)
+  const closing = calculateAvailableBalance(accounts, transactions, closingAt)
+  const toSavings = roundMoney(calculateSavingsBalance(accounts, transactions, closingAt) - calculateSavingsBalance(accounts, transactions, openingAt))
   return {
     range,
     opening,
@@ -160,6 +165,7 @@ export function calculateMonthSummary(transactions: Transaction[], accounts: Acc
     debtsIn,
     debtsOut,
     closing,
+    toSavings,
     spentShare: received > 0 ? (expenses / received) * 100 : null,
   }
 }

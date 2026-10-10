@@ -1,4 +1,5 @@
-import { Eye, EyeOff } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { ChevronRight, Eye, EyeOff, PiggyBank } from 'lucide-react'
 import { formatMoney, formatSignedMoney } from '../../utils/format'
 import { useCountUp } from '../../hooks/useCountUp'
 import { TrendBadge } from '../common/TrendBadge'
@@ -10,12 +11,15 @@ interface BalanceCardProps {
   delta: number
   hidden: boolean
   onToggleHidden: () => void
+  /** Savings are shown apart and are not part of `balance`. */
+  savings?: number
+  showSavings?: boolean
 }
 
 const MASK = '•••••• ₴'
 
 /** Graphite hero with an emerald glow — the most prominent element of the dashboard. */
-export function BalanceCard({ balance, change, delta, hidden, onToggleHidden }: BalanceCardProps) {
+export function BalanceCard({ balance, change, delta, hidden, onToggleHidden, savings = 0, showSavings }: BalanceCardProps) {
   const animated = useCountUp(balance)
   return (
     <section
@@ -60,6 +64,17 @@ export function BalanceCard({ balance, change, delta, hidden, onToggleHidden }: 
           {hidden || delta === 0 ? 'Цього місяця' : `${formatSignedMoney(delta)} цього місяця`}
         </span>
       </div>
+      {showSavings && (
+        <Link
+          to="/accounts"
+          className="press mt-4 flex items-center gap-3 rounded-2xl bg-white/[0.07] px-3.5 py-2.5 text-[0.875rem] hover:bg-white/[0.11]"
+        >
+          <PiggyBank className="size-[18px] shrink-0 text-white/70" aria-hidden />
+          <span className="min-w-0 flex-1 leading-snug text-white/70">Заощадження</span>
+          <span className="tabular shrink-0 font-semibold whitespace-nowrap">{hidden ? MASK : formatMoney(savings)}</span>
+          <ChevronRight className="size-4 shrink-0 text-white/45" aria-hidden />
+        </Link>
+      )}
     </section>
   )
 }

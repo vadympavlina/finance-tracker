@@ -17,7 +17,7 @@ import {
   type DateRange,
 } from '../../utils/date'
 import { roundMoney } from '../../utils/format'
-import { calculateBalance } from './balance'
+import { calculateAvailableBalance } from './balance'
 import { comparableRange, calculateCategoryTotals, calculateExpenses, calculateIncome, calculateNetFlow, percentChange, type CategoryStat } from './stats'
 import { filterByRange } from './transactions'
 import { calculateGoalSavings } from './goals'
@@ -116,7 +116,7 @@ export function buildSeries(
     let value: number
     if (metric === 'expense') value = calculateExpenses(transactions, b.range)
     else if (metric === 'income') value = calculateIncome(transactions, b.range)
-    else value = calculateBalance(accounts, transactions, b.range.end.getTime() > now.getTime() ? now : b.range.end)
+    else value = calculateAvailableBalance(accounts, transactions, b.range.end.getTime() > now.getTime() ? now : b.range.end)
     return { key: b.range.start.toISOString(), label: b.label, fullLabel: b.fullLabel, value, isCurrent: b.isCurrent }
   })
 }
@@ -214,8 +214,8 @@ export function calculateBalanceSummary(
   const income = calculateIncome(transactions, range)
   const expenses = calculateExpenses(transactions, range)
   return {
-    opening: calculateBalance(accounts, transactions, openingAt),
-    closing: calculateBalance(accounts, transactions, closingAt),
+    opening: calculateAvailableBalance(accounts, transactions, openingAt),
+    closing: calculateAvailableBalance(accounts, transactions, closingAt),
     income,
     expenses,
     netFlow: calculateNetFlow(transactions, range),

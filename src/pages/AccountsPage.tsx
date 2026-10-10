@@ -84,8 +84,14 @@ export default function AccountsPage() {
       />
       <div className="space-y-4">
         <Card className="p-5">
-          <p className="text-sm text-muted">Разом на всіх рахунках</p>
+          <p className="text-sm text-muted">Загальний баланс · без заощаджень</p>
           <FitText as="p" className="tabular mt-1 text-[1.875rem] leading-tight font-bold tracking-tight">{formatMoney(stats.balance)}</FitText>
+          {(stats.hasSavingsAccount || stats.savings !== 0) && (
+            <p className="mt-2 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5 border-t border-border pt-2 text-sm text-muted">
+              <span>Заощадження окремо</span>
+              <span className="tabular font-semibold text-text">{formatMoney(stats.savings)}</span>
+            </p>
+          )}
         </Card>
         <Card className="divide-y divide-border overflow-hidden">
           {stats.accountBalances.map(({ account, balance }) => (

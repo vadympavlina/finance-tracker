@@ -1,4 +1,5 @@
 import { forwardRef, useId, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from 'react'
+import { Switch as GlassSwitch } from 'glisse'
 import { cn } from '../../utils/cn'
 
 const control =
@@ -105,30 +106,25 @@ export function Switch({ checked, onChange, label, description, disabled }: Swit
   return (
     <div className="flex min-h-12 items-center justify-between gap-4">
       <div className="min-w-0">
-        <label htmlFor={id} className="block text-[0.9375rem] font-medium">
+        {/* A <label> for the button: tapping the text toggles the switch too. */}
+        <label id={`${id}-label`} htmlFor={id} className="block text-[0.9375rem] font-medium break-words">
           {label}
         </label>
-        {description && <p className="text-sm text-muted">{description}</p>}
-      </div>
-      <button
-        id={id}
-        type="button"
-        role="switch"
-        aria-checked={checked}
-        disabled={disabled}
-        onClick={() => onChange(!checked)}
-        className={cn(
-          'relative h-[30px] w-[62px] shrink-0 rounded-full transition-colors duration-300 disabled:opacity-50',
-          checked ? 'bg-primary' : 'bg-black/10 dark:bg-white/20',
+        {description && (
+          <p id={`${id}-desc`} className="text-sm text-muted">
+            {description}
+          </p>
         )}
-      >
-        <span
-          className={cn(
-            'absolute top-[2px] left-[2px] h-[26px] w-[38px] rounded-full bg-white shadow-[0_2px_6px_rgba(0,0,0,0.18),0_0_0_0.5px_rgba(0,0,0,0.04)] transition-transform duration-300 ease-[cubic-bezier(0.32,1.3,0.5,1)]',
-            checked && 'translate-x-[20px]',
-          )}
-        />
-      </button>
+      </div>
+      {/* Liquid Glass switch (Glisse): drag or tap the thumb, like iOS. */}
+      <GlassSwitch
+        id={id}
+        checked={checked}
+        onCheckedChange={onChange}
+        disabled={disabled}
+        aria-labelledby={`${id}-label`}
+        aria-describedby={description ? `${id}-desc` : undefined}
+      />
     </div>
   )
 }

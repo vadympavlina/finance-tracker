@@ -70,8 +70,11 @@ export function BalanceCard({ balance, change, delta, hidden, onToggleHidden, sa
           className="press mt-4 flex items-center gap-3 rounded-2xl bg-white/[0.07] px-3.5 py-2.5 text-[0.875rem] hover:bg-white/[0.11]"
         >
           <PiggyBank className="size-[18px] shrink-0 text-white/70" aria-hidden />
-          <span className="min-w-0 flex-1 leading-snug text-white/70">Заощадження</span>
-          <span className="tabular shrink-0 font-semibold whitespace-nowrap">{hidden ? MASK : formatMoney(savings)}</span>
+          {/* Narrow screens / large text: the amount drops under the label instead of overlapping it. */}
+          <span className="flex min-w-0 flex-1 flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
+            <span className="leading-snug text-white/70">Заощадження</span>
+            <span className="tabular font-semibold whitespace-nowrap">{hidden ? MASK : formatMoney(savings)}</span>
+          </span>
           <ChevronRight className="size-4 shrink-0 text-white/45" aria-hidden />
         </Link>
       )}

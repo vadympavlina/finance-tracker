@@ -2,6 +2,7 @@ import { useEffect, useId, useRef, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { X } from 'lucide-react'
 import { cn } from '../../utils/cn'
+import { IconButton } from './Button'
 
 let openSheets = 0
 
@@ -111,14 +112,9 @@ export function Sheet({ open, onClose, title, description, children, footer, ale
             )}
           </div>
           {!alert && (
-            <button
-              type="button"
-              onClick={onClose}
-              aria-label="Закрити"
-              className="press glass -mr-1 grid size-11 shrink-0 place-items-center rounded-full text-text"
-            >
+            <IconButton label="Закрити" onClick={onClose} className="-mr-1">
               <X className="size-5" aria-hidden />
-            </button>
+            </IconButton>
           )}
         </div>
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pb-5 md:px-6">{children}</div>

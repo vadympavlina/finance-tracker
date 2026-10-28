@@ -10,9 +10,8 @@ import { CategoryFormSheet } from '../components/categories/CategoryFormSheet'
 import { NoteSheet } from '../components/categories/NoteSheet'
 import { TransactionDetailsSheet } from '../components/transactions/TransactionDetailsSheet'
 import { Card } from '../components/ui/Card'
-import { Button, IconButton } from '../components/ui/Button'
-import { Sheet } from '../components/ui/Sheet'
-import { ActionRow } from '../components/ui/ActionRow'
+import { Button } from '../components/ui/Button'
+import { Menu } from 'glisse'
 import { AutoTextarea } from '../components/ui/AutoTextarea'
 import { FitText } from '../components/ui/FitText'
 import { ProgressBar } from '../components/ui/ProgressBar'
@@ -80,7 +79,6 @@ function CategoryJournal({ categoryId }: { categoryId: string }) {
   const [date, setDate] = useState(toDateInput(new Date()))
   const [time, setTime] = useState(toTimeInput(new Date()))
   const [error, setError] = useState<string | null>(null)
-  const [menuOpen, setMenuOpen] = useState(false)
   const [formOpen, setFormOpen] = useState(false)
   const [txId, setTxId] = useState<string | null>(null)
   const [noteId, setNoteId] = useState<string | null>(null)
@@ -162,9 +160,39 @@ function CategoryJournal({ categoryId }: { categoryId: string }) {
         subtitle={`${isIncome ? 'Доходи' : 'Витрати'}${category.isArchived ? ' · архівована' : ''}${category.isHidden ? ' · прихована' : ''}`}
         back
         actions={
-          <IconButton label="Дії з категорією" onClick={() => setMenuOpen(true)}>
-            <Ellipsis className="size-5" aria-hidden />
-          </IconButton>
+          <Menu
+            aria-label="Дії з категорією"
+            align="end"
+            className="ft-menu"
+            icon={<Ellipsis className="size-5" aria-hidden />}
+            items={[
+              { label: 'Усі операції в історії', icon: <List aria-hidden />, onSelect: () => navigate(`/history?category=${categoryId}`) },
+              { label: 'Редагувати', icon: <Pencil aria-hidden />, onSelect: () => setFormOpen(true) },
+              ...(category.isArchived
+                ? []
+                : [
+                    {
+                      label: category.isHidden ? 'Показувати при виборі' : 'Приховати з вибору',
+                      icon: category.isHidden ? <Eye aria-hidden /> : <EyeOff aria-hidden />,
+                      onSelect: () => {
+                        updateCategory(categoryId, { isHidden: !category.isHidden })
+                        toast(category.isHidden ? 'Категорію показано' : 'Категорію приховано')
+                      },
+                    },
+                  ]),
+              'separator' as const,
+              category.isArchived
+                ? {
+                    label: 'Відновити категорію',
+                    icon: <Eye aria-hidden />,
+                    onSelect: () => {
+                      updateCategory(categoryId, { isArchived: false })
+                      toast('Категорію відновлено')
+                    },
+                  }
+                : { label: 'Видалити', icon: <Trash2 aria-hidden />, destructive: true, onSelect: () => void onDelete() },
+            ]}
+          />
         }
       />
 
@@ -259,7 +287,7 @@ function CategoryJournal({ categoryId }: { categoryId: string }) {
                   <CalendarClock className="size-4 shrink-0" aria-hidden />
                   {customTime ? 'Свій час' : 'Зараз'}
                 </button>
-                <Button type="submit" icon={<Send className="size-[18px]" aria-hidden />} className="h-11">
+                <Button type="submit" icon={<Send className="size-[18px]" aria-hidden />}>
                   Додати
                 </Button>
               </div>
@@ -328,58 +356,6 @@ function CategoryJournal({ categoryId }: { categoryId: string }) {
         )}
       </div>
 
-      <Sheet open={menuOpen} onClose={() => setMenuOpen(false)} title={category.name} size="sm">
-        <div className="grid gap-1">
-          <ActionRow
-            icon={List}
-            label="Усі операції в історії"
-            onClick={() => {
-              setMenuOpen(false)
-              navigate(`/history?category=${categoryId}`)
-            }}
-          />
-          <ActionRow
-            icon={Pencil}
-            label="Редагувати назву, іконку, колір"
-            onClick={() => {
-              setMenuOpen(false)
-              setFormOpen(true)
-            }}
-          />
-          {!category.isArchived && (
-            <ActionRow
-              icon={category.isHidden ? Eye : EyeOff}
-              label={category.isHidden ? 'Показувати при виборі' : 'Приховати з вибору'}
-              onClick={() => {
-                updateCategory(categoryId, { isHidden: !category.isHidden })
-                toast(category.isHidden ? 'Категорію показано' : 'Категорію приховано')
-                setMenuOpen(false)
-              }}
-            />
-          )}
-          {category.isArchived ? (
-            <ActionRow
-              icon={Eye}
-              label="Відновити категорію"
-              onClick={() => {
-                updateCategory(categoryId, { isArchived: false })
-                toast('Категорію відновлено')
-                setMenuOpen(false)
-              }}
-            />
-          ) : (
-            <ActionRow
-              icon={Trash2}
-              label="Видалити"
-              danger
-              onClick={() => {
-                setMenuOpen(false)
-                void onDelete()
-              }}
-            />
-          )}
-        </div>
-      </Sheet>
 
       <CategoryFormSheet open={formOpen} onClose={() => setFormOpen(false)} category={category} />
       <TransactionDetailsSheet tx={selectedTx} onClose={() => setTxId(null)} />

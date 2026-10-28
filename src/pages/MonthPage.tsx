@@ -107,13 +107,13 @@ export default function MonthPage() {
 
         {/* Actions */}
         <div className="grid grid-cols-1 gap-2.5 min-[360px]:grid-cols-3">
-          <Button size="lg" className="px-3" icon={<Plus className="size-5" aria-hidden />} onClick={() => setEntry('add')}>
+          <Button size="lg" className="ft-btn-tight" icon={<Plus className="size-5" aria-hidden />} onClick={() => setEntry('add')}>
             Додати
           </Button>
-          <Button size="lg" variant="secondary" className="px-3" icon={<Minus className="size-5" aria-hidden />} onClick={() => setEntry('subtract')}>
+          <Button size="lg" variant="secondary" className="ft-btn-tight" icon={<Minus className="size-5" aria-hidden />} onClick={() => setEntry('subtract')}>
             Відняти
           </Button>
-          <Button size="lg" variant="secondary" className="px-3" icon={<ArrowUpRight className="size-5" aria-hidden />} onClick={() => navigate('/add/expense')}>
+          <Button size="lg" variant="secondary" className="ft-btn-tight" icon={<ArrowUpRight className="size-5" aria-hidden />} onClick={() => navigate('/add/expense')}>
             Витрата
           </Button>
         </div>

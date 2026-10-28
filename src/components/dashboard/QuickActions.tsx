@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { ArrowDownLeft, ArrowLeftRight, ArrowUpRight, HandCoins, type LucideIcon } from 'lucide-react'
-import { cn } from '../../utils/cn'
+import { Button as GlassButton } from 'glisse'
 
 const ACTIONS: Array<{ to: string; label: string; icon: LucideIcon; primary?: boolean }> = [
   { to: '/add/expense', label: 'Витрата', icon: ArrowUpRight, primary: true },
@@ -9,27 +9,25 @@ const ACTIONS: Array<{ to: string; label: string; icon: LucideIcon; primary?: bo
   { to: '/debts/new', label: 'Борг', icon: HandCoins },
 ]
 
-/** One-tap entry points right under the balance: the main flow is "+ → сума → категорія → зберегти". */
+/** One-tap entry points right under the balance: Liquid Glass circles, the main one filled with the accent. */
 export function QuickActions() {
+  const navigate = useNavigate()
   return (
     <nav aria-label="Швидкі дії" className="grid grid-cols-4 gap-2">
       {ACTIONS.map(({ to, label, icon: Icon, primary }) => (
-        <Link
-          key={to}
-          to={to}
-          aria-label={primary ? 'Додати витрату' : `Додати: ${label.toLowerCase()}`}
-          className="press group flex flex-col items-center gap-2 rounded-3xl py-1.5"
-        >
-          <span
-            className={cn(
-              'grid size-14 place-items-center rounded-full transition-transform group-active:scale-95',
-              primary ? 'glass-tinted text-on-primary' : 'glass text-text',
-            )}
-          >
-            <Icon className="size-[22px]" strokeWidth={2.1} aria-hidden />
+        <div key={to} className="flex flex-col items-center gap-2 py-1.5">
+          <GlassButton
+            variant={primary ? 'filled' : 'glass'}
+            aria-label={primary ? 'Додати витрату' : `Додати: ${label.toLowerCase()}`}
+            onClick={() => navigate(to)}
+            className="ft-btn ft-icon ft-quick"
+            icon={<Icon strokeWidth={2.1} aria-hidden />}
+          />
+          {/* The visible caption; the button carries the full accessible name. */}
+          <span aria-hidden className="max-w-full text-center text-[min(0.8125rem,3.4vw)] leading-tight font-medium">
+            {label}
           </span>
-          <span className="max-w-full text-center text-[min(0.8125rem,3.4vw)] leading-tight font-medium">{label}</span>
-        </Link>
+        </div>
       ))}
     </nav>
   )

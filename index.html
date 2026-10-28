@@ -30,7 +30,9 @@
     <script>
       // Apply the saved theme before first paint to avoid a flash.
       try {
-        if (localStorage.getItem('ft-theme') === 'dark') document.documentElement.classList.add('dark')
+        var dk = localStorage.getItem('ft-theme') === 'dark'
+        if (dk) document.documentElement.classList.add('dark')
+        document.documentElement.setAttribute('data-theme', dk ? 'dark' : 'light')
         var ts = localStorage.getItem('ft-text-size')
         if (ts) document.documentElement.style.fontSize = ts
         var ac = localStorage.getItem('ft-accent')

@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import '@fontsource-variable/onest'
 import './index.css'
+import './styles/glisse.css'
 import App from './App'
 
 // Links, buttons and images can't be dragged out of the app (Firefox ignores -webkit-user-drag).

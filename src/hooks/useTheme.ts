@@ -10,6 +10,8 @@ export function useTheme(mode: ThemeMode) {
     const apply = () => {
       const dark = mode === 'dark' || (mode === 'system' && media.matches)
       document.documentElement.classList.toggle('dark', dark)
+      // Glisse reads the theme from data-theme.
+      document.documentElement.dataset.theme = dark ? 'dark' : 'light'
       document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? THEME_COLORS.dark : THEME_COLORS.light)
       try {
         localStorage.setItem('ft-theme', dark ? 'dark' : 'light')

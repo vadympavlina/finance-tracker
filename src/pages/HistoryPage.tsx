@@ -1,6 +1,6 @@
 import { useDeferredValue, useMemo, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { Plus, ReceiptText, Search, SearchX, SlidersHorizontal, X } from 'lucide-react'
+import { Plus, ReceiptText, SearchX, SlidersHorizontal, X } from 'lucide-react'
 import type { TransactionType } from '../types'
 import { PageHeader } from '../components/common/PageHeader'
 import { TransactionList } from '../components/transactions/TransactionList'
@@ -9,7 +9,8 @@ import { Button, IconButton } from '../components/ui/Button'
 import { Card } from '../components/ui/Card'
 import { EmptyState } from '../components/ui/EmptyState'
 import { Sheet } from '../components/ui/Sheet'
-import { TextField, controlClassName } from '../components/ui/Field'
+import { TextField } from '../components/ui/Field'
+import { SearchInput } from '../components/ui/SearchInput'
 import { ChipGroup } from '../components/ui/ChipGroup'
 import { useFinance, useLookups } from '../hooks/useFinance'
 import { calculateExpenses, calculateIncome, sortByDateDesc } from '../services/calculations'
@@ -120,18 +121,8 @@ export default function HistoryPage() {
         />
 
         <div className="flex gap-2">
-          <div className="relative flex-1">
-            <Search className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-subtle" aria-hidden />
-            <input
-              type="search"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Пошук операцій..."
-              aria-label="Пошук операцій"
-              className={cn(controlClassName, 'h-12 bg-surface pl-12 shadow-card')}
-            />
-          </div>
-          <IconButton label="Фільтри" onClick={() => setFiltersOpen(true)} className={cn('size-12 rounded-2xl', chips.length > 0 && 'border-primary text-primary')}>
+          <SearchInput value={query} onChange={setQuery} placeholder="Пошук операцій..." label="Пошук операцій" className="min-w-0 flex-1" />
+          <IconButton label="Фільтри" size="lg" active={chips.length > 0} onClick={() => setFiltersOpen(true)}>
             <SlidersHorizontal className="size-5" aria-hidden />
           </IconButton>
         </div>

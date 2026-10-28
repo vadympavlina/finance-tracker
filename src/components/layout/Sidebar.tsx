@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import { Plus, Settings } from 'lucide-react'
 import { DESKTOP_NAV } from '../../layouts/navigation'
+import { Glass } from 'glisse'
 import { cn } from '../../utils/cn'
 import { Button } from '../ui/Button'
 import { useFinance } from '../../hooks/useFinance'
@@ -16,7 +17,7 @@ export function Sidebar({ onQuickAdd }: { onQuickAdd: () => void }) {
     )
   return (
     <aside className="sticky top-0 hidden h-dvh w-[288px] shrink-0 p-3 lg:block">
-      <div className="glass flex h-full flex-col rounded-[30px] px-3 py-5">
+      <Glass className="ft-surface flex h-full flex-col rounded-[30px] px-3 py-5">
         <div className="mb-6 flex items-center gap-3 px-2">
           <img src="./icons/icon-192.png" alt="" width={40} height={40} className="size-10 rounded-[12px] shadow-card" />
           <div>
@@ -52,7 +53,7 @@ export function Sidebar({ onQuickAdd }: { onQuickAdd: () => void }) {
             </span>
           </NavLink>
         </div>
-      </div>
+      </Glass>
     </aside>
   )
 }

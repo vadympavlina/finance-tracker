@@ -221,6 +221,25 @@
   html {
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
+    /* App, not a document: no accidental text selection, copy bubble or drag while tapping and swiping. */
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+  /* Typing and editing still work normally. */
+  input,
+  textarea,
+  select,
+  [contenteditable='true'] {
+    -webkit-user-select: text;
+    user-select: text;
+    -webkit-touch-callout: default;
+  }
+  a,
+  img,
+  svg,
+  button {
+    -webkit-user-drag: none;
   }
   body {
     @apply bg-bg text-text font-sans antialiased;

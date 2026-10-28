@@ -4,6 +4,12 @@ import '@fontsource-variable/onest'
 import './index.css'
 import App from './App'
 
+// Links, buttons and images can't be dragged out of the app (Firefox ignores -webkit-user-drag).
+document.addEventListener('dragstart', (e) => {
+  const t = e.target
+  if (!(t instanceof HTMLInputElement || t instanceof HTMLTextAreaElement)) e.preventDefault()
+})
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />
